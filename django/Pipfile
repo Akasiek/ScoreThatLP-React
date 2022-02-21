@@ -12,6 +12,9 @@ mysqlclient = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 django-debug-toolbar = "*"
+drf-nested-routers = "*"
+django-environ = "*"
+psycopg2 = "*"
 
 [dev-packages]
 black = "*"

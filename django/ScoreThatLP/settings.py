@@ -13,18 +13,23 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from django.core.exceptions import ImproperlyConfigured
 from pathlib import Path
 from datetime import timedelta
-import json
+# import json
+import environ
 
-with open("config.json") as config_file:
-    config = json.load(config_file)
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
+# with open("config.json") as config_file:
+#     config = json.load(config_file)
 
 
-def get_config(setting, config=config):
-    """Get config setting or fail with ImproperlyConfigured"""
-    try:
-        return config[setting]
-    except KeyError:
-        raise ImproperlyConfigured(f"Set the {setting} setting")
+# def get_config(setting, config=config):
+#     """Get config setting or fail with ImproperlyConfigured"""
+#     try:
+#         return config[setting]
+#     except KeyError:
+#         raise ImproperlyConfigured(f"Set the {setting} setting")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -35,7 +40,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_config("SECRET_KEY")
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -99,13 +104,24 @@ WSGI_APPLICATION = "ScoreThatLP.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "scorethatlp",
+#         "HOST": "localhost",
+#         "USER": "root",
+#         "PASSWORD": get_config("DB_PASSWORD"),
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "scorethatlp",
-        "HOST": "localhost",
-        "USER": "root",
-        "PASSWORD": get_config("DB_PASSWORD"),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT'),
     }
 }
 
