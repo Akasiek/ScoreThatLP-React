@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import useDeepCompareEffect from "use-deep-compare-effect";
 import { getAlbums } from "./../services/fakeMusicService";
 import ContentGroup from "./common/contentGroup";
 import styled from "styled-components";
@@ -37,7 +36,7 @@ export const StyledContentGroupPage = styled.div`
 const Albums = () => {
     const [albums, setAlbums] = useState(getAlbums());
 
-    useDeepCompareEffect(() => setAlbums(getAlbums()), [albums]);
+    useEffect(() => setAlbums(getAlbums()), []);
 
     return (
         <Main pushUnderNavbar={true}>
