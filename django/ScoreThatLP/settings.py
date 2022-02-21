@@ -13,23 +13,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from django.core.exceptions import ImproperlyConfigured
 from pathlib import Path
 from datetime import timedelta
-# import json
 import environ
 
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
-
-# with open("config.json") as config_file:
-#     config = json.load(config_file)
-
-
-# def get_config(setting, config=config):
-#     """Get config setting or fail with ImproperlyConfigured"""
-#     try:
-#         return config[setting]
-#     except KeyError:
-#         raise ImproperlyConfigured(f"Set the {setting} setting")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
