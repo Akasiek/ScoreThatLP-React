@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import useDeepCompareEffect from "use-deep-compare-effect";
 import { Main } from "../App";
-import { getArtists } from "./../services/fakeMusicService";
 import ContentGroup from "./common/contentGroup";
 import { StyledContentGroupPage } from "./albums";
+import { getArtists } from "./../services/artistService";
 
 const Artists = () => {
-    const [artists, setArtists] = useState(getArtists());
+    const [artists, setArtists] = useState();
 
-    useDeepCompareEffect(() => setArtists(getArtists()), [artists]);
+    useEffect(async () => {
+        const { data: artists } = await getArtists();
+        console.log(artists.results);
+        setArtists(artists.results);
+    }, []);
 
     return (
         <Main pushUnderNavbar={true}>

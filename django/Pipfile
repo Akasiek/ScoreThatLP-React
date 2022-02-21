@@ -15,6 +15,7 @@ django-debug-toolbar = "*"
 drf-nested-routers = "*"
 django-environ = "*"
 psycopg2 = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 black = "*"

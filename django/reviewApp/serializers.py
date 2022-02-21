@@ -16,7 +16,7 @@ class ReviewerSerializer(serializers.ModelSerializer):
 class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
-        fields = ["id", "name"]
+        fields = ["id", "name", "image", "background_image", "created_at"]
 
 
 class AlbumSerializer(serializers.ModelSerializer):
@@ -38,7 +38,8 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ["id", "title", "artist_id", "tracks", "duration", "created_at"]
+        fields = ["id", "title", "artist_id",
+                  "tracks", "duration", "created_at"]
 
     # Save slug as well
     def create(self, validated_data):
@@ -88,7 +89,8 @@ class ReviewSerializer(serializers.ModelSerializer):
         ):
             raise serializers.ValidationError("Only one id should be provided")
         elif validated_data["album_id"] is None and validated_data["track_id"] is None:
-            raise serializers.ValidationError("At least one id should be provided")
+            raise serializers.ValidationError(
+                "At least one id should be provided")
 
         if self.instance is not None:
             self.instance = self.update(self.instance, validated_data)

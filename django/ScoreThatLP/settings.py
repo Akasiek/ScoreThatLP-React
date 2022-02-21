@@ -9,11 +9,11 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
+import environ
 from django.core.exceptions import ImproperlyConfigured
 from pathlib import Path
 from datetime import timedelta
-import environ
 
 # Initialise environment variables
 env = environ.Env()
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_filters",
+    "corsheaders",
     "debug_toolbar",
     "rest_framework",
     "djoser",
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -160,6 +162,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Extending User Model
 AUTH_USER_MODEL = "core.User"
 
+# CORS Headers Settings
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
 # Rest Framework Settings
 REST_FRAMEWORK = {
     "COERCE_DECIMAL_TO_STRING": False,
@@ -180,3 +187,6 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "AUTH_HEADER_TYPES": ("JWT"),
 }
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")

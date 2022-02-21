@@ -75,7 +75,9 @@ const ArtistContainer = ({ artist, onClick, showAvgScore }) => {
                 </div>
                 <div className="artist-name-container">
                     <h1>{artist.name}</h1>
-                    {showAvgScore && <h4 className={getScoreColor(artist.average_score)}>Average Score: {artist.average_score}</h4>}
+                    {showAvgScore && artist.average_score && (
+                        <h4 className={getScoreColor(artist.average_score)}>Average Score: {artist.average_score}</h4>
+                    )}
                 </div>
             </Link>
         </StyledArtistContainer>
