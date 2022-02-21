@@ -10,7 +10,6 @@ const Artists = () => {
 
     useEffect(async () => {
         const { data: artists } = await getArtists();
-        console.log(artists.results);
         setArtists(artists.results);
     }, []);
 

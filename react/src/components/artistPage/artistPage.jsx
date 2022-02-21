@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import useDeepCompareEffect from "use-deep-compare-effect";
 
-import { getArtist } from "../../services/fakeMusicService";
 import ArtistPageHeader from "./artistPageHeader";
 import { Main } from "../../App";
 import ArtistPageContentContainer from "./artistPageContentContainer";
+import { getArtist } from "../../services/artistService";
 
 const StyledArtistPage = styled.div`
     padding: 68px 0 0 0;
@@ -17,16 +16,22 @@ const StyledArtistPage = styled.div`
 `;
 
 const ArtistPage = ({ match }) => {
-    const [artist, setArtist] = useState(getArtist(match.params.id));
+    const [artist, setArtist] = useState(async () => {
+        const { data: artist } = await getArtist(match.params.id);
+        console.log(artist);
+        return artist;
+    });
 
-    useDeepCompareEffect(() => {
-        setArtist(getArtist(match.params.id));
-    }, [match]);
+    useEffect(async () => {
+        const { data: artist } = await getArtist(match.params.id);
+        console.log(artist);
+        setArtist(artist);
+    }, [match.params.id]);
 
     return (
         <StyledArtistPage>
             <Helmet>
-                <title>{artist.name} | ScoreThatLP</title>
+                <title>{`${artist.name} | ScoreThatLP`}</title>
             </Helmet>
 
             <ArtistPageHeader artist={artist} />

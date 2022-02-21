@@ -125,7 +125,7 @@ const StyledArtistPageHeader = styled.div`
 
 const ArtistPageHeader = ({ artist }) => {
     return (
-        <StyledArtistPageHeader bg_image={artist.bg_image}>
+        <StyledArtistPageHeader bg_image={artist.background_image}>
             <div className="gradientContainer"></div>
             <div className="infoContainer">
                 <div className="infoElements">

@@ -9,3 +9,7 @@ const artistUrl = (id) => {
 export const getArtists = () => {
     return http.get(apiEndpoint);
 };
+
+export const getArtist = (id) => {
+    return http.get(artistUrl(id));
+};
