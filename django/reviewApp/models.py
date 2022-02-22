@@ -122,6 +122,15 @@ class Track(models.Model):
         return f"{self.position}. {self.title} - {self.duration}"
 
 
+class AlbumOfTheYear(models.Model):
+    album_id = models.OneToOneField(
+        Album, on_delete=models.PROTECT, related_name="aoty")
+    position = models.IntegerField()
+
+    def __str__(self) -> str:
+        return str(self.position)
+
+
 class Review(models.Model):
     reviewer_id = models.ForeignKey(Reviewer, on_delete=models.PROTECT)
     rating = models.IntegerField(

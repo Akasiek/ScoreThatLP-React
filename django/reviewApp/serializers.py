@@ -1,12 +1,13 @@
 from audioop import avg
 from datetime import timedelta
+from msilib.schema import Class
 from django.db.models import F, ExpressionWrapper, Sum, Avg
 from django.db.models.fields import BigIntegerField, IntegerField, CharField
 from django.forms import DurationField
 from django.utils.text import slugify
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField, RelatedField
-from .models import Album, AlbumLink, Artist, Review, Reviewer, Track
+from .models import Album, AlbumLink, AlbumOfTheYear, Artist, Review, Reviewer, Track
 
 
 class ReviewerSerializer(serializers.ModelSerializer):
@@ -58,6 +59,7 @@ class AlbumSerializer(serializers.ModelSerializer):
     tracks = TrackSerializer(many=True, read_only=True)
     album_genres = StringRelatedField(many=True, read_only=True)
     album_links = StringRelatedField(many=True, read_only=True)
+    aoty = StringRelatedField(read_only=True)
 
     # Get overall score of the album
     def get_overall_score(self, album: Album):
@@ -82,12 +84,23 @@ class AlbumSerializer(serializers.ModelSerializer):
                   "release_date",
                   "release_type",
                   "tracks",
-                  "album_links"]
+                  "album_links",
+                  "aoty"]
 
     # Save slug as well
     def create(self, validated_data):
         slug = slugify(validated_data["title"])
         return Album.objects.create(slug=slug, **validated_data)
+
+
+class AlbumOfTheYearSerializer(serializers.ModelSerializer):
+    aoty = serializers.StringRelatedField(read_only=True)
+    # position = serializers.IntegerField()
+    # album = AlbumSerializer(read_only=True)
+
+    class Meta:
+        model = Album
+        fields = ["title", "aoty"]
 
 
 class ReviewSerializer(serializers.ModelSerializer):

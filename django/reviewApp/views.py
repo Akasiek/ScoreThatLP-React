@@ -4,13 +4,14 @@ from rest_framework.utils import serializer_helpers
 from rest_framework.viewsets import ModelViewSet
 from reviewApp import pagination
 from .serializers import (
+    AlbumOfTheYearSerializer,
     AlbumSerializer,
     ArtistSerializer,
     ReviewSerializer,
     ReviewerSerializer,
     TrackSerializer,
 )
-from .models import Album, Artist, Review, Reviewer, Track
+from .models import Album, AlbumOfTheYear, Artist, Review, Reviewer, Track
 from reviewApp import serializers
 
 
@@ -26,7 +27,8 @@ class ArtistViewSet(ModelViewSet):
 
 
 class AlbumViewSet(ModelViewSet):
-    queryset = Album.objects.prefetch_related("tracks").all()
+    queryset = Album.objects.prefetch_related("tracks").prefetch_related(
+        "album_genres").prefetch_related("album_links").prefetch_related("aoty").all()
     serializer_class = AlbumSerializer
     pagination_class = pagination.FivePagesPagination
 
@@ -35,6 +37,11 @@ class TrackViewSet(ModelViewSet):
     queryset = Track.objects.all()
     serializer_class = TrackSerializer
     pagination_class = pagination.TenPagesPagination
+
+
+class AlbumOfTheYearViewSet(ModelViewSet):
+    queryset = Album.objects.prefetch_related("aoty").all()
+    serializer_class = AlbumOfTheYearSerializer
 
 
 class ReviewViewSet(ModelViewSet):

@@ -9,6 +9,8 @@ router = routers.DefaultRouter()
 router.register("reviewers", views.ReviewerViewSet, basename="reviewers")
 router.register("artists", views.ArtistViewSet, basename="artists")
 router.register("albums", views.AlbumViewSet, basename="albums")
+router.register("album_of_the_year", views.AlbumOfTheYearViewSet,
+                basename="album_of_the_year")
 router.register("tracks", views.TrackViewSet, basename="tracks")
 router.register("reviews", views.ReviewViewSet, basename="reviews")
 
