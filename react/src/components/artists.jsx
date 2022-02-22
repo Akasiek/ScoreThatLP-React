@@ -4,16 +4,17 @@ import { Main } from "../App";
 import ContentGroup from "./common/contentGroup";
 import { StyledContentGroupPage } from "./albums";
 import { getArtists } from "./../services/artistService";
+import LoadingScreen from "./loadingScreen";
 
 const Artists = () => {
-    const [artists, setArtists] = useState();
+    const [artists, setArtists] = useState(null);
 
     useEffect(async () => {
         const { data: artists } = await getArtists();
         setArtists(artists.results);
     }, []);
 
-    return (
+    return artists !== null ? (
         <Main pushUnderNavbar={true}>
             <Helmet>
                 <title>Artists | ScoreThatLP</title>
@@ -33,6 +34,8 @@ const Artists = () => {
                 />
             </StyledContentGroupPage>
         </Main>
+    ) : (
+        <LoadingScreen />
     );
 };
 

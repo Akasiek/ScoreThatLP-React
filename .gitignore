@@ -1,3 +1,4 @@
 react/node_modules
 .env
 media/
+__pycache__

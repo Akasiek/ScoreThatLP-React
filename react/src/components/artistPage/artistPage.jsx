@@ -6,6 +6,7 @@ import ArtistPageHeader from "./artistPageHeader";
 import { Main } from "../../App";
 import ArtistPageContentContainer from "./artistPageContentContainer";
 import { getArtist } from "../../services/artistService";
+import LoadingScreen from "./../loadingScreen";
 
 const StyledArtistPage = styled.div`
     padding: 68px 0 0 0;
@@ -16,19 +17,15 @@ const StyledArtistPage = styled.div`
 `;
 
 const ArtistPage = ({ match }) => {
-    const [artist, setArtist] = useState(async () => {
-        const { data: artist } = await getArtist(match.params.id);
-        console.log(artist);
-        return artist;
-    });
+    const [artist, setArtist] = useState(null);
 
+    console.log(artist);
     useEffect(async () => {
         const { data: artist } = await getArtist(match.params.id);
-        console.log(artist);
         setArtist(artist);
     }, [match.params.id]);
 
-    return (
+    return artist !== null ? (
         <StyledArtistPage>
             <Helmet>
                 <title>{`${artist.name} | ScoreThatLP`}</title>
@@ -40,6 +37,8 @@ const ArtistPage = ({ match }) => {
                 <ArtistPageContentContainer artist={artist} />
             </Main>
         </StyledArtistPage>
+    ) : (
+        <LoadingScreen />
     );
 };
 
