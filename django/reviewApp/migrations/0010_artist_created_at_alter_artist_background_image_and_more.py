@@ -22,13 +22,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='artist',
             name='background_image',
-            field=models.FileField(blank=True, null=True, upload_to=reviewApp.models.PathAndRename(
+            field=models.FileField(blank=True, null=True, upload_to=reviewApp.models.RenameImageToSlug(
                 'artist/bg_images/')),
         ),
         migrations.AlterField(
             model_name='artist',
             name='image',
-            field=models.FileField(blank=True, null=True, upload_to=reviewApp.models.PathAndRename(
+            field=models.FileField(blank=True, null=True, upload_to=reviewApp.models.RenameImageToSlug(
                 'artist/images/')),
         ),
     ]

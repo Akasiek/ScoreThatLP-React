@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "debug_toolbar",
     "rest_framework",
+    "django_cleanup.apps.CleanupConfig",
     "djoser",
     "reviewApp",
     "core",

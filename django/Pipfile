@@ -16,6 +16,7 @@ drf-nested-routers = "*"
 django-environ = "*"
 psycopg2 = "*"
 django-cors-headers = "*"
+django-cleanup = "*"
 
 [dev-packages]
 black = "*"

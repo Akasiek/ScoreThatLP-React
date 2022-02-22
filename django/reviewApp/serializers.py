@@ -1,6 +1,8 @@
+from audioop import avg
 from datetime import timedelta
-from django.db.models import F, ExpressionWrapper, Sum
-from django.db.models.fields import BigIntegerField
+from django.db.models import F, ExpressionWrapper, Sum, Avg
+from django.db.models.fields import BigIntegerField, IntegerField, CharField
+from django.forms import DurationField
 from django.utils.text import slugify
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
@@ -16,30 +18,59 @@ class ReviewerSerializer(serializers.ModelSerializer):
 class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
-        fields = ["id", "name", "image", "background_image", "created_at"]
+        fields = ["id",
+                  "name",
+                  "slug",
+                  "image",
+                  "background_image",
+                  "created_at"]
+        read_only_fields = ["slug"]
+
+     # Save slug as well
+    def create(self, validated_data):
+        slug = slugify(validated_data["name"])
+        return Artist.objects.create(slug=slug, **validated_data)
 
 
 class AlbumSerializer(serializers.ModelSerializer):
     tracks = StringRelatedField(many=True, read_only=True)
+    album_genres = StringRelatedField(many=True, read_only=True)
+
+    # Get overall score of the album
+    def get_overall_score(self, album: Album):
+        # TODO: Check if can return on first line
+        reviews = Review.objects.only("rating").filter(album_id=album.id).aggregate(
+            overall_score=Avg(F("rating"), output_field=IntegerField()))
+        return reviews["overall_score"]
+
+    overall_score = serializers.SerializerMethodField(
+        method_name="get_overall_score")
 
     # Get duration of a full album
-    def get_duration(self, album: Album):
-        tracks = (
-            Track.objects.only("duration")
-            .filter(album_id=album.id)
-            .aggregate(dur_sum=Sum(F("duration"), output_field=BigIntegerField()))
-        )
-        dur_sum = tracks["dur_sum"]
-        if dur_sum is not None:
-            return str(timedelta(0, 0, dur_sum))
-        return "00:00:00"
+    # def get_duration(self, album: Album):
+    #     tracks = Track.objects.filter(album_id=album.id).aggregate(
+    #         dur_sum=Sum(F('duration'), output_field=BigIntegerField()))
 
-    duration = serializers.SerializerMethodField(method_name="get_duration")
+    #     dur_sum = tracks["dur_sum"]
+    #     if dur_sum is not None:
+    #         return str(timedelta(0, 0, dur_sum))
+    #     return "00:00:00"
+
+    # duration = serializers.SerializerMethodField(method_name="get_duration")
 
     class Meta:
         model = Album
-        fields = ["id", "title", "artist_id",
-                  "tracks", "duration", "created_at"]
+        fields = ["id",
+                  "title",
+                  "slug",
+                  "created_at",
+                  "artist_id",
+                  "art_cover",
+                  "album_genres",
+                  "overall_score",
+                  "release_date",
+                  "release_type",
+                  "tracks"]
 
     # Save slug as well
     def create(self, validated_data):
@@ -77,23 +108,5 @@ class ReviewSerializer(serializers.ModelSerializer):
             "reviewer_id",
             "rating",
             "review_text",
-            "reviewed_item_type",
-            "item_id",
+            "album_id",
         ]
-
-    def save(self, **kwargs):
-        validated_data = {**self.validated_data, **kwargs}
-        if (
-            validated_data["album_id"] is not None
-            and validated_data["track_id"] is not None
-        ):
-            raise serializers.ValidationError("Only one id should be provided")
-        elif validated_data["album_id"] is None and validated_data["track_id"] is None:
-            raise serializers.ValidationError(
-                "At least one id should be provided")
-
-        if self.instance is not None:
-            self.instance = self.update(self.instance, validated_data)
-        else:
-            self.instance = self.create(validated_data)
-        return self.instance
