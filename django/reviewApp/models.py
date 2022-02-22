@@ -93,6 +93,24 @@ class AlbumGenre(models.Model):
         return self.genre_id.name
 
 
+class AlbumLink(models.Model):
+    SERVICE_NAME_CHOICES = [
+        ("spotify", "Spotify"),
+        ("tidal", "Tidal"),
+        ("amazonMusic", "Amazon Music"),
+        ("appleMusic", "Apple Music"),
+    ]
+
+    service_name = models.CharField(
+        max_length=15, choices=SERVICE_NAME_CHOICES)
+    url = models.CharField(max_length=255)
+    album_id = models.ForeignKey(
+        Album, on_delete=models.PROTECT, related_name="album_links")
+
+    def __str__(self) -> str:
+        return f"{self.service_name} - {self.url}"
+
+
 class Track(models.Model):
     title = models.CharField(max_length=255)
     position = models.PositiveIntegerField()

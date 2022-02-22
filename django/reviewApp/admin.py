@@ -26,6 +26,11 @@ class AlbumGenreAdmin(admin.ModelAdmin):
     list_display = ["__str__", "album_id", "genre_id"]
 
 
+@admin.register(models.AlbumLink)
+class AlbumLinkAdmin(admin.ModelAdmin):
+    list_display = ["__str__", "album_id"]
+
+
 @admin.register(models.Track)
 class TrackAdmin(admin.ModelAdmin):
     list_display = ["__str__", "album_id"]
