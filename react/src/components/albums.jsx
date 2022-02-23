@@ -5,6 +5,7 @@ import styled from "styled-components";
 import ContentGroup from "./common/contentGroup";
 import { getAlbums } from "./../services/albumService";
 import { Main } from "./../App";
+import LoadingScreen from "./loadingScreen";
 
 export const StyledContentGroupPage = styled.div`
     padding: 2rem 0;
@@ -43,7 +44,7 @@ const Albums = () => {
         setAlbums(albums.results);
     }, []);
 
-    return (
+    return albums ? (
         <Main pushUnderNavbar={true}>
             <Helmet>
                 <title>Albums | ScoreThatLP</title>
@@ -62,6 +63,8 @@ const Albums = () => {
                 />
             </StyledContentGroupPage>
         </Main>
+    ) : (
+        <LoadingScreen />
     );
 };
 
