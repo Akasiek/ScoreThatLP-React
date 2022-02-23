@@ -11,6 +11,8 @@ class AlbumAdmin(admin.ModelAdmin):
 
 @admin.register(models.Artist)
 class ArtistAdmin(admin.ModelAdmin):
+    list_display = ["name"]
+    ordering = ["name"]
     prepopulated_fields = {
         "slug": ["name"]
     }
