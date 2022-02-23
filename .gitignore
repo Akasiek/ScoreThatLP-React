@@ -1,4 +1,14 @@
 react/node_modules
 .env
 media/
-__pycache__
+__pycache__/
+.installed.cfg
+bin
+develop-eggs
+dist
+downloads
+eggs
+parts
+src/*.egg-info
+lib
+lib64
