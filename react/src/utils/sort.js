@@ -28,7 +28,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.title;
+                        return o.title.toLowerCase();
                     },
                     ["asc"]
                 );
@@ -38,7 +38,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.title;
+                        return o.title.toLowerCase();
                     },
                     ["desc"]
                 );
@@ -154,7 +154,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.name;
+                        return o.name.toLowerCase();
                     },
                     ["asc"]
                 );
@@ -164,7 +164,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.name;
+                        return o.name.toLowerCase();
                     },
                     ["desc"]
                 );
@@ -227,7 +227,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.title;
+                        return o.title.toLowerCase();
                     },
                     ["asc"]
                 );
@@ -237,7 +237,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.title;
+                        return o.title.toLowerCase();
                     },
                     ["desc"]
                 );
