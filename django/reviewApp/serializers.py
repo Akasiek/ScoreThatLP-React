@@ -60,6 +60,7 @@ class AlbumSerializer(serializers.ModelSerializer):
     album_genres = StringRelatedField(many=True, read_only=True)
     album_links = StringRelatedField(many=True, read_only=True)
     aoty = StringRelatedField(read_only=True)
+    artist = ArtistSerializer(source="artist_id")
 
     # Get overall score of the album
     def get_overall_score(self, album: Album):
@@ -77,7 +78,7 @@ class AlbumSerializer(serializers.ModelSerializer):
                   "title",
                   "slug",
                   "created_at",
-                  "artist_id",
+                  "artist",
                   "art_cover",
                   "album_genres",
                   "overall_score",
