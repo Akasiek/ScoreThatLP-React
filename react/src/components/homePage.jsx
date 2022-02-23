@@ -1,11 +1,15 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import { Link as ScrollLink } from "react-scroll";
 
 import ContentGroup from "./common/contentGroup";
-import { getNewReleases, getArtists, getAlbumOfTheYear, getLatestReviews, getLatestSingles } from "../services/fakeMusicService";
+import { getLatestReviews, getLatestSingles } from "../services/fakeMusicService";
 import { Main } from "../App";
+import { getAOTY, getNewReleases } from "./../services/albumService";
+import { getArtists } from "./../services/artistService";
+import LoadingScreen from "./loadingScreen";
+import { StyledContentGroupPage } from "./albums";
 
 const StyledHomePage = styled.div`
     background-color: var(--darkBlueColor);
@@ -14,42 +18,6 @@ const StyledHomePage = styled.div`
     padding-bottom: 3rem;
     @media (max-width: ${({ theme }) => theme.mobile}) {
         margin: 0;
-    }
-
-    .contentGroup {
-        .contentTitleBar {
-            margin: 3rem 2rem 2rem 2rem;
-        }
-        .contentContainer {
-            gap: 4rem 6%;
-            margin-bottom: 3rem;
-            margin-inline: 3rem;
-        }
-
-        @media (max-width: ${({ theme }) => theme.mobile}) {
-            .contentContainer {
-                gap: 3rem 6%;
-                margin: 0 2rem 2rem 2rem;
-                margin-inline: clamp(1.5rem, 6vw, 3rem);
-            }
-            .contentTitleBar {
-                margin: 3rem 1rem 2rem 1rem;
-            }
-        }
-    }
-
-    .reviewsGroup {
-        .contentContainer {
-            gap: 3rem 4%;
-        }
-    }
-
-    .artistGroup {
-        .contentContainer {
-            @media (max-width: ${({ theme }) => theme.mobile}) {
-                gap: 2rem 6%;
-            }
-        }
     }
 `;
 
@@ -150,47 +118,54 @@ const HomePageHeader = styled.header`
     }
 `;
 
-class HomePage extends Component {
-    state = {
-        aoty: getAlbumOfTheYear().slice(0, 4),
-        newReleases: getNewReleases(),
-        artists: getArtists(),
-    };
+const HomePage = () => {
+    const [aoty, setAOTY] = useState(null);
+    const [newReleases, setNewReleases] = useState(null);
+    const [artists, setArtists] = useState(null);
 
-    render() {
-        const { aoty, newReleases, artists } = this.state;
-        return (
-            <Main>
-                <StyledHomePage>
-                    <Helmet>
-                        <title>ScoreThatLP</title>
-                    </Helmet>
+    useEffect(async () => {
+        const { data: aoty } = await getAOTY();
+        setAOTY(aoty);
 
-                    <HomePageHeader>
-                        <div className="textContainer">
-                            <h1>ScoreThatLP</h1>
-                            <h4>share your music opinions</h4>
-                        </div>
-                        <div className="imageContainer">
-                            <img src="/images/headerImg.jpg" alt="Girl holding vinyl in music shop" />
-                        </div>
-                        <div className="arrowContainer">
-                            <ScrollLink to="aoty" smooth={true} offset={-75}>
-                                <img src="/images/arrow.svg" alt="Arrow facing downwards" />
-                            </ScrollLink>
-                        </div>
-                    </HomePageHeader>
+        const { data: newReleases } = await getNewReleases();
+        setNewReleases(newReleases);
 
+        const { data: artists } = await getArtists();
+        setArtists(artists.results);
+    }, []);
+
+    return aoty && newReleases && artists ? (
+        <Main>
+            <StyledHomePage>
+                <Helmet>
+                    <title>ScoreThatLP</title>
+                </Helmet>
+
+                <HomePageHeader>
+                    <div className="textContainer">
+                        <h1>ScoreThatLP</h1>
+                        <h4>share your music opinions</h4>
+                    </div>
+                    <div className="imageContainer">
+                        <img src="/images/headerImg.jpg" alt="Girl holding vinyl in music shop" />
+                    </div>
+                    <div className="arrowContainer">
+                        <ScrollLink to="aoty" smooth={true} offset={-75}>
+                            <img src="/images/arrow.svg" alt="Arrow facing downwards" />
+                        </ScrollLink>
+                    </div>
+                </HomePageHeader>
+                <StyledContentGroupPage>
                     <ContentGroup
                         id="aoty"
-                        className="contentGroup aotyGroup"
+                        className="contentGroup"
                         title="Album of the Year 2021"
                         viewAllUrl="/aoty"
                         content={aoty}
                         contentType="albums"
                         albumIsAoty={true}
-                        itemsCount={4}
-                        colSize={[4, 2, 2]}
+                        itemsCount={5}
+                        colSize={[5, 3, 2]}
                     />
 
                     <ContentGroup
@@ -199,12 +174,12 @@ class HomePage extends Component {
                         viewAllUrl="/new-releases"
                         content={newReleases}
                         contentType="albums"
-                        itemsCount={8}
-                        colSize={[4, 2, 2]}
+                        itemsCount={10}
+                        colSize={[5, 3, 2]}
                     />
 
                     <ContentGroup
-                        className="contentGroup artistGroup"
+                        className="contentGroup"
                         title="Trending Artists"
                         viewAllUrl="/artists"
                         content={artists}
@@ -213,28 +188,30 @@ class HomePage extends Component {
                         colSize={[5, 3, 3]}
                     />
 
-                    <ContentGroup
-                        className="contentGroup reviewsGroup"
-                        title="Latest Reviews"
-                        content={getLatestReviews()}
-                        contentType="reviews"
-                        itemsCount={4}
-                        colSize={[2, 1, 1]}
-                        reviewIsOutsideAlbum={true}
-                    />
+                    {/* <ContentGroup
+                    className="contentGroup reviewsGroup"
+                    title="Latest Reviews"
+                    content={getLatestReviews()}
+                    contentType="reviews"
+                    itemsCount={4}
+                    colSize={[2, 1, 1]}
+                    reviewIsOutsideAlbum={true}
+                /> */}
 
-                    <ContentGroup
-                        className="contentGroup"
-                        title="Latest Singles"
-                        content={getLatestSingles()}
-                        contentType="albums"
-                        itemsCount={5}
-                        colSize={[5, 3, 2]}
-                    />
-                </StyledHomePage>
-            </Main>
-        );
-    }
-}
+                    {/* <ContentGroup
+                    className="contentGroup"
+                    title="Latest Singles"
+                    content={getLatestSingles()}
+                    contentType="albums"
+                    itemsCount={5}
+                    colSize={[5, 3, 2]}
+                /> */}
+                </StyledContentGroupPage>
+            </StyledHomePage>
+        </Main>
+    ) : (
+        <LoadingScreen />
+    );
+};
 
 export default HomePage;

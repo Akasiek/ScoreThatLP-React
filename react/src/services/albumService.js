@@ -14,6 +14,10 @@ export const getAlbum = (id) => {
     return http.get(albumUrl(id));
 };
 
+export const getNewReleases = () => {
+    return http.get(`${apiEndpoint}/?ordering=-release_date`);
+};
+
 export const getAOTY = () => {
     return http.get("/album_of_the_year/?ordering=aoty");
 };

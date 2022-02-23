@@ -34,6 +34,8 @@ class AlbumViewSet(ModelViewSet):
     queryset = Album.objects.prefetch_related("tracks").prefetch_related("album_genres").prefetch_related(
         "album_links").prefetch_related("reviews").select_related("aoty").select_related("artist_id").all()
     serializer_class = AlbumSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    ordering_fields = ["title", "release_date"]
     # pagination_class = pagination.FivePagesPagination
 
 
@@ -41,6 +43,8 @@ class SimpleAlbumViewSet(ModelViewSet):
     queryset = Album.objects.select_related(
         "artist_id").prefetch_related("reviews").all()
     serializer_class = SimpleAlbumSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    ordering_fields = ["title", "release_date"]
 
 
 class TrackViewSet(ModelViewSet):
