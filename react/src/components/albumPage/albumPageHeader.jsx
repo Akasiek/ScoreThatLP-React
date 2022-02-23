@@ -116,7 +116,7 @@ const AlbumPageHeader = ({ album, isCompact }) => {
             <img src={album.art_cover} alt="" />
             <div className={`${getScoreColor(album.overall_score)}BG`}>
                 <h3>
-                    <Link to={`/artists/${album.artist.id}`}>{album.artist.name}</Link>
+                    <Link to={`/artists/${album.artist.slug}`}>{album.artist.name}</Link>
                 </h3>
                 <h1>{album.title}</h1>
                 <hr />
