@@ -18,6 +18,10 @@ export const getNewReleases = () => {
     return http.get(`${apiEndpoint}/?ordering=-release_date`);
 };
 
+export const getArtistAlbums = (slug) => {
+    return http.get(`${apiEndpoint}/?artist=${slug}`);
+};
+
 export const getAOTY = () => {
     return http.get("/album_of_the_year/?ordering=aoty");
 };

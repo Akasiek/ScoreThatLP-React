@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getArtistAlbums, getLatestArtistReviews } from "../../services/fakeMusicService";
 import ContentGroup from "../common/contentGroup";
 import useDeepCompareEffect from "use-deep-compare-effect";
+import { getArtistAlbums } from "../../services/albumService";
 
 const getReleaseTypeTitle = (release_type) => {
     if (release_type == "LP") return "Albums";
@@ -11,11 +11,12 @@ const getReleaseTypeTitle = (release_type) => {
 };
 
 const ArtistPageAlbumsGroup = ({ artist }) => {
-    const [albums, setAlbums] = useState(getArtistAlbums(artist.id));
+    const [albums, setAlbums] = useState(null);
     const [groups, setGroups] = useState([{ name: "LP", albums: [] }]);
 
-    useDeepCompareEffect(() => {
-        setAlbums(getArtistAlbums(artist.id));
+    useDeepCompareEffect(async () => {
+        const { data: albums } = await getArtistAlbums(artist.slug);
+        setAlbums(albums);
         const newGroups = [{ name: "LP", albums: [] }];
         albums.forEach((album) => {
             const release_type = album.release_type;
@@ -27,13 +28,15 @@ const ArtistPageAlbumsGroup = ({ artist }) => {
         setGroups(newGroups);
     }, [artist, albums]);
 
+    console.log(albums);
+
     return (
         <React.Fragment>
             {groups.map((o, index) => {
                 return (
                     <ContentGroup
                         key={index}
-                        className="artistAlbums"
+                        className="contentGroup"
                         title={getReleaseTypeTitle(o.name)}
                         noTitleMargin={true}
                         content={o.albums}
@@ -42,7 +45,7 @@ const ArtistPageAlbumsGroup = ({ artist }) => {
                         albumIsInArtistPage={true}
                         colSize={[5, 2, 2]}
                         isPaginationEnabled={true}
-                        contentPageSize={8}
+                        contentPageSize={10}
                         isSortingEnabled={true}
                     />
                 );

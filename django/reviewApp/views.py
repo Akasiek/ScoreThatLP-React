@@ -36,7 +36,7 @@ class AlbumViewSet(ModelViewSet):
     serializer_class = AlbumSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     ordering_fields = ["title", "release_date"]
-    # pagination_class = pagination.FivePagesPagination
+    pagination_class = pagination.FivePagesPagination
 
 
 class SimpleAlbumViewSet(ModelViewSet):
@@ -45,6 +45,17 @@ class SimpleAlbumViewSet(ModelViewSet):
     serializer_class = SimpleAlbumSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     ordering_fields = ["title", "release_date"]
+
+    def get_queryset(self):
+        queryset = Album.objects.select_related(
+            "artist_id").prefetch_related("reviews").all()
+        artist_slug = self.request.query_params.get('artist')
+        release_type = self.request.query_params.get('type')
+        if artist_slug is not None:
+            queryset = queryset.filter(artist_id__slug=artist_slug)
+        if release_type is not None:
+            queryset = queryset.filter(release_type=release_type)
+        return queryset
 
 
 class TrackViewSet(ModelViewSet):
@@ -66,10 +77,6 @@ class ReviewViewSet(ModelViewSet):
     pagination_class = pagination.FivePagesPagination
 
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against `album_id` and `reviewer_id` query parameter in the URL.
-        """
         queryset = Review.objects.select_related("album_id").all()
         album_id = self.request.query_params.get('album_id')
         reviewer_id = self.request.query_params.get('reviewer_id')

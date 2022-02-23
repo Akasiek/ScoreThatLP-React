@@ -4,6 +4,9 @@ from . import models
 
 @admin.register(models.Album)
 class AlbumAdmin(admin.ModelAdmin):
+    list_display = ["title"]
+    ordering = ["title"]
+    list_per_page = 30
     prepopulated_fields = {
         "slug": ["title"]
     }
@@ -13,6 +16,7 @@ class AlbumAdmin(admin.ModelAdmin):
 class ArtistAdmin(admin.ModelAdmin):
     list_display = ["name"]
     ordering = ["name"]
+    list_per_page = 30
     prepopulated_fields = {
         "slug": ["name"]
     }

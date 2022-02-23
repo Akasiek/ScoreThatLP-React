@@ -56,7 +56,7 @@ class Album(models.Model):
     RELEASE_TYPE_ALBUM_CHOICES = [
         ("LP", "LP"),
         ("EP", "EP"),
-        ("S", "Single"),
+        ("Single", "Single"),
         ("Live", "Live"),
     ]
 

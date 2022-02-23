@@ -135,6 +135,7 @@ class SimpleAlbumSerializer(serializers.ModelSerializer):
                   "title",
                   "art_cover",
                   "release_date",
+                  "release_type",
                   "artist",
                   "overall_score"]
 
