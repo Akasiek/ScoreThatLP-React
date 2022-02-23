@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import useDeepCompareEffect from "use-deep-compare-effect";
 import { Main } from "../App";
 import { StyledContentGroupPage } from "./albums";
 import ContentGroup from "./common/contentGroup";
-import { getNewReleases } from "./../services/fakeMusicService";
+import { getAlbums } from "./../services/albumService";
+import LoadingScreen from "./loadingScreen";
 
 const NewReleases = () => {
-    const [newReleases, setNewReleases] = useState(getNewReleases());
+    const [newReleases, setNewReleases] = useState(null);
 
-    useDeepCompareEffect(() => setNewReleases(getNewReleases()), [newReleases]);
+    useEffect(async () => {
+        const { data: albums } = await getAlbums();
+        setNewReleases(albums.results);
+    }, []);
 
-    return (
+    return newReleases ? (
         <Main pushUnderNavbar={true}>
             <Helmet>
                 <title>New Releases | ScoreThatLP</title>
@@ -29,6 +32,8 @@ const NewReleases = () => {
                 />
             </StyledContentGroupPage>
         </Main>
+    ) : (
+        <LoadingScreen />
     );
 };
 
