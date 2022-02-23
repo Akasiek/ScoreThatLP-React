@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 
-import { getArtist } from "../../services/fakeMusicService";
 import getScoreColor from "./../../utils/scoreColor";
 
 export const StyledAlbumContainer = styled.div`

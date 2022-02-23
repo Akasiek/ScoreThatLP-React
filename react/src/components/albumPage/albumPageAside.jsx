@@ -49,6 +49,15 @@ const StyledAlbumPageAside = styled.aside`
         li {
             margin: 0.8rem 0;
         }
+
+        .genreLink {
+            &::before {
+                content: " ";
+            }
+            &:not(:last-child)::after {
+                content: ", ";
+            }
+        }
     }
     .albumTracks {
         & > div {
@@ -98,34 +107,35 @@ const AlbumPageAside = ({ album }) => {
                         {album.links.map((l, index) => {
                             return (
                                 <a key={index} href={l.url} rel="noreferrer" target="_blank">
-                                    <img src={`/images/serviceIcons/${l.service}.svg`} alt={`${l.service} music service provider logo`} />
+                                    <img src={`/images/serviceIcons/${l.service_name}.svg`} alt={`${l.service_name} music service provider logo`} />
                                 </a>
                             );
                         })}
                     </div>
                 </div>
             )}
-            {album.details && (
-                <div className="albumDetails">
-                    <h3>Details</h3>
-                    <hr />
-                    <ul>
-                        <li>
-                            Release Date: <span style={{ fontWeight: 900 }}>{moment(album.release_date).format("Do MMMM YYYY")}</span>
-                        </li>
-                        {album.details.map((d, index) => {
+            <div className="albumDetails">
+                <h3>Details</h3>
+                <hr />
+                <ul>
+                    <li>
+                        Release Date: <span style={{ fontWeight: 900 }}>{moment(album.release_date).format("Do MMMM YYYY")}</span>
+                    </li>
+                    <li>
+                        Genres:
+                        {album.genres.map((g, index) => {
+                            {
+                                // TODO: Genres links
+                            }
                             return (
-                                <li key={index}>
-                                    {
-                                        // TODO: Genres links
-                                    }
-                                    {d.label}: <span style={{ fontWeight: 900 }}>{d.detail}</span>
-                                </li>
+                                <span key={index} className="genreLink" style={{ fontWeight: 900 }}>
+                                    {g}
+                                </span>
                             );
                         })}
-                    </ul>
-                </div>
-            )}
+                    </li>
+                </ul>
+            </div>
             {album.tracks && (
                 <div className="albumTracks">
                     <h3>Tracks</h3>
@@ -135,7 +145,7 @@ const AlbumPageAside = ({ album }) => {
                             <div key={index}>
                                 <p className="trackPosition">{t.position}.</p>
                                 <p className="trackTitle">{t.title}</p>
-                                <p className="trackDuration">{t.duration}</p>
+                                <p className="trackDuration">{moment(t.duration, [moment.ISO_8601, "HH:MM:ss"]).format("MM:ss")}</p>
                             </div>
                         );
                     })}

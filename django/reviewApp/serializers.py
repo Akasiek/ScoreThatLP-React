@@ -4,7 +4,7 @@ from django.db.models.fields import BigIntegerField, IntegerField
 from django.utils.text import slugify
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
-from .models import Album, Artist, Review, Reviewer, Track
+from .models import Album, AlbumLink, Artist, Review, Reviewer, Track
 
 
 class ReviewerSerializer(serializers.ModelSerializer):
@@ -52,11 +52,19 @@ class TrackSerializer(serializers.ModelSerializer):
         return self.instance
 
 
+class AlbumLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AlbumLink
+        fields = ["service_name", "url"]
+
+
 class AlbumSerializer(serializers.ModelSerializer):
     tracks = TrackSerializer(many=True, read_only=True)
-    album_genres = StringRelatedField(many=True, read_only=True)
-    album_links = StringRelatedField(many=True, read_only=True)
+    genres = StringRelatedField(
+        source="album_genres", many=True, read_only=True)
     aoty = StringRelatedField(read_only=True)
+    links = AlbumLinkSerializer(
+        source="album_links", many=True, read_only=True)
     artist = ArtistSerializer(source="artist_id")
 
     def get_overall_score(self, album: Album):
@@ -83,13 +91,13 @@ class AlbumSerializer(serializers.ModelSerializer):
                   "created_at",
                   "artist",
                   "art_cover",
-                  "album_genres",
+                  "genres",
                   "overall_score",
                   "number_of_ratings",
                   "release_date",
                   "release_type",
                   "tracks",
-                  "album_links",
+                  "links",
                   "aoty"]
 
     # Save slug as well
