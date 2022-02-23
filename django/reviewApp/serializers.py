@@ -1,13 +1,10 @@
-from audioop import avg
 from datetime import timedelta
-from msilib.schema import Class
-from django.db.models import F, ExpressionWrapper, Sum, Avg
-from django.db.models.fields import BigIntegerField, IntegerField, CharField
-from django.forms import DurationField
+from django.db.models import F, Avg, Count
+from django.db.models.fields import BigIntegerField, IntegerField
 from django.utils.text import slugify
 from rest_framework import serializers
-from rest_framework.relations import StringRelatedField, RelatedField
-from .models import Album, AlbumLink, AlbumOfTheYear, Artist, Review, Reviewer, Track
+from rest_framework.relations import StringRelatedField
+from .models import Album, Artist, Review, Reviewer, Track
 
 
 class ReviewerSerializer(serializers.ModelSerializer):
@@ -62,13 +59,19 @@ class AlbumSerializer(serializers.ModelSerializer):
     aoty = StringRelatedField(read_only=True)
     artist = ArtistSerializer(source="artist_id")
 
-    # Get overall score of the album
     def get_overall_score(self, album: Album):
         # TODO: Check if can return on first line
         reviews = Review.objects.only("rating").filter(album_id=album.id).aggregate(
             overall_score=Avg(F("rating"), output_field=IntegerField()))
         return reviews["overall_score"]
 
+    def get_number_of_ratings(self, album: Album):
+        reviews = Review.objects.only("rating").filter(album_id=album.id).aggregate(
+            number_of_ratings=Count(F("rating"), output_field=IntegerField()))
+        return reviews["number_of_ratings"]
+
+    number_of_ratings = serializers.SerializerMethodField(
+        method_name="get_number_of_ratings")
     overall_score = serializers.SerializerMethodField(
         method_name="get_overall_score")
 
@@ -82,6 +85,7 @@ class AlbumSerializer(serializers.ModelSerializer):
                   "art_cover",
                   "album_genres",
                   "overall_score",
+                  "number_of_ratings",
                   "release_date",
                   "release_type",
                   "tracks",
