@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import useDeepCompareEffect from "use-deep-compare-effect";
 import { Main } from "../App";
 import { StyledContentGroupPage } from "./albums";
 import ContentGroup from "./common/contentGroup";
-import { getAlbumOfTheYear } from "./../services/fakeMusicService";
+import { getAOTY } from "../services/albumService";
+import LoadingScreen from "./loadingScreen";
 
 const AOTY = () => {
-    const [aoty, setAoty] = useState(getAlbumOfTheYear());
+    const [aoty, setAoty] = useState(null);
 
-    useDeepCompareEffect(() => setAoty(getAlbumOfTheYear()), [aoty]);
+    useEffect(async () => {
+        const { data: aoty } = await getAOTY();
+        setAoty(aoty);
+    }, []);
 
-    return (
+    return aoty ? (
         <Main pushUnderNavbar={true}>
             <Helmet>
                 <title>Album of the Year | ScoreThatLP</title>
@@ -29,6 +32,8 @@ const AOTY = () => {
                 />
             </StyledContentGroupPage>
         </Main>
+    ) : (
+        <LoadingScreen />
     );
 };
 

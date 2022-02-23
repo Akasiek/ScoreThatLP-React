@@ -13,3 +13,7 @@ export const getAlbums = () => {
 export const getAlbum = (id) => {
     return http.get(albumUrl(id));
 };
+
+export const getAOTY = () => {
+    return http.get("/album_of_the_year");
+};

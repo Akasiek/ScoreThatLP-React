@@ -1,4 +1,5 @@
 from datetime import timedelta
+from pyexpat import model
 from django.db.models import F, Avg, Count
 from django.db.models.fields import BigIntegerField, IntegerField
 from django.utils.text import slugify
@@ -28,6 +29,12 @@ class ArtistSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         slug = slugify(validated_data["name"])
         return Artist.objects.create(slug=slug, **validated_data)
+
+
+class SimpleArtistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Artist
+        fields = ["id", "name"]
 
 
 class TrackSerializer(serializers.ModelSerializer):
@@ -107,13 +114,27 @@ class AlbumSerializer(serializers.ModelSerializer):
 
 
 class AlbumOfTheYearSerializer(serializers.ModelSerializer):
-    aoty = serializers.StringRelatedField(read_only=True)
-    # position = serializers.IntegerField()
-    # album = AlbumSerializer(read_only=True)
+    position = serializers.StringRelatedField(source="aoty", read_only=True)
+    artist = SimpleArtistSerializer(source="artist_id", read_only=True)
+
+    def get_overall_score(self, album: Album):
+        # TODO: Check if can return on first line
+        reviews = Review.objects.only("rating").filter(album_id=album.id).aggregate(
+            overall_score=Avg(F("rating"), output_field=IntegerField()))
+        return reviews["overall_score"]
+
+    overall_score = serializers.SerializerMethodField(
+        method_name="get_overall_score")
 
     class Meta:
         model = Album
-        fields = ["title", "aoty"]
+        fields = ["position",
+                  "id",
+                  "title",
+                  "art_cover",
+                  "release_date",
+                  "artist",
+                  "overall_score"]
 
 
 class ReviewSerializer(serializers.ModelSerializer):

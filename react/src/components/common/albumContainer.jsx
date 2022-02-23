@@ -137,7 +137,7 @@ const AlbumContainer = ({ album, customScore, isAoty, isInArtistPage }) => {
             <div className="albumImageContainer">
                 <Link to={`/albums/${album.id}`}>
                     <img src={album.art_cover} alt={`${album.title} art cover`} />
-                    {album.album_of_the_year && isAoty && <div className="albumAOTYPositionContainer">{album.album_of_the_year}</div>}
+                    {album.position && isAoty && <div className="albumAOTYPositionContainer">{album.position}</div>}
                 </Link>
             </div>
 
