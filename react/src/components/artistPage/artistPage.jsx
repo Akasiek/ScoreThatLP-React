@@ -20,7 +20,7 @@ const ArtistPage = ({ match }) => {
     const [artist, setArtist] = useState(null);
 
     useEffect(async () => {
-        const { data: artist } = await getArtist(match.params.id);
+        const { data: artist } = await getArtist(match.params.slug);
         setArtist(artist);
     }, [match.params.id]);
 

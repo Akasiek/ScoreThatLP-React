@@ -69,7 +69,7 @@ const StyledArtistContainer = styled.div`
 const ArtistContainer = ({ artist, onClick, showAvgScore }) => {
     return (
         <StyledArtistContainer>
-            <Link to={`/artists/${artist.id}`} onClick={onClick}>
+            <Link to={`/artists/${artist.slug}`} onClick={onClick}>
                 <div className="artist-image-container">
                     <img src={artist.image} alt={artist.name} />
                 </div>

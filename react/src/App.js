@@ -74,7 +74,7 @@ function App() {
                         <Route exact path="/albums/:id" component={AlbumPage} />
                         <Route exact path="/albums/:id/reviews" component={ReviewsPage} />
                         <Route exact path="/artists" component={Artists} />
-                        <Route exact path="/artists/:id" component={ArtistPage} />
+                        <Route exact path="/artists/:slug" component={ArtistPage} />
                         <Route exact path="/new-releases" component={NewReleases} />
                         <Route exact path="/aoty" component={AOTY} />
                         <Route exact path="/users/:username" component={ProfilePage} />

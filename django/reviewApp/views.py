@@ -24,6 +24,7 @@ class ArtistViewSet(ModelViewSet):
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
     pagination_class = pagination.TwentyFivePagesPagination
+    lookup_field = "slug"
 
 
 class AlbumViewSet(ModelViewSet):

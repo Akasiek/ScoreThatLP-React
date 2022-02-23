@@ -24,6 +24,10 @@ class ArtistSerializer(serializers.ModelSerializer):
                   "background_image",
                   "created_at"]
         read_only_fields = ["slug"]
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
 
      # Save slug as well
     def create(self, validated_data):
