@@ -38,7 +38,7 @@ class ArtistSerializer(serializers.ModelSerializer):
 class SimpleArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
-        fields = ["id", "name"]
+        fields = ["id", "name", "slug"]
 
 
 class TrackSerializer(serializers.ModelSerializer):
