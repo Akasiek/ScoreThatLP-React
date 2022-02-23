@@ -48,7 +48,6 @@ const AlbumPage = ({ match }) => {
 
     useEffect(async () => {
         const { data: album } = await getAlbum(match.params.id);
-        console.log(album);
         setAlbum(album);
     }, [match.params.id]);
 
