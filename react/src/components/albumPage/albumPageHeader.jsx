@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
-import { getArtist } from "../../services/fakeMusicService";
 import getScoreColor from "../../utils/scoreColor";
 
 export const StyledAlbumPageHeader = styled.div`
@@ -74,6 +73,7 @@ export const StyledAlbumPageHeader = styled.div`
             color: var(--darkestColor);
             p {
                 font-size: clamp(1.25rem, 2.25vw, 2.25rem);
+                margin-bottom: clamp(0.5rem, 1vw, 1rem);
             }
         }
 
@@ -111,25 +111,20 @@ export const StyledAlbumPageHeader = styled.div`
 `;
 
 const AlbumPageHeader = ({ album, isCompact }) => {
-    const artist = getArtist(album.artist_id);
     return (
         <StyledAlbumPageHeader isCompact={isCompact}>
-            <img src={album.image} alt="" />
+            <img src={album.art_cover} alt="" />
             <div className={`${getScoreColor(album.overall_score)}BG`}>
                 <h3>
-                    <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
+                    <Link to={`/artists/${album.artist.id}`}>{album.artist.name}</Link>
                 </h3>
                 <h1>{album.title}</h1>
                 <hr />
-                <h2>{album.overall_score || <p title={album.release_date}>{moment(album.release_date).fromNow(true)} till release</p>}</h2>
+                <h2>{moment(album.release_date) < moment() ? album.overall_score || <p>No ratings yet</p> : <p>Waiting for the release</p>}</h2>
                 <h4>
-                    {
-                        // TODO!: Number of ratings
-                    }
-
-                    {moment(album.release_date).diff(moment()) < 0 && (
+                    {moment(album.release_date) < moment() && album.number_of_ratings > 0 && (
                         <React.Fragment>
-                            Score based on <span style={{ fontWeight: "900" }}>40</span> ratings
+                            Score based on <span style={{ fontWeight: "900" }}>{album.number_of_ratings}</span> ratings
                         </React.Fragment>
                     )}
                 </h4>

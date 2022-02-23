@@ -56,12 +56,12 @@ const StyledReviewsContainer = styled.div`
 `;
 
 const AlbumPageReviewsContainer = ({ album }) => {
-    const reviews = sort(getReviews(album.id), "reviews", { value: "newest-to-oldest" });
-    const ratings = getRatings(album.id);
-
+    // const reviews = sort(getReviews(album.id), "reviews", { value: "newest-to-oldest" });
+    // const ratings = getRatings(album.id);
+    return null;
     return (
         <StyledReviewsContainer>
-            {reviews.length !== 0 && (
+            {/* {reviews.length !== 0 && (
                 <ContentGroup
                     className="reviewGroup"
                     title="Latest Reviews"
@@ -84,7 +84,7 @@ const AlbumPageReviewsContainer = ({ album }) => {
                     itemsCount={8}
                     colSize={[4, 4, 2]}
                 />
-            )}
+            )} */}
         </StyledReviewsContainer>
     );
 };

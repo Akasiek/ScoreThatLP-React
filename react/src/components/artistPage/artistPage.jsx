@@ -19,7 +19,6 @@ const StyledArtistPage = styled.div`
 const ArtistPage = ({ match }) => {
     const [artist, setArtist] = useState(null);
 
-    console.log(artist);
     useEffect(async () => {
         const { data: artist } = await getArtist(match.params.id);
         setArtist(artist);

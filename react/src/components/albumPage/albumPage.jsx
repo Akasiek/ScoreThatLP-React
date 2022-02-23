@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
 import AlbumPageHeader from "./albumPageHeader";
 import AlbumPageAside from "./albumPageAside";
 import AlbumPageReviewSection from "./albumPageReviewSection";
-import { getAlbum, getArtist } from "../../services/fakeMusicService";
 import { Main } from "../../App";
+import { getAlbum } from "../../services/albumService";
+import LoadingScreen from "../loadingScreen";
 
 export const StyledAlbumPage = styled.header`
     background-color: var(--darkBlueColor);
@@ -43,10 +44,15 @@ const AlbumPageMain = styled.main`
 `;
 
 const AlbumPage = ({ match }) => {
-    const album = getAlbum(match.params.id);
-    album.artist = getArtist(album.artist_id);
+    const [album, setAlbum] = useState(null);
 
-    return (
+    useEffect(async () => {
+        const { data: album } = await getAlbum(match.params.id);
+        console.log(album);
+        setAlbum(album);
+    }, [match.params.id]);
+
+    return album ? (
         <Main pushUnderNavbar={true}>
             <StyledAlbumPage>
                 <Helmet>
@@ -64,6 +70,8 @@ const AlbumPage = ({ match }) => {
                 </AlbumPageMain>
             </StyledAlbumPage>
         </Main>
+    ) : (
+        <LoadingScreen />
     );
 };
 
