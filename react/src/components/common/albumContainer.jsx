@@ -153,7 +153,7 @@ const AlbumContainer = ({ album, customScore, isAoty, isInArtistPage }) => {
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
-                        <Link to={`/artists/${album.artist.id}`}>
+                        <Link to={`/artists/${album.artist.slug}`}>
                             <h2>{album.artist.name}</h2>
                         </Link>
                         <Link to={`/albums/${album.id}`}>

@@ -99,7 +99,7 @@ const StyledAlbumPageAside = styled.aside`
 const AlbumPageAside = ({ album }) => {
     return (
         <StyledAlbumPageAside>
-            {album.links && (
+            {album.links.length !== 0 && (
                 <div className="albumLinks">
                     <h3>Listen to the Album</h3>
                     <hr />
@@ -121,22 +121,24 @@ const AlbumPageAside = ({ album }) => {
                     <li>
                         Release Date: <span style={{ fontWeight: 900 }}>{moment(album.release_date).format("Do MMMM YYYY")}</span>
                     </li>
-                    <li>
-                        Genres:
-                        {album.genres.map((g, index) => {
-                            {
-                                // TODO: Genres links
-                            }
-                            return (
-                                <span key={index} className="genreLink" style={{ fontWeight: 900 }}>
-                                    {g}
-                                </span>
-                            );
-                        })}
-                    </li>
+                    {album.genres.length !== 0 && (
+                        <li>
+                            Genres:
+                            {album.genres.map((g, index) => {
+                                {
+                                    // TODO: Genres links
+                                }
+                                return (
+                                    <span key={index} className="genreLink" style={{ fontWeight: 900 }}>
+                                        {g}
+                                    </span>
+                                );
+                            })}
+                        </li>
+                    )}
                 </ul>
             </div>
-            {album.tracks && (
+            {album.tracks.length !== 0 && (
                 <div className="albumTracks">
                     <h3>Tracks</h3>
                     <hr />

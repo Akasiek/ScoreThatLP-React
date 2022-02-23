@@ -117,6 +117,28 @@ class AlbumSerializer(serializers.ModelSerializer):
         return Album.objects.create(slug=slug, **validated_data)
 
 
+class SimpleAlbumSerializer(serializers.ModelSerializer):
+    artist = SimpleArtistSerializer(source="artist_id", read_only=True)
+
+    def get_overall_score(self, album: Album):
+        # TODO: Check if can return on first line
+        reviews = Review.objects.prefetch_related("albums").only("rating").filter(album_id=album.id).aggregate(
+            overall_score=Avg(F("rating"), output_field=IntegerField()))
+        return reviews["overall_score"]
+
+    overall_score = serializers.SerializerMethodField(
+        method_name="get_overall_score")
+
+    class Meta:
+        model = Album
+        fields = ["id",
+                  "title",
+                  "art_cover",
+                  "release_date",
+                  "artist",
+                  "overall_score"]
+
+
 class AlbumOfTheYearSerializer(serializers.ModelSerializer):
     position = serializers.StringRelatedField(source="aoty", read_only=True)
     artist = SimpleArtistSerializer(source="artist_id", read_only=True)

@@ -40,7 +40,7 @@ const Albums = () => {
 
     useEffect(async () => {
         const { data: albums } = await getAlbums();
-        setAlbums(albums.results);
+        setAlbums(albums);
     }, []);
 
     return albums ? (

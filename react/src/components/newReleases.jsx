@@ -11,7 +11,7 @@ const NewReleases = () => {
 
     useEffect(async () => {
         const { data: albums } = await getAlbums();
-        setNewReleases(albums.results);
+        setNewReleases(albums);
     }, []);
 
     return newReleases ? (

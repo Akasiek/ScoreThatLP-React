@@ -1,9 +1,9 @@
 import http from "./httpService";
 
-const apiEndpoint = "/albums";
+const apiEndpoint = "/simple_albums";
 
 const albumUrl = (id) => {
-    return `${apiEndpoint}/${id}`;
+    return `/albums/${id}`;
 };
 
 export const getAlbums = () => {
@@ -15,5 +15,5 @@ export const getAlbum = (id) => {
 };
 
 export const getAOTY = () => {
-    return http.get("/album_of_the_year");
+    return http.get("/album_of_the_year/?ordering=aoty");
 };
