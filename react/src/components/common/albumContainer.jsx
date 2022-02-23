@@ -133,13 +133,11 @@ export const StyledAlbumContainer = styled.div`
 `;
 
 const AlbumContainer = ({ album, customScore, isAoty, isInArtistPage }) => {
-    album.artist = getArtist(album.artist_id);
-
     return (
         <StyledAlbumContainer>
             <div className="albumImageContainer">
                 <Link to={`/albums/${album.id}`}>
-                    <img src={album.image} alt={`${album.title} art cover`} />
+                    <img src={album.art_cover} alt={`${album.title} art cover`} />
                     {album.album_of_the_year && isAoty && <div className="albumAOTYPositionContainer">{album.album_of_the_year}</div>}
                 </Link>
             </div>
@@ -168,7 +166,7 @@ const AlbumContainer = ({ album, customScore, isAoty, isInArtistPage }) => {
 
             <div className={`albumScoreContainer ${getScoreColor(album.overall_score)}BG`}>
                 {moment(album.release_date) < moment() ? (
-                    <p>{album[customScore] || album.overall_score}</p>
+                    <p>{album[customScore] || album.overall_score || "No ratings"}</p>
                 ) : (
                     <p className="alignCenter">Waiting for the release</p>
                 )}

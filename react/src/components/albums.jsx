@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { getAlbums } from "./../services/fakeMusicService";
-import ContentGroup from "./common/contentGroup";
 import styled from "styled-components";
+
+import ContentGroup from "./common/contentGroup";
+import { getAlbums } from "./../services/albumService";
 import { Main } from "./../App";
 
 export const StyledContentGroupPage = styled.div`
@@ -34,9 +35,13 @@ export const StyledContentGroupPage = styled.div`
 `;
 
 const Albums = () => {
-    const [albums, setAlbums] = useState(getAlbums());
+    const [albums, setAlbums] = useState(null);
 
-    useEffect(() => setAlbums(getAlbums()), []);
+    useEffect(async () => {
+        const { data: albums } = await getAlbums();
+        console.log(albums.results);
+        setAlbums(albums.results);
+    }, []);
 
     return (
         <Main pushUnderNavbar={true}>
