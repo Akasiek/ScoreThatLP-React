@@ -5,6 +5,7 @@ from distutils.command.upload import upload
 from tkinter.tix import IMAGE
 from django.db import models
 from django.conf import settings
+from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -36,6 +37,16 @@ class Reviewer(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True
     )
+
+    @admin.display(ordering="user__username")
+    def username(self):
+        return self.user.username
+
+    def email(self):
+        return self.user.email
+
+    def __str__(self):
+        return self.user.username
 
 
 class Artist(models.Model):

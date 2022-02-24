@@ -9,9 +9,11 @@ from .models import Album, AlbumLink, Artist, Review, Reviewer, Track
 
 
 class ReviewerSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Reviewer
-        fields = ["id", "user"]
+        fields = ["id", "user_id"]
 
 
 class ArtistSerializer(serializers.ModelSerializer):
