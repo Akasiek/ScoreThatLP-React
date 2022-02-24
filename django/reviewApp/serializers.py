@@ -15,6 +15,15 @@ class ReviewerSerializer(serializers.ModelSerializer):
 
 
 class ArtistSerializer(serializers.ModelSerializer):
+
+    # def get_average_score(self, artist: Artist):
+    #     reviews = Album.objects.only("reviews").filter(artist_id=artist.id).aggregate(
+    #         average_score=Avg(F("reviews"), output_field=BigIntegerField()))
+    #     return reviews["average_score"]
+
+    # average_score = serializers.SerializerMethodField(
+    #     method_name="get_average_score")
+
     class Meta:
         model = Artist
         fields = ["id",
@@ -22,6 +31,7 @@ class ArtistSerializer(serializers.ModelSerializer):
                   "slug",
                   "image",
                   "background_image",
+                  #   "average_score",
                   "created_at"]
         read_only_fields = ["slug"]
         lookup_field = 'slug'
@@ -76,23 +86,15 @@ class AlbumSerializer(serializers.ModelSerializer):
     aoty = StringRelatedField(read_only=True)
     links = AlbumLinkSerializer(
         source="album_links", many=True, read_only=True)
-    artist = ArtistSerializer(source="artist_id")
+    artist = SimpleArtistSerializer(source="artist_id")
 
-    def get_overall_score(self, album: Album):
-        # TODO: Check if can return on first line
+    def get_avg_and_count_of_reviews(self, album: Album):
         reviews = Review.objects.only("rating").filter(album_id=album.id).aggregate(
-            overall_score=Avg(F("rating"), output_field=IntegerField()))
-        return reviews["overall_score"]
+            overall_score=Avg(F("rating"), output_field=IntegerField()), number_of_ratings=Count(F("rating"), output_field=IntegerField()))
+        return reviews
 
-    def get_number_of_ratings(self, album: Album):
-        reviews = Review.objects.only("rating").filter(album_id=album.id).aggregate(
-            number_of_ratings=Count(F("rating"), output_field=IntegerField()))
-        return reviews["number_of_ratings"]
-
-    number_of_ratings = serializers.SerializerMethodField(
-        method_name="get_number_of_ratings")
-    overall_score = serializers.SerializerMethodField(
-        method_name="get_overall_score")
+    reviews = serializers.SerializerMethodField(
+        method_name="get_avg_and_count_of_reviews")
 
     class Meta:
         model = Album
@@ -103,8 +105,7 @@ class AlbumSerializer(serializers.ModelSerializer):
                   "artist",
                   "art_cover",
                   "genres",
-                  "overall_score",
-                  "number_of_ratings",
+                  "reviews",
                   "release_date",
                   "release_type",
                   "tracks",
@@ -120,14 +121,14 @@ class AlbumSerializer(serializers.ModelSerializer):
 class SimpleAlbumSerializer(serializers.ModelSerializer):
     artist = SimpleArtistSerializer(source="artist_id", read_only=True)
 
-    def get_overall_score(self, album: Album):
+    def get_avg_and_count_of_reviews(self, album: Album):
         # TODO: Check if can return on first line
-        reviews = Review.objects.prefetch_related("albums").only("rating").filter(album_id=album.id).aggregate(
-            overall_score=Avg(F("rating"), output_field=IntegerField()))
-        return reviews["overall_score"]
+        reviews = Review.objects.only("rating").filter(album_id=album.id).aggregate(
+            overall_score=Avg(F("rating"), output_field=IntegerField()), number_of_ratings=Count(F("rating"), output_field=IntegerField()))
+        return reviews
 
-    overall_score = serializers.SerializerMethodField(
-        method_name="get_overall_score")
+    reviews = serializers.SerializerMethodField(
+        method_name="get_avg_and_count_of_reviews")
 
     class Meta:
         model = Album
@@ -137,7 +138,7 @@ class SimpleAlbumSerializer(serializers.ModelSerializer):
                   "release_date",
                   "release_type",
                   "artist",
-                  "overall_score"]
+                  "reviews"]
 
 
 class AlbumOfTheYearSerializer(serializers.ModelSerializer):
