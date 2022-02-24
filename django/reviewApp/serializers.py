@@ -114,7 +114,7 @@ class AlbumSerializer(serializers.ModelSerializer):
                   "links",
                   "aoty"]
 
-    # Save slug as well
+    # Save slug
     def create(self, validated_data):
         slug = slugify(validated_data["title"])
         return Album.objects.create(slug=slug, **validated_data)
