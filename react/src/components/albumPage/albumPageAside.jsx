@@ -121,6 +121,9 @@ const AlbumPageAside = ({ album }) => {
                     <li>
                         Release Date: <span style={{ fontWeight: 900 }}>{moment(album.release_date).format("Do MMMM YYYY")}</span>
                     </li>
+                    <li>
+                        Release Format: <span style={{ fontWeight: 900 }}>{album.release_type}</span>
+                    </li>
                     {album.genres.length !== 0 && (
                         <li>
                             Genres:

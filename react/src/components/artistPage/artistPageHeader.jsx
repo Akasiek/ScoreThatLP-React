@@ -137,10 +137,12 @@ const ArtistPageHeader = ({ artist }) => {
                             ))}
                         </h3>
                     )}
-                    <h2 className={`${getScoreColor(artist.average_score)}BG`}>
-                        <span className="normalWeight">Average Score: </span>
-                        {artist.average_score}
-                    </h2>
+                    {artist.average_score && (
+                        <h2 className={`${getScoreColor(artist.average_score)}BG`}>
+                            <span className="normalWeight">Average Score: </span>
+                            {artist.average_score}
+                        </h2>
+                    )}
                     <div className="linksContainer">
                         {artist.links?.map((l, index) => {
                             return (
