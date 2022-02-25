@@ -53,8 +53,12 @@ class AlbumViewSet(ModelViewSet):
     ordering_fields = ["title", "release_date"]
 
     def get_queryset(self):
-        queryset = Album.objects.prefetch_related("tracks", "album_genres", "album_links", "reviews").select_related("aoty", "artist_id").annotate(
-            overall_score=Avg(F("reviews__rating"), output_field=IntegerField()), number_of_ratings=Count(F("reviews__rating"), output_field=IntegerField()))
+        queryset = Album.objects \
+            .prefetch_related("tracks", "album_genres", "album_links", "reviews") \
+            .select_related("aoty", "artist_id") \
+            .annotate(overall_score=Avg(F("reviews__rating"), output_field=IntegerField()),
+                      number_of_ratings=Count(F("reviews__rating"), output_field=IntegerField()))
+
         artist_slug = self.request.query_params.get('artist')
         release_type = self.request.query_params.get('type')
         if artist_slug is not None:
