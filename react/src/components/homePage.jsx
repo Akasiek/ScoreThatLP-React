@@ -4,12 +4,12 @@ import { Helmet } from "react-helmet";
 import { Link as ScrollLink } from "react-scroll";
 
 import ContentGroup from "./common/contentGroup";
-import { getLatestReviews, getLatestSingles } from "../services/fakeMusicService";
 import { Main } from "../App";
 import { getAOTY, getNewReleases, getNewSingles } from "./../services/albumService";
 import { getArtists } from "./../services/artistService";
 import LoadingScreen from "./loadingScreen";
 import { StyledContentGroupPage } from "./albums";
+import { getLatestReviews } from "../services/reviewService";
 
 const StyledHomePage = styled.div`
     background-color: var(--darkBlueColor);
@@ -122,6 +122,7 @@ const HomePage = () => {
     const [aoty, setAOTY] = useState(null);
     const [newReleases, setNewReleases] = useState(null);
     const [artists, setArtists] = useState(null);
+    const [latestReviews, setLatestReviews] = useState(null);
     const [newSingles, setNewSingles] = useState(null);
 
     useEffect(async () => {
@@ -133,6 +134,9 @@ const HomePage = () => {
 
         const { data: artists } = await getArtists();
         setArtists(artists.results);
+
+        const { data: latestReviews } = await getLatestReviews();
+        setLatestReviews(latestReviews);
 
         const { data: singles } = await getNewSingles();
         setNewSingles(singles);
@@ -192,15 +196,15 @@ const HomePage = () => {
                         colSize={[5, 3, 3]}
                     />
 
-                    {/* <ContentGroup
-                    className="contentGroup reviewsGroup"
-                    title="Latest Reviews"
-                    content={getLatestReviews()}
-                    contentType="reviews"
-                    itemsCount={4}
-                    colSize={[2, 1, 1]}
-                    reviewIsOutsideAlbum={true}
-                /> */}
+                    <ContentGroup
+                        className="contentGroup reviewsGroup"
+                        title="Latest Reviews"
+                        content={latestReviews}
+                        contentType="reviews"
+                        itemsCount={4}
+                        colSize={[2, 1, 1]}
+                        reviewIsOutsideAlbum={true}
+                    />
 
                     <ContentGroup
                         className="contentGroup"
