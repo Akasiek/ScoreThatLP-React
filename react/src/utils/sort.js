@@ -174,7 +174,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.average_score;
+                        return o.average_score || 0;
                     },
                     ["desc"]
                 );
