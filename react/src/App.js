@@ -77,9 +77,9 @@ function App() {
                         <Route exact path="/artists/:slug" component={ArtistPage} />
                         <Route exact path="/new-releases" component={NewReleases} />
                         <Route exact path="/aoty" component={AOTY} />
-                        <Route exact path="/users/:username" component={ProfilePage} />
-                        <Route exact path="/users/:username/reviews" component={ProfileReviews} />
-                        <Route exact path="/users/:username/ratings" component={ProfileRatings} />
+                        <Route exact path="/users/:slug" component={ProfilePage} />
+                        <Route exact path="/users/:slug/reviews" component={ProfileReviews} />
+                        <Route exact path="/users/:slug/ratings" component={ProfileRatings} />
                         <Route path="/search/:searchQuery" component={SearchPage} />
                         {/* <Route path="*" element={<NotFound />} /> */}
                     </Switch>

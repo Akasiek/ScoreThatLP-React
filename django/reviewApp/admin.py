@@ -63,3 +63,15 @@ class TrackAdmin(admin.ModelAdmin):
 class ReviewAdmin(admin.ModelAdmin):
     autocomplete_fields = ["album_id", "reviewer_id"]
     list_display = ["__str__", "album_id", "reviewer_id"]
+
+
+@admin.register(models.FavoriteReviewerArtist)
+class FavoriteReviewerArtistAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["artist_id", "reviewer_id"]
+    list_display = ["artist_id", "reviewer_id"]
+
+
+@admin.register(models.ReviewerLink)
+class ReviewerLinkAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["reviewer_id"]
+    list_display = ["reviewer_id", "service_name"]

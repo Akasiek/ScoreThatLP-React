@@ -6,8 +6,9 @@ import { getArtist, users } from "../../services/fakeMusicService";
 const StyledProfilePageHeader = styled.div`
     .topPanelContainer {
         width: 100%;
+        min-height: 150px;
         max-height: 300px;
-        /* overflow: hidden; */
+        background-color: var(--darkBlueColor);
         position: relative;
 
         &::after {
@@ -126,53 +127,51 @@ const StyledProfilePageHeader = styled.div`
     }
 `;
 
-const ProfilePageHeader = ({ user }) => {
-    const artistImage = getArtist(user.bg_image_artist_id)?.bg_image;
-
+const ProfilePageHeader = ({ reviewer }) => {
     return (
         <StyledProfilePageHeader>
             <div className="topPanelContainer">
-                {artistImage && (
+                {reviewer.favorite_artist?.artist.background_image && (
                     <div className="artistImageContainer">
-                        <img src={artistImage} alt="Profile background image" />
+                        <img src={reviewer.favorite_artist.artist.background_image} alt="Profile background image" />
                     </div>
                 )}
-                {user.profile_pic && (
+                {reviewer.profile_pic && (
                     <div className="profilePicContainer">
-                        <img src={user.profile_pic} alt={`${user.username} profile picture`} />
+                        <img src={reviewer.profile_pic} alt={`${reviewer.username} profile picture`} />
                     </div>
                 )}
             </div>
             <div className="bottomPanelContainer">
                 <div className="usernameCounterContainer">
-                    <h1>{user.username}</h1>
+                    <h1>{reviewer.username}</h1>
                     <div className="countersContainer">
                         <h3>
-                            <span style={{ fontWeight: 900 }}>{user.followers_count}</span> Followers
+                            <span style={{ fontWeight: 900 }}>{reviewer.number_of_followers}</span> Followers
                         </h3>
                         <h3>
-                            <span style={{ fontWeight: 900 }}>{user.ratings_count}</span> Ratings
+                            <span style={{ fontWeight: 900 }}>{reviewer.number_of_ratings}</span> Ratings
                         </h3>
                         <h3>
-                            <span style={{ fontWeight: 900 }}>{user.reviews_count}</span> Reviews
+                            <span style={{ fontWeight: 900 }}>{reviewer.number_of_reviews}</span> Reviews
                         </h3>
                     </div>
                 </div>
                 <div className="linksContainer">
-                    {user.links?.map((l, index) => {
+                    {reviewer.links?.map((l, index) => {
                         return (
                             <a key={index} href={l.url} rel="noreferrer" target="_blank">
-                                <img src={`/images/serviceIcons/${l.service}.svg`} alt={`${l.service} music service provider logo`} />
+                                <img src={`/images/serviceIcons/${l.service_name}.svg`} alt={`${l.service} music service provider logo`} />
                             </a>
                         );
                     })}
                 </div>
                 <div className="aboutContainer">
-                    {user.about_text && (
+                    {reviewer.about_text && (
                         <p>
                             <span style={{ fontWeight: 900 }}>About</span>
                             <br />
-                            {user.about_text}
+                            {reviewer.about_text}
                         </p>
                     )}
                 </div>

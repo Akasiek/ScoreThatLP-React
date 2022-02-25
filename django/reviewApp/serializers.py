@@ -1,23 +1,9 @@
-from django.db.models import F, Avg, Count
-from django.db.models.fields import IntegerField
+from django.db.models import Q, F, Avg, Count, ExpressionWrapper
+from django.forms import IntegerField
 from django.utils.text import slugify
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
-from .models import Album, AlbumLink, Artist, Review, Reviewer, Track
-
-
-class ReviewerSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source="user", read_only=True)
-
-    class Meta:
-        model = Reviewer
-        fields = ["id", "username", "user", "slug", "profile_pic"]
-        read_only_fields = ["slug"]
-
-    # Save slug
-    def create(self, validated_data):
-        slug = slugify(validated_data["user"])
-        return Reviewer.objects.create(slug=slug, **validated_data)
+from .models import Album, AlbumLink, Artist, FavoriteReviewerArtist, Review, Reviewer, ReviewerLink, Track
 
 
 class ArtistSerializer(serializers.ModelSerializer):
@@ -159,6 +145,61 @@ class ReviewAlbumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = ["id", "title", "art_cover", "artist"]
+
+
+class FavoriteArtistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Artist
+        fields = ["name", "background_image"]
+
+
+class FavoriteReviewerArtistSerializer(serializers.ModelSerializer):
+    artist = FavoriteArtistSerializer(source="artist_id", read_only=True)
+
+    class Meta:
+        model = FavoriteReviewerArtist
+        fields = ["artist_id", "artist"]
+
+
+class ReviewerLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReviewerLink
+        fields = ["service_name", "url"]
+
+
+class ReviewerSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source="user", read_only=True)
+    favorite_artist = FavoriteReviewerArtistSerializer(read_only=True)
+    number_of_ratings = serializers.IntegerField()
+    number_of_reviews = serializers.IntegerField()
+    links = ReviewerLinkSerializer(
+        source="reviewer_links", many=True, read_only=True)
+    # TODO! Followers count
+
+    class Meta:
+        model = Reviewer
+        fields = [
+            "id",
+            "username",
+            "user",
+            "slug",
+            "profile_pic",
+            "about_text",
+            "favorite_artist",
+            "number_of_ratings",
+            "number_of_reviews",
+            "links"
+        ]
+        read_only_fields = ["slug"]
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
+
+    # Save slug
+    def create(self, validated_data):
+        slug = slugify(validated_data["user"])
+        return Reviewer.objects.create(slug=slug, **validated_data)
 
 
 class ReviewSerializer(serializers.ModelSerializer):

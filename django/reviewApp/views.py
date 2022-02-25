@@ -1,10 +1,10 @@
-from django.db.models import F, Avg, Count
+from django.db.models import F, Avg, Count, Window
 from django.db.models.fields import IntegerField
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import pagination
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from reviewApp import pagination
@@ -22,11 +22,19 @@ from .permissions import IsAdminOrPostOnly
 
 
 class ReviewerViewSet(ModelViewSet):
-    queryset = Reviewer.objects.all()
-    serializer_class = ReviewerSerializer
-    permission_classes = [IsAdminUser]
+    queryset = Reviewer.objects \
+        .select_related("user") \
+        .prefetch_related("favorite_artist", "favorite_artist__artist_id") \
+        .annotate(number_of_ratings=Count(F("review__review_text"), output_field=IntegerField()),
+                  number_of_reviews=Count(F("review"), output_field=IntegerField()))
 
-    @action(detail=False, methods=["GET", "PUT"], permission_classes=[IsAuthenticated])
+    # .annotate(number_of_ratings=Count(F("review__review_text"), output_field=IntegerField()))
+    serializer_class = ReviewerSerializer
+    lookup_field = "slug"
+    # TODO! Custom permission to check if user is user
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+
+    @ action(detail=False, methods=["GET", "PUT"], permission_classes=[IsAuthenticated])
     def me(self, request):
         (reviewer, created) = Reviewer.objects.get_or_create(
             user_id=request.user.id)
@@ -41,7 +49,7 @@ class ReviewerViewSet(ModelViewSet):
 
 
 class ArtistViewSet(ModelViewSet):
-    queryset = Artist.objects\
+    queryset = Artist.objects \
         .annotate(average_score=Avg(F("albums__reviews__rating"), output_field=IntegerField()))
     serializer_class = ArtistSerializer
     pagination_class = pagination.TwentyFivePagesPagination

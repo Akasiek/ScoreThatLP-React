@@ -33,6 +33,7 @@ class Reviewer(models.Model):
     profile_pic = ResizedImageField(size=[500, 500], null=True, blank=True,
                                     upload_to=rename_profile_pic)
     slug = models.SlugField(max_length=255)
+    about_text = models.TextField(null=True, blank=True)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True
     )
@@ -46,6 +47,23 @@ class Reviewer(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class ReviewerLink(models.Model):
+    SERVICE_NAME_CHOICES = [
+        ("spotify", "Spotify"),
+        ("twitter", "Twitter"),
+        ("lastFm", "Last.FM"),
+    ]
+
+    service_name = models.CharField(
+        max_length=15, choices=SERVICE_NAME_CHOICES)
+    url = models.CharField(max_length=255)
+    reviewer_id = models.ForeignKey(
+        Reviewer, on_delete=models.PROTECT, related_name="reviewer_links")
+
+    def __str__(self) -> str:
+        return f"{self.service_name} - {self.url}"
 
 
 class Artist(models.Model):
@@ -158,3 +176,10 @@ class Review(models.Model):
         if not self.review_text:
             self.review_text = None
         super(Review, self).save(*args, **kwargs)
+
+
+class FavoriteReviewerArtist(models.Model):
+    reviewer_id = models.OneToOneField(
+        Reviewer, on_delete=models.CASCADE, related_name="favorite_artist")
+    artist_id = models.ForeignKey(
+        Artist, on_delete=models.CASCADE, related_name="favorite_artist")
