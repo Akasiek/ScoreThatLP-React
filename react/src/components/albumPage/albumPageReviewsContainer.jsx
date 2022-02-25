@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import ContentGroup from "../common/contentGroup";
 import { getAlbumReviews } from "../../services/reviewService";
-import LoadingScreen from "../loadingScreen";
 
 const StyledReviewsContainer = styled.div`
     /* & > div {
@@ -92,9 +91,7 @@ const AlbumPageReviewsContainer = ({ album }) => {
                 />
             )}
         </StyledReviewsContainer>
-    ) : (
-        <LoadingScreen />
-    );
+    ) : null;
 };
 
 export default AlbumPageReviewsContainer;
