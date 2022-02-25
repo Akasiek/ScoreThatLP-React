@@ -161,7 +161,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
                 <div className="reviewAlbumContainer">
                     <div className="albumCoverContainer">
                         <Link to={`/albums/${review.album.id}`}>
-                            <img src={review.album.image} alt={`${review.album.title} Cover Art`} />
+                            <img src={review.album.art_cover} alt={`${review.album.title} Cover Art`} />
                         </Link>
                     </div>
                     <div className="albumTextContainer">
@@ -188,7 +188,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
                 <p title={review.created_at} className="creationTimeText">
                     {moment(review.created_at).fromNow()}
                 </p>
-                <Like content={review} />
+                {/* <Like content={review} />  */}
             </div>
         </StyledReviewContainer>
     );
