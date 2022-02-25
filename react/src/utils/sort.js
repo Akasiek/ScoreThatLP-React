@@ -48,7 +48,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.overall_score);
+                        return o.overall_score || 0;
                     },
                     ["desc"]
                 );
