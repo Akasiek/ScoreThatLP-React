@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
 import ContentGroup from "../../common/contentGroup";
 import AlbumPageHeader from "../albumPageHeader";
-import { getAlbum, getArtist, getRatings, getReviews } from "../../../services/fakeMusicService";
+import { getAlbumReviews } from "../../../services/reviewService";
 import { Main } from "../../../App";
+import { getAlbum } from "../../../services/albumService";
+import LoadingScreen from "../../loadingScreen";
 
 const StyledReviewsPage = styled.section`
     background-color: var(--darkBlueColor);
@@ -78,16 +80,25 @@ const StyledReviewsPage = styled.section`
 `;
 
 const ReviewsPage = ({ match }) => {
-    const album = getAlbum(match.params.id);
-    const reviews = getReviews(album.id);
-    const ratings = getRatings(album.id);
+    const [album, setAlbum] = useState();
+    const [reviews, setReviews] = useState();
+    const [ratings, setRatings] = useState();
 
-    return (
+    useEffect(async () => {
+        const { data: album } = await getAlbum(match.params.id);
+        setAlbum(album);
+
+        const { data: allReviews } = await getAlbumReviews(match.params.id);
+        setReviews(allReviews.filter((r) => r.review_text !== null));
+        setRatings(allReviews.filter((r) => r.review_text === null));
+    }, []);
+
+    return album && reviews && ratings ? (
         <Main pushUnderNavbar={true}>
             <StyledReviewsPage>
                 <Helmet>
                     <title>
-                        {album.title} - {getArtist(album.artist_id).name} | Reviews | ScoreThatLP{" "}
+                        {album.title} - {album.artist.name} | Reviews | ScoreThatLP{" "}
                     </title>
                 </Helmet>
                 <AlbumPageHeader album={album} isCompact={true} />
@@ -106,7 +117,7 @@ const ReviewsPage = ({ match }) => {
                     />
                     <ContentGroup
                         className={"ratingsGroup"}
-                        title={`Ratings ${ratings.length}`}
+                        title={`Ratings: ${ratings.length}`}
                         noTitleMargin={true}
                         content={ratings}
                         contentType="ratings"
@@ -116,6 +127,8 @@ const ReviewsPage = ({ match }) => {
                 </div>
             </StyledReviewsPage>
         </Main>
+    ) : (
+        <LoadingScreen />
     );
 };
 
