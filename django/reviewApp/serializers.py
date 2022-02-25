@@ -21,15 +21,7 @@ class ReviewerSerializer(serializers.ModelSerializer):
 
 
 class ArtistSerializer(serializers.ModelSerializer):
-
-    # TODO!
-    # def get_average_score(self, artist: Artist):
-    #     reviews = Album.objects.only("reviews").filter(artist_id=artist.id).aggregate(
-    #         average_score=Avg(F("reviews"), output_field=BigIntegerField()))
-    #     return reviews["average_score"]
-
-    # average_score = serializers.SerializerMethodField(
-    #     method_name="get_average_score")
+    average_score = serializers.IntegerField()
 
     class Meta:
         model = Artist
@@ -39,7 +31,7 @@ class ArtistSerializer(serializers.ModelSerializer):
             "slug",
             "image",
             "background_image",
-            #   "average_score",
+            "average_score",
             "created_at"
         ]
         read_only_fields = ["slug"]
@@ -146,15 +138,7 @@ class SimpleAlbumSerializer(serializers.ModelSerializer):
 class AlbumOfTheYearSerializer(serializers.ModelSerializer):
     position = serializers.StringRelatedField(source="aoty", read_only=True)
     artist = SimpleArtistSerializer(source="artist_id", read_only=True)
-
-    def get_overall_score(self, album: Album):
-        # TODO: Check if can return on first line
-        reviews = Review.objects.only("rating").filter(album_id=album.id).aggregate(
-            overall_score=Avg(F("rating"), output_field=IntegerField()))
-        return reviews["overall_score"]
-
-    overall_score = serializers.SerializerMethodField(
-        method_name="get_overall_score")
+    overall_score = serializers.IntegerField()
 
     class Meta:
         model = Album
