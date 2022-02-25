@@ -28,8 +28,6 @@ const ArtistPageAlbumsGroup = ({ artist }) => {
         setGroups(newGroups);
     }, [artist, albums]);
 
-    console.log(albums);
-
     return (
         <React.Fragment>
             {groups.map((o, index) => {
