@@ -6,6 +6,7 @@ from . import models
 class ReviewerAdmin(admin.ModelAdmin):
     autocomplete_fields = ["user"]
     list_display = ["username", "email"]
+    search_fields = ["username__istartswith"]
 
 
 @admin.register(models.Album)
@@ -17,7 +18,7 @@ class AlbumAdmin(admin.ModelAdmin):
         "slug": ["title"]
     }
     autocomplete_fields = ["artist_id"]
-    search_fields = ['title__istartswith']
+    search_fields = ["title__istartswith"]
 
 
 @admin.register(models.Artist)
@@ -56,3 +57,9 @@ class AlbumOfTheYear(admin.ModelAdmin):
 @admin.register(models.Track)
 class TrackAdmin(admin.ModelAdmin):
     list_display = ["__str__", "album_id"]
+
+
+@admin.register(models.Review)
+class ReviewAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["album_id", "reviewer_id"]
+    list_display = ["__str__", "album_id", "reviewer_id"]

@@ -146,7 +146,15 @@ class Review(models.Model):
     rating = models.IntegerField(
         validators=[MaxValueValidator(100), MinValueValidator(0)]
     )
-    review_text = models.TextField(null=True)
+    review_text = models.TextField(null=True, blank=True)
     album_id = models.ForeignKey(
         Album, on_delete=models.PROTECT, related_name="reviews")
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.reviewer_id} - {self.album_id}"
+
+    def save(self, *args, **kwargs):
+        if not self.review_text:
+            self.review_text = None
+        super(Review, self).save(*args, **kwargs)
