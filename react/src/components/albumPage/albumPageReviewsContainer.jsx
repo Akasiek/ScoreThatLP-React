@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import ContentGroup from "../common/contentGroup";
-import { getRatings, getReviews } from "../../services/fakeMusicService";
-import sort from "./../../utils/sort";
+import { getAlbumReviews } from "../../services/reviewService";
+import LoadingScreen from "../loadingScreen";
 
 const StyledReviewsContainer = styled.div`
     /* & > div {
@@ -56,17 +56,23 @@ const StyledReviewsContainer = styled.div`
 `;
 
 const AlbumPageReviewsContainer = ({ album }) => {
-    // const reviews = sort(getReviews(album.id), "reviews", { value: "newest-to-oldest" });
-    // const ratings = getRatings(album.id);
-    return null;
-    return (
+    const [reviews, setReviews] = useState();
+    const [ratings, setRatings] = useState();
+
+    useEffect(async () => {
+        const { data: allReviews } = await getAlbumReviews(album.id);
+        setReviews(allReviews.filter((r) => r.review_text !== null));
+        setRatings(allReviews.filter((r) => r.review_text === null));
+    }, []);
+
+    return reviews && ratings ? (
         <StyledReviewsContainer>
-            {/* {reviews.length !== 0 && (
+            {reviews.length !== 0 && (
                 <ContentGroup
                     className="reviewGroup"
                     title="Latest Reviews"
                     viewAllUrl={`/albums/${album.id}/reviews/`}
-                    noTitleMargin={true}
+                    // noTitleMargin={true}
                     content={reviews}
                     contentType="reviews"
                     itemsCount={4}
@@ -78,14 +84,16 @@ const AlbumPageReviewsContainer = ({ album }) => {
                     className="ratingGroup"
                     title="Latest Ratings"
                     viewAllUrl={`/albums/${album.id}/reviews/`}
-                    noTitleMargin={true}
+                    // noTitleMargin={true}
                     content={ratings}
                     contentType="ratings"
                     itemsCount={8}
                     colSize={[4, 4, 2]}
                 />
-            )} */}
+            )}
         </StyledReviewsContainer>
+    ) : (
+        <LoadingScreen />
     );
 };
 

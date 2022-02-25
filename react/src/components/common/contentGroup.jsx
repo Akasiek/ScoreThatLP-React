@@ -74,7 +74,7 @@ const ContentGroup = ({
     colSize,
 }) => {
     const [normalColSize, smallColSize, smallestColSize] = colSize;
-    const [sortingMethod, setSortingMethod] = useState(propsSortingMethod || getSortOptions(contentType)[0]);
+    const [sortingMethod, setSortingMethod] = useState(isSortingEnabled && (propsSortingMethod || getSortOptions(contentType)[0]));
     const [contentCurrentPage, setContentCurrentPage] = useState(1);
 
     const getContent = () => {
@@ -91,10 +91,10 @@ const ContentGroup = ({
     }, [propsContent, contentCurrentPage]);
 
     // If sorting state changed, sort and go back to 1 page
-    useDeepCompareEffect(() => {
+    useEffect(() => {
         setContentCurrentPage(1);
         setContent(getContent());
-    }, [sortingMethod]);
+    }, [sortingMethod?.value]);
 
     return (
         <React.Fragment>

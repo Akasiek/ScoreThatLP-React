@@ -1,5 +1,3 @@
-from datetime import timedelta
-from pyexpat import model
 from django.db.models import F, Avg, Count
 from django.db.models.fields import IntegerField
 from django.utils.text import slugify
@@ -24,6 +22,7 @@ class ReviewerSerializer(serializers.ModelSerializer):
 
 class ArtistSerializer(serializers.ModelSerializer):
 
+    # TODO!
     # def get_average_score(self, artist: Artist):
     #     reviews = Album.objects.only("reviews").filter(artist_id=artist.id).aggregate(
     #         average_score=Avg(F("reviews"), output_field=BigIntegerField()))
@@ -34,13 +33,15 @@ class ArtistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Artist
-        fields = ["id",
-                  "name",
-                  "slug",
-                  "image",
-                  "background_image",
-                  #   "average_score",
-                  "created_at"]
+        fields = [
+            "id",
+            "name",
+            "slug",
+            "image",
+            "background_image",
+            #   "average_score",
+            "created_at"
+        ]
         read_only_fields = ["slug"]
         lookup_field = 'slug'
         extra_kwargs = {
@@ -100,20 +101,22 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ["id",
-                  "title",
-                  "slug",
-                  "created_at",
-                  "artist",
-                  "art_cover",
-                  "genres",
-                  "overall_score",
-                  "number_of_ratings",
-                  "release_date",
-                  "release_type",
-                  "tracks",
-                  "links",
-                  "aoty"]
+        fields = [
+            "id",
+            "title",
+            "slug",
+            "created_at",
+            "artist",
+            "art_cover",
+            "genres",
+            "overall_score",
+            "number_of_ratings",
+            "release_date",
+            "release_type",
+            "tracks",
+            "links",
+            "aoty"
+        ]
 
     # Save slug
     def create(self, validated_data):
@@ -128,14 +131,16 @@ class SimpleAlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ["id",
-                  "title",
-                  "art_cover",
-                  "release_date",
-                  "release_type",
-                  "artist",
-                  "overall_score",
-                  "number_of_ratings"]
+        fields = [
+            "id",
+            "title",
+            "art_cover",
+            "release_date",
+            "release_type",
+            "artist",
+            "overall_score",
+            "number_of_ratings"
+        ]
 
 
 class AlbumOfTheYearSerializer(serializers.ModelSerializer):
@@ -153,22 +158,38 @@ class AlbumOfTheYearSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ["position",
-                  "id",
-                  "title",
-                  "art_cover",
-                  "release_date",
-                  "artist",
-                  "overall_score"]
+        fields = [
+            "position",
+            "id",
+            "title",
+            "art_cover",
+            "release_date",
+            "artist",
+            "overall_score"
+        ]
+
+
+class ReviewAlbumSerializer(serializers.ModelSerializer):
+    artist = SimpleArtistSerializer(source="artist_id")
+
+    class Meta:
+        model = Album
+        fields = ["id", "title", "art_cover", "artist"]
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    reviewer = ReviewerSerializer(source="reviewer_id", read_only=True)
+    album = ReviewAlbumSerializer(source="album_id", read_only=True)
+
     class Meta:
         model = Review
         fields = [
             "id",
             "reviewer_id",
+            "reviewer",
             "rating",
             "review_text",
             "album_id",
+            "album",
+            "created_at"
         ]

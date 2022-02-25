@@ -342,4 +342,5 @@ export function getSortOptions(contentType) {
             { value: "name-desc", label: "Name descending" },
         ];
     }
+    return null;
 }

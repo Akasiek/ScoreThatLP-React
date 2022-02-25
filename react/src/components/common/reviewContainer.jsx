@@ -155,46 +155,30 @@ const StyledReviewContainer = styled.div`
 `;
 
 const ReviewContainer = ({ review, isOutsideAlbum }) => {
-    const [user, setUser] = React.useState(getUser(review.user_id));
-    const [album, setAlbum] = React.useState(() => {
-        let album = getAlbum(review.album_id);
-        album.artist = getArtist(album.artist_id);
-        return album;
-    });
-
-    useEffect(() => {
-        setUser(getUser(review.user_id));
-        setAlbum(() => {
-            let album = getAlbum(review.album_id);
-            album.artist = getArtist(album.artist_id);
-            return album;
-        });
-    }, [review]);
-
     return (
         <StyledReviewContainer>
-            {album && isOutsideAlbum && (
+            {review.album && isOutsideAlbum && (
                 <div className="reviewAlbumContainer">
                     <div className="albumCoverContainer">
-                        <Link to={`/albums/${album.id}`}>
-                            <img src={album.image} alt={`${album.title} Cover Art`} />
+                        <Link to={`/albums/${review.album.id}`}>
+                            <img src={review.album.image} alt={`${review.album.title} Cover Art`} />
                         </Link>
                     </div>
                     <div className="albumTextContainer">
-                        <Link to={`/artists/${album.artist.id}`}>
-                            <h2>{album.artist.name}</h2>
+                        <Link to={`/artists/${review.album.artist.id}`}>
+                            <h2>{review.album.artist.name}</h2>
                         </Link>
 
-                        <Link to={`/albums/${album.id}`}>
-                            <h4>{album.title}</h4>
+                        <Link to={`/albums/${review.album.id}`}>
+                            <h4>{review.album.title}</h4>
                         </Link>
                     </div>
                 </div>
             )}
             <div className={`userContainer ${getScoreColor(review.rating)}BG`}>
-                <Link to={`/users/${user.username}`}>
-                    <img src={`/images/userAvatars/${user.username}.jpg`} alt="" />
-                    <h4>{user.username}</h4>
+                <Link to={`/users/${review.reviewer.username}`}>
+                    <img src={review.reviewer.profile_pic} alt="" />
+                    <h4>{review.reviewer.username}</h4>
                 </Link>
                 <h2>{review.rating}</h2>
             </div>

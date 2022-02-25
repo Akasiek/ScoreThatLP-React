@@ -85,14 +85,23 @@ class AlbumOfTheYearViewSet(ModelViewSet):
 
 class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
-    pagination_class = pagination.FivePagesPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    ordering_fields = ['created_at']
 
     def get_queryset(self):
-        queryset = Review.objects.select_related("album_id").all()
+        queryset = Review.objects.select_related(
+            "album_id", "reviewer_id", "album_id__artist_id", "reviewer_id__user").all()
+
         album_id = self.request.query_params.get('album_id')
         reviewer_id = self.request.query_params.get('reviewer_id')
+        ratings_only = self.request.query_params.get('ratings_only')
+        reviews_only = self.request.query_params.get('reviews_only')
         if album_id is not None:
             queryset = queryset.filter(album_id=album_id)
         if reviewer_id is not None:
             queryset = queryset.filter(reviewer_id=reviewer_id)
+        if ratings_only is not None:
+            queryset = queryset.filter(review_text__isnull=True)
+        if reviews_only is not None:
+            queryset = queryset.filter(review_text__isnull=False)
         return queryset
