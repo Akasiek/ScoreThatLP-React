@@ -1,8 +1,11 @@
-from django.db.models import query
+from django.db.models import F, Avg, Count
+from django.db.models.fields import IntegerField
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import pagination
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.utils import serializer_helpers
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from reviewApp import pagination
 from .serializers import (
@@ -14,13 +17,27 @@ from .serializers import (
     SimpleAlbumSerializer,
     TrackSerializer,
 )
-from .models import Album, AlbumOfTheYear, Artist, Review, Reviewer, Track
-from reviewApp import serializers
+from .models import Album, Artist, Review, Reviewer, Track
+from .permissions import IsAdminOrPostOnly
 
 
 class ReviewerViewSet(ModelViewSet):
     queryset = Reviewer.objects.all()
     serializer_class = ReviewerSerializer
+    permission_classes = [IsAdminUser]
+
+    @action(detail=False, methods=["GET", "PUT"], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        (reviewer, created) = Reviewer.objects.get_or_create(
+            user_id=request.user.id)
+        if request.method == "GET":
+            serializer = ReviewerSerializer(reviewer)
+            return Response(serializer.data)
+        elif request.method == "PUT":
+            serializer = ReviewerSerializer(reviewer, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
 
 
 class ArtistViewSet(ModelViewSet):
@@ -31,24 +48,13 @@ class ArtistViewSet(ModelViewSet):
 
 
 class AlbumViewSet(ModelViewSet):
-    queryset = Album.objects.prefetch_related("tracks").prefetch_related("album_genres").prefetch_related(
-        "album_links").prefetch_related("reviews").select_related("aoty").select_related("artist_id").all()
-    serializer_class = AlbumSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    ordering_fields = ["title", "release_date"]
-    pagination_class = pagination.FivePagesPagination
-
-
-class SimpleAlbumViewSet(ModelViewSet):
-    queryset = Album.objects.select_related(
-        "artist_id").prefetch_related("reviews").all()
-    serializer_class = SimpleAlbumSerializer
+    permission_classes = [IsAdminOrPostOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     ordering_fields = ["title", "release_date"]
 
     def get_queryset(self):
-        queryset = Album.objects.select_related(
-            "artist_id").prefetch_related("reviews").all()
+        queryset = Album.objects.prefetch_related("tracks", "album_genres", "album_links", "reviews").select_related("aoty", "artist_id").annotate(
+            overall_score=Avg(F("reviews__rating"), output_field=IntegerField()), number_of_ratings=Count(F("reviews__rating"), output_field=IntegerField()))
         artist_slug = self.request.query_params.get('artist')
         release_type = self.request.query_params.get('type')
         if artist_slug is not None:
@@ -56,6 +62,11 @@ class SimpleAlbumViewSet(ModelViewSet):
         if release_type is not None:
             queryset = queryset.filter(release_type=release_type)
         return queryset
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return SimpleAlbumSerializer
+        return AlbumSerializer
 
 
 class TrackViewSet(ModelViewSet):

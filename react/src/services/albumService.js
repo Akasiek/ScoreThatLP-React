@@ -1,9 +1,9 @@
 import http from "./httpService";
 
-const apiEndpoint = "/simple_albums";
+const apiEndpoint = "/albums";
 
 const albumUrl = (id) => {
-    return `/albums/${id}`;
+    return `${apiEndpoint}/${id}`;
 };
 
 export const getAlbums = () => {

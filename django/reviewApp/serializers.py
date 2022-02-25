@@ -1,7 +1,7 @@
 from datetime import timedelta
 from pyexpat import model
 from django.db.models import F, Avg, Count
-from django.db.models.fields import BigIntegerField, IntegerField
+from django.db.models.fields import IntegerField
 from django.utils.text import slugify
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
@@ -89,14 +89,8 @@ class AlbumSerializer(serializers.ModelSerializer):
     links = AlbumLinkSerializer(
         source="album_links", many=True, read_only=True)
     artist = SimpleArtistSerializer(source="artist_id")
-
-    def get_avg_and_count_of_reviews(self, album: Album):
-        reviews = Review.objects.only("rating").filter(album_id=album.id).aggregate(
-            overall_score=Avg(F("rating"), output_field=IntegerField()), number_of_ratings=Count(F("rating"), output_field=IntegerField()))
-        return reviews
-
-    reviews = serializers.SerializerMethodField(
-        method_name="get_avg_and_count_of_reviews")
+    overall_score = serializers.IntegerField()
+    number_of_ratings = serializers.IntegerField()
 
     class Meta:
         model = Album
@@ -107,7 +101,8 @@ class AlbumSerializer(serializers.ModelSerializer):
                   "artist",
                   "art_cover",
                   "genres",
-                  "reviews",
+                  "overall_score",
+                  "number_of_ratings",
                   "release_date",
                   "release_type",
                   "tracks",
@@ -122,15 +117,8 @@ class AlbumSerializer(serializers.ModelSerializer):
 
 class SimpleAlbumSerializer(serializers.ModelSerializer):
     artist = SimpleArtistSerializer(source="artist_id", read_only=True)
-
-    def get_avg_and_count_of_reviews(self, album: Album):
-        # TODO: Check if can return on first line
-        reviews = Review.objects.only("rating").filter(album_id=album.id).aggregate(
-            overall_score=Avg(F("rating"), output_field=IntegerField()), number_of_ratings=Count(F("rating"), output_field=IntegerField()))
-        return reviews
-
-    reviews = serializers.SerializerMethodField(
-        method_name="get_avg_and_count_of_reviews")
+    overall_score = serializers.IntegerField()
+    number_of_ratings = serializers.IntegerField()
 
     class Meta:
         model = Album
@@ -140,7 +128,8 @@ class SimpleAlbumSerializer(serializers.ModelSerializer):
                   "release_date",
                   "release_type",
                   "artist",
-                  "reviews"]
+                  "overall_score",
+                  "number_of_ratings"]
 
 
 class AlbumOfTheYearSerializer(serializers.ModelSerializer):
