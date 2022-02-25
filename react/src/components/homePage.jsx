@@ -6,7 +6,7 @@ import { Link as ScrollLink } from "react-scroll";
 import ContentGroup from "./common/contentGroup";
 import { getLatestReviews, getLatestSingles } from "../services/fakeMusicService";
 import { Main } from "../App";
-import { getAOTY, getNewReleases } from "./../services/albumService";
+import { getAOTY, getNewReleases, getNewSingles } from "./../services/albumService";
 import { getArtists } from "./../services/artistService";
 import LoadingScreen from "./loadingScreen";
 import { StyledContentGroupPage } from "./albums";
@@ -122,6 +122,7 @@ const HomePage = () => {
     const [aoty, setAOTY] = useState(null);
     const [newReleases, setNewReleases] = useState(null);
     const [artists, setArtists] = useState(null);
+    const [newSingles, setNewSingles] = useState(null);
 
     useEffect(async () => {
         const { data: aoty } = await getAOTY();
@@ -132,9 +133,12 @@ const HomePage = () => {
 
         const { data: artists } = await getArtists();
         setArtists(artists.results);
+
+        const { data: singles } = await getNewSingles();
+        setNewSingles(singles);
     }, []);
 
-    return aoty && newReleases && artists ? (
+    return aoty && newReleases && artists && newSingles ? (
         <Main>
             <StyledHomePage>
                 <Helmet>
@@ -198,14 +202,14 @@ const HomePage = () => {
                     reviewIsOutsideAlbum={true}
                 /> */}
 
-                    {/* <ContentGroup
-                    className="contentGroup"
-                    title="Latest Singles"
-                    content={getLatestSingles()}
-                    contentType="albums"
-                    itemsCount={5}
-                    colSize={[5, 3, 2]}
-                /> */}
+                    <ContentGroup
+                        className="contentGroup"
+                        title="Latest Singles"
+                        content={newSingles}
+                        contentType="albums"
+                        itemsCount={5}
+                        colSize={[5, 3, 2]}
+                    />
                 </StyledContentGroupPage>
             </StyledHomePage>
         </Main>
