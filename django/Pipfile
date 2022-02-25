@@ -17,6 +17,8 @@ django-environ = "*"
 psycopg2 = "*"
 django-cors-headers = "*"
 django-cleanup = "*"
+django-resized = "*"
+pillow = "*"
 
 [dev-packages]
 black = "*"

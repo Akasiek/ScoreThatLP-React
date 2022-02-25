@@ -9,11 +9,17 @@ from .models import Album, AlbumLink, Artist, Review, Reviewer, Track
 
 
 class ReviewerSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField(read_only=True)
+    username = serializers.CharField(source="user", read_only=True)
 
     class Meta:
         model = Reviewer
-        fields = ["id", "user_id"]
+        fields = ["id", "username", "user", "slug", "profile_pic"]
+        read_only_fields = ["slug"]
+
+    # Save slug
+    def create(self, validated_data):
+        slug = slugify(validated_data["user"])
+        return Reviewer.objects.create(slug=slug, **validated_data)
 
 
 class ArtistSerializer(serializers.ModelSerializer):
@@ -41,7 +47,7 @@ class ArtistSerializer(serializers.ModelSerializer):
             'url': {'lookup_field': 'slug'}
         }
 
-     # Save slug as well
+     # Save slug
     def create(self, validated_data):
         slug = slugify(validated_data["name"])
         return Artist.objects.create(slug=slug, **validated_data)

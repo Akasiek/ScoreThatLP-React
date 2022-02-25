@@ -1,15 +1,10 @@
-from cProfile import label
-import datetime
 import os
-from distutils.command.upload import upload
-from tkinter.tix import IMAGE
 from django.db import models
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.deconstruct import deconstructible
+from django_resized import ResizedImageField
 from uuid import uuid4
 
 
@@ -28,12 +23,16 @@ class RenameImageToSlug(object):
         return os.path.join(self.path, filename)
 
 
+rename_profile_pic = RenameImageToSlug("users/profile_pics/")
 rename_artist_image = RenameImageToSlug("artist/images/")
 rename_artist_bg_image = RenameImageToSlug("artist/bg_images/")
 rename_album_art_cover = RenameImageToSlug("album/art_covers/")
 
 
 class Reviewer(models.Model):
+    profile_pic = ResizedImageField(size=[500, 500], null=True, blank=True,
+                                    upload_to=rename_profile_pic)
+    slug = models.SlugField(max_length=255)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True
     )
@@ -52,8 +51,8 @@ class Reviewer(models.Model):
 class Artist(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    image = models.FileField(null=True, blank=True,
-                             upload_to=rename_artist_image)
+    image = ResizedImageField(size=[500, 500], null=True, blank=True,
+                              upload_to=rename_artist_image)
     background_image = models.FileField(
         null=True, blank=True, upload_to=rename_artist_bg_image)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -77,8 +76,8 @@ class Album(models.Model):
     artist_id = models.ForeignKey(
         Artist, on_delete=models.PROTECT, related_name="albums"
     )
-    art_cover = models.FileField(
-        null=True, blank=True, upload_to=rename_album_art_cover)
+    art_cover = ResizedImageField(
+        size=[750, 750], null=True, blank=True, upload_to=rename_album_art_cover)
     release_type = models.CharField(max_length=10,
                                     choices=RELEASE_TYPE_ALBUM_CHOICES, default="LP")
     created_at = models.DateTimeField(auto_now_add=True)
