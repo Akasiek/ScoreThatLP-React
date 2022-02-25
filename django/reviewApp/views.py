@@ -62,13 +62,11 @@ class AlbumViewSet(ModelViewSet):
 
         artist_slug = self.request.query_params.get('artist')
         release_type = self.request.query_params.get('type')
-        count = self.request.query_params.get('count')
         if artist_slug is not None:
             queryset = queryset.filter(artist_id__slug=artist_slug)
         if release_type is not None:
             queryset = queryset.filter(release_type=release_type)
-        if count is not None:
-            queryset = queryset[0:int(count)]
+
         return queryset
 
     def get_serializer_class(self):
