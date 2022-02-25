@@ -142,7 +142,7 @@ const HomePage = () => {
         setNewSingles(singles);
     }, []);
 
-    return aoty && newReleases && artists && newSingles ? (
+    return aoty && newReleases ? (
         <Main>
             <StyledHomePage>
                 <Helmet>

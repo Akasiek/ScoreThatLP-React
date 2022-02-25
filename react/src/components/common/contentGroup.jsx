@@ -98,7 +98,7 @@ const ContentGroup = ({
 
     return (
         <React.Fragment>
-            {(!showPlaceholderWhenEmpty && content.length === 0) || (
+            {(!showPlaceholderWhenEmpty && content?.length === 0) || (
                 <StyledContentGroup className={className} id={id}>
                     {title && <TitleBar className="contentTitleBar" title={title} viewAllUrl={viewAllUrl} noMargin={noTitleMargin} />}
                     {isSortingEnabled && (
@@ -106,7 +106,7 @@ const ContentGroup = ({
                             <Sorting setSortingMethod={setSortingMethod} contentType={contentType} sortingMethod={sortingMethod} />
                         </div>
                     )}
-                    {content.length !== 0 ? (
+                    {content?.length !== 0 ? (
                         <ContentContainer
                             className="contentContainer"
                             normalColSize={normalColSize}
@@ -114,7 +114,7 @@ const ContentGroup = ({
                             smallestColSize={smallestColSize}
                         >
                             {contentType === "albums" &&
-                                content.map((a) => (
+                                content?.map((a) => (
                                     <AlbumContainer
                                         key={a.id}
                                         album={a}
@@ -125,17 +125,17 @@ const ContentGroup = ({
                                 ))}
 
                             {contentType === "artists" &&
-                                content.map((a) => <ArtistContainer key={a.id} artist={a} showAvgScore={artistShowAvgScore} />)}
+                                content?.map((a) => <ArtistContainer key={a.id} artist={a} showAvgScore={artistShowAvgScore} />)}
 
                             {contentType === "reviews" &&
-                                content.map((r) => <ReviewContainer key={r.id} review={r} isOutsideAlbum={reviewIsOutsideAlbum} />)}
+                                content?.map((r) => <ReviewContainer key={r.id} review={r} isOutsideAlbum={reviewIsOutsideAlbum} />)}
 
-                            {contentType === "ratings" && content.map((r) => <RatingContainer key={r.id} rating={r} />)}
+                            {contentType === "ratings" && content?.map((r) => <RatingContainer key={r.id} rating={r} />)}
 
                             {contentType === "ratingAlbums" &&
-                                content.map((a) => <RatingAlbumContainer key={a.id} album={a} isReviewDateHidden={ratingAlbumIsReviewDateHidden} />)}
+                                content?.map((a) => <RatingAlbumContainer key={a.id} album={a} isReviewDateHidden={ratingAlbumIsReviewDateHidden} />)}
 
-                            {contentType === "users" && content.map((u) => <UserContainer key={u.id} user={u} />)}
+                            {contentType === "users" && content?.map((u) => <UserContainer key={u.id} user={u} />)}
                         </ContentContainer>
                     ) : (
                         <h1 className="placeholder">No {contentType} yet</h1>
@@ -163,7 +163,7 @@ ContentGroup.propTypes = {
     noTitleMargin: PropTypes.bool,
 
     // Content Props
-    content: PropTypes.array.isRequired,
+    content: PropTypes.array,
     contentType: PropTypes.string.isRequired,
     showPlaceholderWhenEmpty: PropTypes.bool,
     albumCustomScore: PropTypes.string,
