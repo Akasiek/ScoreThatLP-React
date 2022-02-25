@@ -61,10 +61,13 @@ class AlbumViewSet(ModelViewSet):
 
         artist_slug = self.request.query_params.get('artist')
         release_type = self.request.query_params.get('type')
+        count = self.request.query_params.get('count')
         if artist_slug is not None:
             queryset = queryset.filter(artist_id__slug=artist_slug)
         if release_type is not None:
             queryset = queryset.filter(release_type=release_type)
+        if count is not None:
+            queryset = queryset[0:int(count)]
         return queryset
 
     def get_serializer_class(self):
@@ -80,8 +83,10 @@ class TrackViewSet(ModelViewSet):
 
 
 class AlbumOfTheYearViewSet(ModelViewSet):
-    queryset = Album.objects.prefetch_related(
-        "aoty").filter(aoty__isnull=False).all()
+    queryset = Album.objects \
+        .prefetch_related("aoty", "artist_id") \
+        .annotate(overall_score=Avg(F("reviews__rating"), output_field=IntegerField())) \
+        .filter(aoty__isnull=False).all()
     serializer_class = AlbumOfTheYearSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     ordering_fields = ['aoty']
