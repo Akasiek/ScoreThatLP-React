@@ -144,7 +144,7 @@ class ReviewAlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ["id", "title", "art_cover", "artist"]
+        fields = ["id", "title", "art_cover", "release_date", "artist"]
 
 
 class FavoriteArtistSerializer(serializers.ModelSerializer):

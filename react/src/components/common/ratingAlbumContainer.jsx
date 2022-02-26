@@ -38,7 +38,9 @@ const RatingAlbumContainer = ({ review, isReviewDateHidden }) => {
                 <Link to={`/albums/${review.album.id}`}>
                     <h3>{review.album.title}</h3>
                 </Link>
-                {isReviewDateHidden || <h4>Rated {moment(review.created_at).fromNow()}</h4>}
+                {isReviewDateHidden || (
+                    <h4 title={moment(review.created_at).format("YYYY-MM-DD HH:MM:ss")}>Rated {moment(review.created_at).fromNow()}</h4>
+                )}
             </div>
 
             <div className={`albumScoreContainer ${getScoreColor(review.rating)}BG`}>

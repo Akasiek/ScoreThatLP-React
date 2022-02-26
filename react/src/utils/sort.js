@@ -207,7 +207,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.release_date);
+                        return moment(o.album.release_date);
                     },
                     ["desc"]
                 );
@@ -217,7 +217,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.release_date);
+                        return moment(o.album.release_date);
                     },
                     ["asc"]
                 );
@@ -227,7 +227,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.title.toLowerCase();
+                        return o.album.title.toLowerCase();
                     },
                     ["asc"]
                 );
@@ -237,7 +237,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.title.toLowerCase();
+                        return o.album.title.toLowerCase();
                     },
                     ["desc"]
                 );
@@ -247,7 +247,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.user_score;
+                        return o.rating;
                     },
                     ["desc"]
                 );
@@ -257,7 +257,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return o.user_score;
+                        return o.rating;
                     },
                     ["asc"]
                 );
@@ -267,7 +267,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.review_date);
+                        return moment(o.created_at);
                     },
                     ["desc"]
                 );
@@ -277,7 +277,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.review_date);
+                        return moment(o.created_at);
                     },
                     ["asc"]
                 );
@@ -287,7 +287,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.review_date);
+                        return moment(o.created_at);
                     },
                     ["desc"]
                 );
@@ -332,10 +332,10 @@ export function getSortOptions(contentType) {
 
     if (contentType === "ratingAlbums") {
         return [
-            { value: "highest-user-score", label: "Highest user score" },
-            { value: "lowest-user-score", label: "Lowest user score" },
             { value: "latest-rating", label: "Latest rating" },
             { value: "oldest-rating", label: "Oldest rating" },
+            { value: "highest-user-score", label: "Highest user score" },
+            { value: "lowest-user-score", label: "Lowest user score" },
             { value: "newest", label: "Newest album" },
             { value: "oldest", label: "Oldest album" },
             { value: "name-asc", label: "Name ascending" },

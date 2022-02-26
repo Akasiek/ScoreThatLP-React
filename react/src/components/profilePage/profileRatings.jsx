@@ -2,35 +2,37 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 
 import { Main } from "../../App";
-import { getRatingAlbums, getUserByUsername, getUsersReviews } from "../../services/fakeMusicService";
 import ContentGroup from "./../common/contentGroup";
 import { StyledContentGroupPage } from "./../albums";
+import { getReviewerReviews } from "../../services/reviewService";
+import { getReviewer } from "./../../services/reviewerService";
+import LoadingScreen from "../loadingScreen";
 
 const ProfileRatings = ({ match }) => {
-    const [user, setUser] = useState(getUserByUsername(match.params.username));
-    const [userReviews, setUserReviews] = useState(getUsersReviews(user.id));
-    const [ratingAlbums, setAlbumRatings] = useState(getRatingAlbums(userReviews));
+    const [reviewer, setReviewer] = useState(null);
+    const [ratings, setRatings] = useState(null);
 
-    useEffect(() => {
-        setUser(getUserByUsername(match.params.username));
-    }, [match.params.username]);
+    useEffect(async () => {
+        const { data: reviewer } = await getReviewer(match.params.slug);
+        setReviewer(reviewer);
+    }, [match.params.slug]);
 
-    useEffect(() => {
-        setUserReviews(getUsersReviews(user.id));
-    }, [user.id]);
+    useEffect(async () => {
+        if (reviewer?.id) {
+            const { data: reviews } = await getReviewerReviews(reviewer.id);
+            setRatings(reviews);
+        }
+    }, [reviewer?.id]);
 
-    useEffect(() => {
-        setAlbumRatings(getRatingAlbums(userReviews));
-    }, [userReviews]);
-    return (
+    return reviewer && ratings ? (
         <Main pushUnderNavbar={true}>
             <StyledContentGroupPage>
                 <Helmet>
-                    <title>{user.username} Ratings | ScoreThatLP</title>
+                    <title>{reviewer.username} Ratings | ScoreThatLP</title>
                 </Helmet>
                 <ContentGroup
-                    title={`${user.username} ratings`}
-                    content={ratingAlbums}
+                    title={`${reviewer.username} ratings`}
+                    content={ratings}
                     contentType="ratingAlbums"
                     className="contentGroup"
                     isSortingEnabled={true}
@@ -40,6 +42,8 @@ const ProfileRatings = ({ match }) => {
                 />
             </StyledContentGroupPage>
         </Main>
+    ) : (
+        <LoadingScreen />
     );
 };
 
