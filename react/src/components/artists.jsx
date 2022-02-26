@@ -11,7 +11,7 @@ const Artists = () => {
 
     useEffect(async () => {
         const { data: artists } = await getArtists();
-        setArtists(artists.results);
+        setArtists(artists);
     }, []);
 
     return artists !== null ? (

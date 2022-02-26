@@ -19,7 +19,7 @@ export const getNewReleases = () => {
 };
 
 export const getArtistAlbums = (slug) => {
-    return http.get(`${apiEndpoint}/?artist=${slug}`);
+    return http.get(`${apiEndpoint}/?artist_id__slug=${slug}`);
 };
 
 export const getAOTY = () => {
@@ -28,4 +28,8 @@ export const getAOTY = () => {
 
 export const getNewSingles = () => {
     return http.get(`${apiEndpoint}/?ordering=-release_date&type=Single`);
+};
+
+export const searchAlbums = (query) => {
+    return http.get(`${apiEndpoint}/?search=${query}`);
 };

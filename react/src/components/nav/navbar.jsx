@@ -6,7 +6,9 @@ import ClickAwayListener from "react-click-away-listener";
 
 import SearchBar from "./searchBar";
 import { Button } from "../common.styled";
-import { searchDB } from "../../services/fakeMusicService";
+import { searchArtists } from "./../../services/artistService";
+import { searchReviewers } from "../../services/reviewerService";
+import { searchAlbums } from "./../../services/albumService";
 
 export const StyledNavBar = styled.nav`
     top: 0;
@@ -203,9 +205,17 @@ class NavBar extends Component {
         queryResults: [],
     };
 
-    handleSearch = (searchQuery) => {
-        const queryResults = searchDB(searchQuery);
-        this.setState({ searchQuery, queryResults });
+    handleSearch = async (searchQuery) => {
+        this.setState({ searchQuery });
+        if (searchQuery && searchQuery !== "") {
+            const { data: artistsResults } = await searchArtists(searchQuery);
+            const { data: albumsResults } = await searchAlbums(searchQuery);
+            const { data: reviewersResults } = await searchReviewers(searchQuery);
+            const queryResults = { albums: albumsResults, artists: artistsResults, reviewers: reviewersResults };
+            this.setState({ queryResults });
+        } else {
+            this.setState({ queryResults: [] });
+        }
     };
 
     toggleSearchBar = () => {

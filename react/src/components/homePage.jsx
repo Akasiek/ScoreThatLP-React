@@ -133,7 +133,7 @@ const HomePage = () => {
         setNewReleases(newReleases);
 
         const { data: artists } = await getArtists();
-        setArtists(artists.results);
+        setArtists(artists);
 
         const { data: latestReviews } = await getLatestReviewsOnly();
         setLatestReviews(latestReviews);

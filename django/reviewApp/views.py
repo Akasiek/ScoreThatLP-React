@@ -1,12 +1,12 @@
 from django.db.models import F, Avg, Count, Window
 from django.db.models.fields import IntegerField
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import pagination
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
 from reviewApp import pagination
 from .serializers import (
     AlbumOfTheYearSerializer,
@@ -30,6 +30,8 @@ class ReviewerViewSet(ModelViewSet):
 
     serializer_class = ReviewerSerializer
     lookup_field = "slug"
+    filter_backends = [SearchFilter]
+    search_fields = ["user__username"]
     # TODO! Custom permission to check if user is user
     # permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -52,28 +54,22 @@ class ArtistViewSet(ModelViewSet):
         .annotate(average_score=Avg(F("albums__reviews__rating"), output_field=IntegerField()))
     serializer_class = ArtistSerializer
     lookup_field = "slug"
+    filter_backends = [SearchFilter]
+    search_fields = ["name"]
 
 
 class AlbumViewSet(ModelViewSet):
+    queryset = Album.objects \
+        .prefetch_related("tracks", "album_genres", "album_links", "reviews") \
+        .select_related("aoty", "artist_id") \
+        .annotate(overall_score=Avg(F("reviews__rating"), output_field=IntegerField()),
+                  number_of_ratings=Count(F("reviews__rating"), output_field=IntegerField()))
+
     permission_classes = [IsAdminOrPostOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     ordering_fields = ["title", "release_date"]
-
-    def get_queryset(self):
-        queryset = Album.objects \
-            .prefetch_related("tracks", "album_genres", "album_links", "reviews") \
-            .select_related("aoty", "artist_id") \
-            .annotate(overall_score=Avg(F("reviews__rating"), output_field=IntegerField()),
-                      number_of_ratings=Count(F("reviews__rating"), output_field=IntegerField()))
-
-        artist_slug = self.request.query_params.get('artist')
-        release_type = self.request.query_params.get('type')
-        if artist_slug is not None:
-            queryset = queryset.filter(artist_id__slug=artist_slug)
-        if release_type is not None:
-            queryset = queryset.filter(release_type=release_type)
-
-        return queryset
+    filterset_fields = ("release_type", "artist_id__slug")
+    search_fields = ["title", "artist_id__name"]
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -111,10 +107,13 @@ class ReviewViewSet(ModelViewSet):
         reviews_only = self.request.query_params.get('reviews_only')
         if album_id is not None:
             queryset = queryset.filter(album_id=album_id)
+
         if reviewer_id is not None:
             queryset = queryset.filter(reviewer_id=reviewer_id)
+
         if ratings_only is not None:
             queryset = queryset.filter(review_text__isnull=True)
+
         if reviews_only is not None:
             queryset = queryset.filter(review_text__isnull=False)
         return queryset

@@ -105,17 +105,17 @@ export const StyledSearchResults = styled.div`
 `;
 
 const SearchResults = ({ queryResults: propsQueryResults, onClick }) => {
-    const { albums, artists, users } = propsQueryResults;
-    const [queryResults, setQueryResults] = useState({ albums: [], artists: [], users: [] });
+    const { albums, artists, reviewers } = propsQueryResults;
+    const [queryResults, setQueryResults] = useState({ albums: [], artists: [], reviewers: [] });
 
     useDeepCompareEffect(() => {
-        setQueryResults({ albums: albums || [], artists: artists || [], users: users || [] });
+        setQueryResults({ albums: albums || [], artists: artists || [], reviewers: reviewers || [] });
     }, [propsQueryResults]);
 
     return (
         <StyledSearchResults>
             <SimpleBar className="simplebar" autoHide={false} forceVisible="y">
-                {(!_.isEmpty(queryResults.albums) || !_.isEmpty(queryResults.artists) || !_.isEmpty(queryResults.users)) && (
+                {(!_.isEmpty(queryResults.albums) || !_.isEmpty(queryResults.artists) || !_.isEmpty(queryResults.reviewers)) && (
                     <div className="resultContainer">
                         {queryResults.albums.length !== 0 &&
                             queryResults.albums?.slice(0, 4).map((a) => (
@@ -124,7 +124,7 @@ const SearchResults = ({ queryResults: propsQueryResults, onClick }) => {
                                     <Link to={`/albums/${a.id}`} onClick={onClick}>
                                         <div className="infoContainer album">
                                             <div className="imageContainer">
-                                                <img src={a.image} alt={`${a.title} cover art`} />
+                                                <img src={a.art_cover} alt={`${a.title} cover art`} />
                                             </div>
                                             <div className="textContainer">
                                                 <h2>{a.title}</h2>
@@ -154,11 +154,11 @@ const SearchResults = ({ queryResults: propsQueryResults, onClick }) => {
                                 </React.Fragment>
                             ))}
 
-                        {queryResults.users.length !== 0 &&
-                            queryResults.users?.slice(0, 3).map((u) => (
+                        {queryResults.reviewers.length !== 0 &&
+                            queryResults.reviewers?.slice(0, 3).map((u) => (
                                 <React.Fragment key={u.id}>
                                     <hr />
-                                    <Link to={`/users/${u.username}`} onClick={onClick}>
+                                    <Link to={`/users/${u.slug}`} onClick={onClick}>
                                         <div className="infoContainer users">
                                             <div className="imageContainer">
                                                 <img src={u.profile_pic} alt={`${u.profile_pic} band image`} />
