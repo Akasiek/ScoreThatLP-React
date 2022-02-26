@@ -7,6 +7,7 @@ import SearchPage from "./components/searchPage";
 import NotFound from "./components/notFound";
 import Navbar from "./components/nav/navbar";
 import Albums from "./components/albums";
+import AlbumForm from "./components/forms/albumForm";
 import AlbumPage from "./components/albumPage/albumPage";
 import ReviewsPage from "./components/albumPage/reviewsPage/reviewsPage";
 import Artists from "./components/artists";
@@ -16,10 +17,10 @@ import AOTY from "./components/aoty";
 import ProfilePage from "./components/profilePage/profilePage";
 import ProfileReviews from "./components/profilePage/profileReviews";
 import ProfileRatings from "./components/profilePage/profileRatings";
+import Footer from "./components/footer";
 
 import styled, { ThemeProvider } from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "./components/footer";
 
 const theme = {
     colors: {
@@ -69,6 +70,7 @@ const App = () => {
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route exact path="/albums" component={Albums} />
+                        <Route exact path="/albums/new" component={AlbumForm} />
                         <Route exact path="/albums/:id" component={AlbumPage} />
                         <Route exact path="/albums/:id/reviews" component={ReviewsPage} />
                         <Route exact path="/artists" component={Artists} />

@@ -51,7 +51,6 @@ class ArtistViewSet(ModelViewSet):
     queryset = Artist.objects \
         .annotate(average_score=Avg(F("albums__reviews__rating"), output_field=IntegerField()))
     serializer_class = ArtistSerializer
-    pagination_class = pagination.TwentyFivePagesPagination
     lookup_field = "slug"
 
 
@@ -85,7 +84,6 @@ class AlbumViewSet(ModelViewSet):
 class TrackViewSet(ModelViewSet):
     queryset = Track.objects.all()
     serializer_class = TrackSerializer
-    pagination_class = pagination.TenPagesPagination
 
 
 class AlbumOfTheYearViewSet(ModelViewSet):
