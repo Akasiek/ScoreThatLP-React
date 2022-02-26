@@ -18,8 +18,8 @@ const ProfilePageReviewsContainer = ({ reviewer }) => {
     //     setLatestReviews(sort(getUsersReviews(user.id, true), "reviews", { value: "newest" }));
     // }, [user, reviews]);
 
-    const [latestReviews, setLatestReviews] = useState();
-    const [latestRatings, setLatestRatings] = useState();
+    const [latestReviews, setLatestReviews] = useState(null);
+    const [latestRatings, setLatestRatings] = useState(null);
 
     useEffect(async () => {
         const { data: latestReviews } = await getLatestReviewerReviews(reviewer.id);
