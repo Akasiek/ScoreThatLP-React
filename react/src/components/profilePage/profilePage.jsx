@@ -16,7 +16,7 @@ const ProfilePage = ({ match }) => {
     useEffect(async () => {
         const { data: reviewer } = await getReviewer(match.params.slug);
         setReviewer(reviewer);
-    }, [match.params.id]);
+    }, [match.params.slug]);
 
     return reviewer ? (
         <React.Fragment>
