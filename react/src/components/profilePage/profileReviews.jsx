@@ -2,31 +2,37 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 
 import { Main } from "../../App";
-import { getUserByUsername, getUsersReviews } from "../../services/fakeMusicService";
+import { getReviewer } from "../../services/reviewerService";
+import { getLatestReviewerReviews, getReviewerReviews } from "../../services/reviewService";
 import ContentGroup from "../common/contentGroup";
+import LoadingScreen from "../loadingScreen";
 import { StyledContentGroupPage } from "./../albums";
 
 const ProfileReviews = ({ match }) => {
-    const [user, setUser] = useState(getUserByUsername(match.params.username));
-    const [userReviews, setUserReviews] = useState(getUsersReviews(user.id, true));
+    const [reviewer, setReviewer] = useState(null);
+    const [reviews, setReviews] = useState(null);
 
-    useEffect(() => {
-        setUser(getUserByUsername(match.params.username));
-    }, [match.params.username]);
+    useEffect(async () => {
+        const { data: reviewer } = await getReviewer(match.params.slug);
+        setReviewer(reviewer);
+    }, [match.params.slug]);
 
-    useEffect(() => {
-        setUserReviews(getUsersReviews(user.id));
-    }, [user.id]);
+    useEffect(async () => {
+        if (reviewer?.id) {
+            const { data: reviews } = await getReviewerReviews(reviewer.id);
+            setReviews(reviews.filter((r) => r.review_text !== null));
+        }
+    }, [reviewer?.id]);
 
-    return (
+    return reviewer && reviews ? (
         <Main pushUnderNavbar={true}>
             <StyledContentGroupPage>
                 <Helmet>
-                    <title>{user.username} Reviews | ScoreThatLP</title>
+                    <title>{reviewer.username} Reviews | ScoreThatLP</title>
                 </Helmet>
                 <ContentGroup
-                    title={`${user.username} reviews`}
-                    content={userReviews}
+                    title={`${reviewer.username} reviews`}
+                    content={reviews}
                     contentType="reviews"
                     reviewIsOutsideAlbum={true}
                     className="contentGroup"
@@ -37,6 +43,8 @@ const ProfileReviews = ({ match }) => {
                 />
             </StyledContentGroupPage>
         </Main>
+    ) : (
+        <LoadingScreen />
     );
 };
 
