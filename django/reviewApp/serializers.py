@@ -202,8 +202,21 @@ class ReviewerSerializer(serializers.ModelSerializer):
         return Reviewer.objects.create(slug=slug, **validated_data)
 
 
+class SimpleReviewerSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source="user", read_only=True)
+
+    class Meta:
+        model = Reviewer
+        fields = [
+            "id",
+            "username",
+            "slug",
+            "profile_pic"
+        ]
+
+
 class ReviewSerializer(serializers.ModelSerializer):
-    reviewer = ReviewerSerializer(source="reviewer_id", read_only=True)
+    reviewer = SimpleReviewerSerializer(source="reviewer_id", read_only=True)
     album = ReviewAlbumSerializer(source="album_id", read_only=True)
 
     class Meta:

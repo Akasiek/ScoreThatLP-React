@@ -28,7 +28,6 @@ class ReviewerViewSet(ModelViewSet):
         .annotate(number_of_ratings=Count(F("review__review_text"), output_field=IntegerField()),
                   number_of_reviews=Count(F("review"), output_field=IntegerField()))
 
-    # .annotate(number_of_ratings=Count(F("review__review_text"), output_field=IntegerField()))
     serializer_class = ReviewerSerializer
     lookup_field = "slug"
     # TODO! Custom permission to check if user is user
@@ -106,7 +105,7 @@ class ReviewViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = Review.objects.select_related(
-            "album_id", "reviewer_id", "album_id__artist_id", "reviewer_id__user").all()
+            "album_id", "reviewer_id", "album_id__artist_id", "reviewer_id__user")
 
         album_id = self.request.query_params.get('album_id')
         reviewer_id = self.request.query_params.get('reviewer_id')
