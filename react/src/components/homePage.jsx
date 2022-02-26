@@ -9,7 +9,7 @@ import { getAOTY, getNewReleases, getNewSingles } from "./../services/albumServi
 import { getArtists } from "./../services/artistService";
 import LoadingScreen from "./loadingScreen";
 import { StyledContentGroupPage } from "./albums";
-import { getLatestReviews } from "../services/reviewService";
+import { getLatestReviewsOnly } from "../services/reviewService";
 
 const StyledHomePage = styled.div`
     background-color: var(--darkBlueColor);
@@ -135,7 +135,7 @@ const HomePage = () => {
         const { data: artists } = await getArtists();
         setArtists(artists.results);
 
-        const { data: latestReviews } = await getLatestReviews();
+        const { data: latestReviews } = await getLatestReviewsOnly();
         setLatestReviews(latestReviews);
 
         const { data: singles } = await getNewSingles();

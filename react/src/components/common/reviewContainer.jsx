@@ -165,7 +165,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
                         </Link>
                     </div>
                     <div className="albumTextContainer">
-                        <Link to={`/artists/${review.album.artist.id}`}>
+                        <Link to={`/artists/${review.album.artist.slug}`}>
                             <h2>{review.album.artist.name}</h2>
                         </Link>
 
@@ -185,7 +185,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
             <div className="reviewContainer">
                 <p className="reviewHeaderText">Review</p>
                 <ReadMoreReact text={review.review_text} min={300} ideal={350} max={400} readMoreText="click here to read more" />
-                <p title={review.created_at} className="creationTimeText">
+                <p title={moment(review.created_at).format("YYYY-MM-DD HH:MM:ss")} className="creationTimeText">
                     {moment(review.created_at).fromNow()}
                 </p>
                 {/* <Like content={review} />  */}

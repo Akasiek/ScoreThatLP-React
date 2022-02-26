@@ -1,28 +1,44 @@
 import React, { useState, useEffect } from "react";
 
-import { getRatingAlbums, getUsersReviews } from "./../../services/fakeMusicService";
 import { StyledContentGroupPage } from "../albums";
 import ContentGroup from "../common/contentGroup";
 import sort from "./../../utils/sort";
+import { getLatestReviewerReviews } from "../../services/reviewService";
+import _ from "lodash";
+import LoadingScreen from "./../loadingScreen";
 
-const ProfilePageReviewsContainer = ({ user, reviews }) => {
-    // TODO: Favorite albums from serializer
-    const [favoriteAlbums, setFavoriteAlbums] = useState(sort(getRatingAlbums(reviews), "ratingAlbums", { value: "highest-user-score" }));
-    const [latestRatings, setLatestRatings] = useState(sort(getRatingAlbums(reviews), "ratingAlbums", { value: "newest-reviews" }));
-    const [latestReviews, setLatestReviews] = useState(sort(getUsersReviews(user.id, true), "reviews", { value: "newest" }));
+const ProfilePageReviewsContainer = ({ reviewer }) => {
+    // const [favoriteAlbums, setFavoriteAlbums] = useState(sort(getRatingAlbums(reviews), "ratingAlbums", { value: "highest-user-score" }));
+    // const [latestRatings, setLatestRatings] = useState(sort(getRatingAlbums(reviews), "ratingAlbums", { value: "newest-reviews" }));
+    // const [latestReviews, setLatestReviews] = useState(sort(getUsersReviews(user.id, true), "reviews", { value: "newest" }));
 
-    useEffect(() => {
-        setFavoriteAlbums(sort(getRatingAlbums(reviews), "ratingAlbums", { value: "highest-user-score" }));
-        setLatestRatings(sort(getRatingAlbums(reviews), "ratingAlbums", { value: "newest-reviews" }));
-        setLatestReviews(sort(getUsersReviews(user.id, true), "reviews", { value: "newest" }));
-    }, [user, reviews]);
+    // useEffect(() => {
+    //     setFavoriteAlbums(sort(getRatingAlbums(reviews), "ratingAlbums", { value: "highest-user-score" }));
+    //     setLatestRatings(sort(getRatingAlbums(reviews), "ratingAlbums", { value: "newest-reviews" }));
+    //     setLatestReviews(sort(getUsersReviews(user.id, true), "reviews", { value: "newest" }));
+    // }, [user, reviews]);
 
-    return (
+    const [latestReviews, setLatestReviews] = useState();
+    const [latestRatings, setLatestRatings] = useState();
+
+    useEffect(async () => {
+        const { data: latestReviews } = await getLatestReviewerReviews(reviewer.id);
+        setLatestReviews(latestReviews.filter((r) => r.review_text !== null));
+        setLatestRatings(latestReviews);
+    }, []);
+
+    return latestRatings && latestReviews ? (
         <StyledContentGroupPage>
             <ContentGroup
                 title="Favorite albums"
                 className="contentGroup"
-                content={favoriteAlbums}
+                content={_.orderBy(
+                    latestRatings,
+                    (r) => {
+                        return r.rating;
+                    },
+                    ["desc"]
+                )}
                 contentType="ratingAlbums"
                 ratingAlbumIsReviewDateHidden={true}
                 itemsCount={5}
@@ -30,7 +46,7 @@ const ProfilePageReviewsContainer = ({ user, reviews }) => {
             />
             <ContentGroup
                 title="Latest ratings"
-                viewAllUrl={`/users/${user.username}/ratings`}
+                viewAllUrl={`/users/${reviewer.slug}/ratings`}
                 className="contentGroup"
                 content={latestRatings}
                 contentType="ratingAlbums"
@@ -40,7 +56,7 @@ const ProfilePageReviewsContainer = ({ user, reviews }) => {
 
             <ContentGroup
                 title="Latest reviews"
-                viewAllUrl={`/users/${user.username}/reviews`}
+                viewAllUrl={`/users/${reviewer.slug}/reviews`}
                 className="contentGroup"
                 content={latestReviews}
                 contentType="reviews"
@@ -49,6 +65,8 @@ const ProfilePageReviewsContainer = ({ user, reviews }) => {
                 colSize={[2, 1, 1]}
             />
         </StyledContentGroupPage>
+    ) : (
+        <LoadingScreen />
     );
 };
 

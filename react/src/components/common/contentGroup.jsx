@@ -133,7 +133,9 @@ const ContentGroup = ({
                             {contentType === "ratings" && content?.map((r) => <RatingContainer key={r.id} rating={r} />)}
 
                             {contentType === "ratingAlbums" &&
-                                content?.map((a) => <RatingAlbumContainer key={a.id} album={a} isReviewDateHidden={ratingAlbumIsReviewDateHidden} />)}
+                                content?.map((r) => (
+                                    <RatingAlbumContainer key={r.id} review={r} isReviewDateHidden={ratingAlbumIsReviewDateHidden} />
+                                ))}
 
                             {contentType === "users" && content?.map((u) => <UserContainer key={u.id} user={u} />)}
                         </ContentContainer>

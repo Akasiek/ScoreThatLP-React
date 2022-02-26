@@ -11,17 +11,6 @@ import LoadingScreen from "../loadingScreen";
 const StyledProfilePage = styled.div``;
 
 const ProfilePage = ({ match }) => {
-    // const [user, setUser] = useState(getUserByUsername(match.params.username));
-    // const [userReviews, setUserReviews] = useState(getUsersReviews(user.id));
-
-    // useEffect(() => {
-    //     setUser(getUserByUsername(match.params.username));
-    // }, [match]);
-
-    // useEffect(() => {
-    //     setUserReviews(getUsersReviews(user.id));
-    // }, [user]);
-
     const [reviewer, setReviewer] = useState(null);
 
     useEffect(async () => {
@@ -38,7 +27,7 @@ const ProfilePage = ({ match }) => {
                 <StyledProfilePage>
                     <ProfilePageHeader reviewer={reviewer} />
 
-                    {/* <ProfilePageReviewsContainer user={reviewer} reviews={userReviews} /> */}
+                    <ProfilePageReviewsContainer reviewer={reviewer} />
                 </StyledProfilePage>
             </Main>
         </React.Fragment>

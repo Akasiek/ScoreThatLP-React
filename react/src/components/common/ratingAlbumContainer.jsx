@@ -22,27 +22,27 @@ const StyledRatingAlbumContainer = styled(StyledAlbumContainer)`
     }
 `;
 
-const RatingAlbumContainer = ({ album, isReviewDateHidden }) => {
+const RatingAlbumContainer = ({ review, isReviewDateHidden }) => {
     return (
         <StyledRatingAlbumContainer>
             <div className="albumImageContainer">
-                <Link to={`/albums/${album.id}`}>
-                    <img src={album.image} alt={`${album.title} art cover`} />
+                <Link to={`/albums/${review.album.id}`}>
+                    <img src={review.album.art_cover} alt={`${review.album.title} art cover`} />
                 </Link>
             </div>
 
             <div className="albumTextContainer">
-                <Link to={`/artists/${album.artist?.id || getArtist(album.artist_id)}`}>
-                    <h2>{album.artist?.name || getArtist(album.artist_id).name}</h2>
+                <Link to={`/artists/${review.album.artist.slug}`}>
+                    <h2>{review.album.artist.name}</h2>
                 </Link>
-                <Link to={`/albums/${album.id}`}>
-                    <h3>{album.title}</h3>
+                <Link to={`/albums/${review.album.id}`}>
+                    <h3>{review.album.title}</h3>
                 </Link>
-                {isReviewDateHidden || <h4>Rated {moment(album.review_date).fromNow()}</h4>}
+                {isReviewDateHidden || <h4>Rated {moment(review.created_at).fromNow()}</h4>}
             </div>
 
-            <div className={`albumScoreContainer ${getScoreColor(album.user_score)}BG`}>
-                <p>{album.user_score}</p>
+            <div className={`albumScoreContainer ${getScoreColor(review.rating)}BG`}>
+                <p>{review.rating}</p>
             </div>
         </StyledRatingAlbumContainer>
     );

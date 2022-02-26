@@ -20,7 +20,6 @@ import ProfileRatings from "./components/profilePage/profileRatings";
 import styled, { ThemeProvider } from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/footer";
-import ScrollToTop from "./components/common/scrollToTop";
 
 const theme = {
     colors: {
@@ -60,14 +59,13 @@ export const Main = styled.main`
     }
 `;
 
-function App() {
+const App = () => {
     return (
         <ThemeProvider theme={theme}>
             <StyledToastContainer theme="dark" autoClose={4000} pauseOnFocusLoss={false} transition={Slide} position="bottom-right" />
             <StyledApp>
                 <Navbar />
                 <React.Fragment>
-                    <ScrollToTop />
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route exact path="/albums" component={Albums} />
@@ -88,6 +86,6 @@ function App() {
             </StyledApp>
         </ThemeProvider>
     );
-}
+};
 
 export default App;
