@@ -64,9 +64,9 @@ const StyledUserContainer = styled.div`
 const UserContainer = ({ user }) => {
     return (
         <StyledUserContainer>
-            <Link to={`/users/${user.username}`}>
+            <Link to={`/users/${user.slug}`}>
                 <div className="imageContainer">
-                    <img src={`/images/userAvatars/${user.username}.jpg`} alt="" />
+                    <img src={user.profile_pic} alt={`${user.username} profile picture`} />
                 </div>
                 <div className="usernameContainer">
                     <h1>{user.username}</h1>
