@@ -67,15 +67,15 @@ class AlbumLinkSerializer(serializers.ModelSerializer):
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    tracks = TrackSerializer(many=True, read_only=True)
+    tracks = TrackSerializer(many=True)
     genres = StringRelatedField(
-        source="album_genres", many=True, read_only=True)
+        source="album_genres", many=True)
     aoty = StringRelatedField(read_only=True)
     links = AlbumLinkSerializer(
         source="album_links", many=True, read_only=True)
-    artist = SimpleArtistSerializer(source="artist_id")
-    overall_score = serializers.IntegerField()
-    number_of_ratings = serializers.IntegerField()
+    artist = SimpleArtistSerializer(source="artist_id", read_only=True)
+    overall_score = serializers.IntegerField(read_only=True)
+    number_of_ratings = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Album
@@ -100,6 +100,18 @@ class AlbumSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         slug = slugify(validated_data["title"])
         return Album.objects.create(slug=slug, **validated_data)
+
+
+class CreateAlbumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Album
+        fields = [
+            "title",
+            "artist_id",
+            "art_cover",
+            "release_date",
+            "release_type"
+        ]
 
 
 class SimpleAlbumSerializer(serializers.ModelSerializer):

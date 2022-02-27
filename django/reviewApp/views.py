@@ -12,6 +12,7 @@ from .serializers import (
     AlbumOfTheYearSerializer,
     AlbumSerializer,
     ArtistSerializer,
+    CreateAlbumSerializer,
     ReviewSerializer,
     ReviewerSerializer,
     SimpleAlbumSerializer,
@@ -65,15 +66,17 @@ class AlbumViewSet(ModelViewSet):
         .annotate(overall_score=Avg(F("reviews__rating"), output_field=IntegerField()),
                   number_of_ratings=Count(F("reviews__rating"), output_field=IntegerField()))
 
-    permission_classes = [IsAdminOrPostOnly]
+    # permission_classes = [IsAdminOrPostOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     ordering_fields = ["title", "release_date"]
     filterset_fields = ("release_type", "artist_id__slug")
     search_fields = ["title", "artist_id__name"]
 
     def get_serializer_class(self):
-        if self.action == 'list':
+        if self.action == "list":
             return SimpleAlbumSerializer
+        if self.action == "create":
+            return CreateAlbumSerializer
         return AlbumSerializer
 
 
