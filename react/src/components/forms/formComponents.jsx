@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Select from "react-select";
+import Joi from "joi-browser";
 import { selectStyles } from "../../services/selectStyles";
 
 export const StyledForm = styled.form``;
@@ -12,7 +13,9 @@ const StyledInput = styled.div`
 
 const StyledSelect = styled.div``;
 
-export const InputComponent = ({ type = "text", name, label, placeholder, data, setData, error }) => {
+const StyledSubmitBtn = styled.div``;
+
+export const InputComponent = ({ type = "text", name, label, placeholder, data, setData, errors }) => {
     const handleChange = ({ currentTarget: input }) => {
         const newData = { ...data };
         newData[name] = input.value;
@@ -21,13 +24,25 @@ export const InputComponent = ({ type = "text", name, label, placeholder, data, 
     return (
         <StyledInput>
             <label htmlFor={name}>{label}</label>
-            <input type={name} id={name} value={data[name]} onChange={handleChange} placeholder={placeholder} />
-            {error && <p>{error}</p>}
+            <input type={type} id={name} value={data[name]} onChange={handleChange} placeholder={placeholder} />
+            {errors[name] && <p className="errorContainer">{errors[name]}</p>}
         </StyledInput>
     );
 };
 
-export const SelectComponent = ({ name, label, options, isSearchable, isMulti, data, setData }) => {
+export const FileInputComponent = ({ name, label, setFile }) => {
+    const handleChange = ({ currentTarget: input }) => {
+        setFile(input.files[0]);
+    };
+    return (
+        <StyledInput>
+            <label htmlFor={name}>{label}</label>
+            <input type="file" id={name} onChange={handleChange} />
+        </StyledInput>
+    );
+};
+
+export const SelectComponent = ({ name, label, options, isSearchable, isMulti, data, setData, errors }) => {
     const handleChange = (value) => {
         const newData = { ...data };
         newData[name] = value.value;
@@ -44,6 +59,23 @@ export const SelectComponent = ({ name, label, options, isSearchable, isMulti, d
                 isSearchable={isSearchable}
                 isMulti={isMulti}
             />
+            {errors[name] && <p className="errorContainer">{errors[name]}</p>}
         </StyledSelect>
     );
+};
+
+export const SubmitBtnComponent = ({ value }) => {
+    return (
+        <StyledSubmitBtn>
+            <input type="submit" value={value} />
+        </StyledSubmitBtn>
+    );
+};
+
+export const validate = (data, schema) => {
+    const { error } = Joi.validate(data, schema, { abortEarly: false });
+    if (!error) return null;
+    const errors = {};
+    for (let item of error.details) errors[item.path[0]] = item.message;
+    return errors;
 };

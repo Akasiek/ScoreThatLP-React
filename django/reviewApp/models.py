@@ -90,7 +90,7 @@ class Album(models.Model):
 
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    release_date = models.DateField(null=True)
+    release_date = models.DateField()
     artist_id = models.ForeignKey(
         Artist, on_delete=models.PROTECT, related_name="albums"
     )

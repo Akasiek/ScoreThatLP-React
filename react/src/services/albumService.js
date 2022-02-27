@@ -14,6 +14,11 @@ export const getAlbum = (id) => {
     return http.get(albumUrl(id));
 };
 
+export const saveAlbum = (album) => {
+    console.log(album);
+    return http.post(apiEndpoint + "/", album);
+};
+
 export const getNewReleases = () => {
     return http.get(`${apiEndpoint}/?ordering=-release_date&type=LP`);
 };

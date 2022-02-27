@@ -1,4 +1,4 @@
-from django.db.models import F, Avg, Count, Window
+from django.db.models import F, Avg, Count
 from django.db.models.fields import IntegerField
 from rest_framework import pagination
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -68,7 +68,7 @@ class AlbumViewSet(ModelViewSet):
 
     # permission_classes = [IsAdminOrPostOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    ordering_fields = ["title", "release_date"]
+    ordering_fields = ["id", "title", "release_date"]
     filterset_fields = ("release_type", "artist_id__slug")
     search_fields = ["title", "artist_id__name"]
 

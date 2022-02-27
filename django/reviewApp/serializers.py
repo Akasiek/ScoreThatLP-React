@@ -96,11 +96,6 @@ class AlbumSerializer(serializers.ModelSerializer):
             "aoty"
         ]
 
-    # Save slug
-    def create(self, validated_data):
-        slug = slugify(validated_data["title"])
-        return Album.objects.create(slug=slug, **validated_data)
-
 
 class CreateAlbumSerializer(serializers.ModelSerializer):
     class Meta:
@@ -112,6 +107,14 @@ class CreateAlbumSerializer(serializers.ModelSerializer):
             "release_date",
             "release_type"
         ]
+
+    def create(self, validated_data):
+        if Album.objects.filter(title=self.validated_data["title"], artist_id=self.validated_data["artist_id"]).exists():
+            raise serializers.ValidationError(
+                'This albums is already in database')
+        # Save slug
+        slug = slugify(validated_data["title"])
+        return Album.objects.create(slug=slug, **validated_data)
 
 
 class SimpleAlbumSerializer(serializers.ModelSerializer):
@@ -248,5 +251,4 @@ class ReviewSerializer(serializers.ModelSerializer):
         if Review.objects.filter(album_id=self.validated_data["album_id"], reviewer_id=self.validated_data["reviewer_id"]).exists():
             raise serializers.ValidationError(
                 'This user created review for this album already')
-
         return Review.objects.create(**validated_data)
