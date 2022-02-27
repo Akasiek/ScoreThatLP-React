@@ -42,7 +42,7 @@ export const StyledSearchBar = styled.div`
     }
 `;
 
-const SearchBar = ({ visibleSearchBar, value, queryResults, onSearch, onSubmit, onClick }) => {
+const SearchBar = ({ visibleSearchBar, value, queryResults, timer, onSearch, onSubmit, onClick }) => {
     return (
         <StyledSearchBar visibility={visibleSearchBar ? 1 : 0}>
             <div className="searchInputContainer">
@@ -58,7 +58,7 @@ const SearchBar = ({ visibleSearchBar, value, queryResults, onSearch, onSubmit, 
                     />
                 </form>
             </div>
-            <SearchResults queryResults={queryResults} visibility={visibleSearchBar} onClick={onClick} />
+            <SearchResults queryResults={queryResults} searchQuery={value} timer={timer} visibility={visibleSearchBar} onClick={onClick} />
         </StyledSearchBar>
     );
 };

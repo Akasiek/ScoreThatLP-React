@@ -86,6 +86,13 @@ export const StyledSearchResults = styled.div`
         }
     }
 
+    .noQuery {
+        padding-block: clamp(1rem, 1.5vw, 1.5rem);
+        h2 {
+            font-size: clamp(1rem, 2vw, 2rem);
+        }
+    }
+
     @media (max-width: ${({ theme }) => theme.mobile}) {
         left: 0;
         max-width: none;
@@ -104,7 +111,7 @@ export const StyledSearchResults = styled.div`
     }
 `;
 
-const SearchResults = ({ queryResults: propsQueryResults, onClick }) => {
+const SearchResults = ({ queryResults: propsQueryResults, searchQuery, timer, onClick }) => {
     const { albums, artists, reviewers } = propsQueryResults;
     const [queryResults, setQueryResults] = useState({ albums: [], artists: [], reviewers: [] });
 
@@ -115,7 +122,7 @@ const SearchResults = ({ queryResults: propsQueryResults, onClick }) => {
     return (
         <StyledSearchResults>
             <SimpleBar className="simplebar" autoHide={false} forceVisible="y">
-                {(!_.isEmpty(queryResults.albums) || !_.isEmpty(queryResults.artists) || !_.isEmpty(queryResults.reviewers)) && (
+                {!_.isEmpty(queryResults.albums) || !_.isEmpty(queryResults.artists) || !_.isEmpty(queryResults.reviewers) ? (
                     <div className="resultContainer">
                         {queryResults.albums.length !== 0 &&
                             queryResults.albums?.slice(0, 4).map((a) => (
@@ -171,6 +178,14 @@ const SearchResults = ({ queryResults: propsQueryResults, onClick }) => {
                                 </React.Fragment>
                             ))}
                     </div>
+                ) : (
+                    searchQuery &&
+                    searchQuery !== "" &&
+                    timer === null && (
+                        <div className="noQuery">
+                            <h2>No query results</h2>
+                        </div>
+                    )
                 )}
             </SimpleBar>
         </StyledSearchResults>

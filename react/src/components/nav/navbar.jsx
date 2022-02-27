@@ -203,19 +203,25 @@ class NavBar extends Component {
         visibleLinkNav: false,
         searchQuery: "",
         queryResults: [],
+        timer: null,
     };
 
     handleSearch = async (searchQuery) => {
         this.setState({ searchQuery });
-        if (searchQuery && searchQuery !== "") {
-            const { data: artistsResults } = await searchArtists(searchQuery);
-            const { data: albumsResults } = await searchAlbums(searchQuery);
-            const { data: reviewersResults } = await searchReviewers(searchQuery);
-            const queryResults = { albums: albumsResults, artists: artistsResults, reviewers: reviewersResults };
-            this.setState({ queryResults });
-        } else {
-            this.setState({ queryResults: [] });
-        }
+        clearTimeout(this.state.timer);
+
+        const newTimer = setTimeout(async () => {
+            if (searchQuery && searchQuery !== "") {
+                const { data: artistsResults } = await searchArtists(searchQuery);
+                const { data: albumsResults } = await searchAlbums(searchQuery);
+                const { data: reviewersResults } = await searchReviewers(searchQuery);
+                const queryResults = { albums: albumsResults, artists: artistsResults, reviewers: reviewersResults };
+                this.setState({ queryResults, timer: null });
+            } else {
+                this.setState({ queryResults: [], timer: null });
+            }
+        }, 250);
+        this.setState({ timer: newTimer });
     };
 
     toggleSearchBar = () => {
@@ -243,7 +249,8 @@ class NavBar extends Component {
     };
 
     render() {
-        const { visibleLinkNav, visibleSearchBar, searchQuery, queryResults } = this.state;
+        const { visibleLinkNav, visibleSearchBar, searchQuery, queryResults, timer } = this.state;
+        console.log(timer);
         return (
             <ClickAwayListener onClickAway={this.handleClickAway}>
                 <StyledNavBar>
@@ -280,6 +287,7 @@ class NavBar extends Component {
                         visibleSearchBar={visibleSearchBar}
                         value={searchQuery}
                         queryResults={queryResults}
+                        timer={timer}
                         onSearch={this.handleSearch}
                         onSubmit={this.handleSubmit}
                         onClick={this.handleClick}
