@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 
-import ContentGroup from "./common/contentGroup";
-import { getAlbums } from "./../services/albumService";
-import { Main } from "./../App";
 import LoadingScreen from "./loadingScreen";
+import ContentGroup from "./common/contentGroup";
+import FormLink from "./forms/formLink";
+import { Main } from "./../App";
+import { getAlbums } from "./../services/albumService";
 
 export const StyledContentGroupPage = styled.div`
     padding: 2rem 0;
@@ -49,6 +50,7 @@ const Albums = () => {
                 <title>Albums | ScoreThatLP</title>
             </Helmet>
             <StyledContentGroupPage>
+                <FormLink label="Add Album" url="/albums/new" />
                 <ContentGroup
                     title="Albums"
                     content={albums}

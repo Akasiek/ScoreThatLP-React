@@ -9,6 +9,28 @@ export const StyledForm = styled.form``;
 const StyledInput = styled.div`
     display: flex;
     flex-direction: column;
+
+    input {
+        width: 80%;
+        font-size: 1.2rem;
+        font-family: "Montserrat", sans-serif;
+        border: none;
+        outline: none;
+        background-color: var(--blueColor);
+        color: var(--lightColor);
+        margin: 1.25rem;
+        padding: 0.75rem;
+
+        @media (max-width: ${({ theme }) => theme.mobile}) {
+            font-size: 0.9rem;
+            margin: 1rem;
+            padding: 0.5rem;
+        }
+
+        &:focus {
+            box-shadow: 0 0 25px 5px var(--darkestColor);
+        }
+    }
 `;
 
 const StyledSelect = styled.div``;
