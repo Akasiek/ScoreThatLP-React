@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
@@ -197,105 +197,101 @@ export const CloseMenuIcon = styled.img`
     }
 `;
 
-class NavBar extends Component {
-    state = {
-        visibleSearchBar: false,
-        visibleLinkNav: false,
-        searchQuery: "",
-        queryResults: [],
-        timer: null,
+const NavBar = ({ history }) => {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [queryResults, setQueryResults] = useState({});
+    const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
+    const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
+    const [timer, setTimer] = useState(null);
+
+    const resetStates = () => {
+        setSearchQuery("");
+        setQueryResults({});
+        setIsSearchBarVisible(false);
+        setIsMobileMenuVisible(false);
     };
 
-    handleSearch = async (searchQuery) => {
-        this.setState({ searchQuery });
-        clearTimeout(this.state.timer);
+    const handleSearch = async (searchQuery) => {
+        setSearchQuery(searchQuery);
+        clearTimeout(timer);
 
         const newTimer = setTimeout(async () => {
             if (searchQuery && searchQuery !== "") {
                 const { data: artistsResults } = await searchArtists(searchQuery);
                 const { data: albumsResults } = await searchAlbums(searchQuery);
                 const { data: reviewersResults } = await searchReviewers(searchQuery);
-                const queryResults = { albums: albumsResults, artists: artistsResults, reviewers: reviewersResults };
-                this.setState({ queryResults, timer: null });
+                setQueryResults({ albums: albumsResults, artists: artistsResults, reviewers: reviewersResults });
+                setTimer(null);
             } else {
-                this.setState({ queryResults: [], timer: null });
+                setQueryResults({});
+                setTimer(null);
             }
-        }, 250);
-        this.setState({ timer: newTimer });
+        }, 200);
+        setTimer(newTimer);
     };
 
-    toggleSearchBar = () => {
-        const { visibleSearchBar } = this.state;
-        this.setState({ visibleSearchBar: !visibleSearchBar, searchQuery: "", queryResults: [] });
-        if (!visibleSearchBar) document.getElementById("searchInput").focus();
+    const toggleSearchBar = () => {
+        setIsSearchBarVisible(!isSearchBarVisible);
+        setSearchQuery("");
+        setQueryResults({});
+        if (!isSearchBarVisible) document.getElementById("searchInput").focus();
     };
 
-    toggleLinkNab = () => {
-        const { visibleLinkNav } = this.state;
-        this.setState({ visibleLinkNav: !visibleLinkNav });
+    const toggleMobileMenu = () => setIsMobileMenuVisible(!isMobileMenuVisible);
+
+    const handleClickAway = () => resetStates();
+
+    const handleSubmit = () => {
+        history.push(`/search/${searchQuery}`);
+        resetStates();
     };
 
-    handleClickAway = () => {
-        this.setState({ visibleSearchBar: false, visibleLinkNav: false, searchQuery: "", queryResults: [] });
-    };
+    const handleClick = () => resetStates();
 
-    handleSubmit = () => {
-        this.props.history.push(`/search/${this.state.searchQuery}`);
-        this.setState({ visibleSearchBar: false, searchQuery: "", queryResults: [] });
-    };
+    return (
+        <ClickAwayListener onClickAway={handleClickAway}>
+            <StyledNavBar>
+                <NavBarContainer>
+                    <LogoContainer>
+                        <NavLink to="/">
+                            <img src="/images/logo.svg" alt="ScoreThatLP Logo" />
+                        </NavLink>
+                    </LogoContainer>
+                    <SearchIcon onClick={toggleSearchBar} src="/images/search.svg" alt="Search Icon" />
+                    <NavLinks visibility={isMobileMenuVisible ? 1 : 0}>
+                        <CloseMenuIcon src="/images/close.svg" onClick={toggleMobileMenu} />
+                        <NavLink to="/albums" onClick={handleClickAway}>
+                            albums
+                        </NavLink>
+                        <NavLink to="/artists" onClick={handleClickAway}>
+                            artists
+                        </NavLink>
+                        <NavLink to="/aoty" onClick={handleClickAway}>
+                            aoty
+                        </NavLink>
+                        <NavLink to="/new-releases" onClick={handleClickAway}>
+                            new releases
+                        </NavLink>
+                        <hr />
+                        <NavLink to="/login" onClick={handleClickAway}>
+                            <Button>log in</Button>
+                        </NavLink>
+                    </NavLinks>
+                    <BurgerIcon src="/images/burgerMenu.svg" alt="Burger Menu" aria-hidden={true} onClick={toggleMobileMenu} />
+                </NavBarContainer>
 
-    handleClick = () => {
-        this.setState({ visibleSearchBar: false, searchQuery: "", queryResults: [] });
-    };
-
-    render() {
-        const { visibleLinkNav, visibleSearchBar, searchQuery, queryResults, timer } = this.state;
-        console.log(timer);
-        return (
-            <ClickAwayListener onClickAway={this.handleClickAway}>
-                <StyledNavBar>
-                    <NavBarContainer>
-                        <LogoContainer>
-                            <NavLink to="/">
-                                <img src="/images/logo.svg" alt="ScoreThatLP Logo" />
-                            </NavLink>
-                        </LogoContainer>
-                        <SearchIcon onClick={this.toggleSearchBar} src="/images/search.svg" alt="Search Icon" />
-                        <NavLinks visibility={visibleLinkNav ? 1 : 0}>
-                            <CloseMenuIcon src="/images/close.svg" onClick={this.toggleLinkNab} />
-                            <NavLink to="/albums" onClick={this.handleClickAway}>
-                                albums
-                            </NavLink>
-                            <NavLink to="/artists" onClick={this.handleClickAway}>
-                                artists
-                            </NavLink>
-                            <NavLink to="/aoty" onClick={this.handleClickAway}>
-                                aoty
-                            </NavLink>
-                            <NavLink to="/new-releases" onClick={this.handleClickAway}>
-                                new releases
-                            </NavLink>
-                            <hr />
-                            <NavLink to="/login" onClick={this.handleClickAway}>
-                                <Button>log in</Button>
-                            </NavLink>
-                        </NavLinks>
-                        <BurgerIcon src="/images/burgerMenu.svg" alt="Burger Menu" aria-hidden={true} onClick={this.toggleLinkNab} />
-                    </NavBarContainer>
-
-                    <SearchBar
-                        visibleSearchBar={visibleSearchBar}
-                        value={searchQuery}
-                        queryResults={queryResults}
-                        timer={timer}
-                        onSearch={this.handleSearch}
-                        onSubmit={this.handleSubmit}
-                        onClick={this.handleClick}
-                    />
-                </StyledNavBar>
-            </ClickAwayListener>
-        );
-    }
-}
+                <SearchBar
+                    visibleSearchBar={isSearchBarVisible}
+                    value={searchQuery}
+                    queryResults={queryResults}
+                    timer={timer}
+                    onSearch={handleSearch}
+                    onSubmit={handleSubmit}
+                    onClick={handleClick}
+                />
+            </StyledNavBar>
+        </ClickAwayListener>
+    );
+};
 
 export default withRouter(NavBar);
