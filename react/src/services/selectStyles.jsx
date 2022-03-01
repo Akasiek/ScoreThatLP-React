@@ -22,7 +22,7 @@ export const selectStyles = {
     valueContainer: (provided, state) => ({
         ...provided,
         backgroundColor: "#16213e",
-        marginLeft: 3,
+        marginLeft: 10,
     }),
 
     singleValue: (provided, state) => ({

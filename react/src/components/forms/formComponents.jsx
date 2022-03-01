@@ -4,38 +4,158 @@ import Select from "react-select";
 import Joi from "joi-browser";
 import { selectStyles } from "../../services/selectStyles";
 
-export const StyledForm = styled.form``;
+export const StyledForm = styled.form`
+    background-color: var(--darkBlueColor);
+    padding: 3rem 5rem;
+
+    & > div {
+        margin-bottom: 2.5rem;
+    }
+
+    .label {
+        font-size: clamp(1.25rem, 2vw, 2rem);
+        margin-bottom: 1rem;
+    }
+
+    .errorContainer {
+        margin-left: 1rem;
+        margin-top: 0.5rem;
+        font-size: clamp(0.9rem, 1.35vw, 1.35rem);
+        color: var(--redScoreColor);
+    }
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        padding: 1.5rem 2rem;
+
+        & > div {
+            margin-bottom: 2rem;
+        }
+
+        .label {
+            margin-bottom: 0.5rem;
+        }
+    }
+`;
 
 const StyledInput = styled.div`
     display: flex;
     flex-direction: column;
 
     input {
-        width: 80%;
-        font-size: 1.2rem;
-        font-family: "Montserrat", sans-serif;
-        border: none;
-        outline: none;
-        background-color: var(--blueColor);
-        color: var(--lightColor);
-        margin: 1.25rem;
-        padding: 0.75rem;
+        font-size: clamp(1rem, 1.5vw, 1.5rem);
+        font-family: "Montserrat";
+        font-weight: normal;
 
-        @media (max-width: ${({ theme }) => theme.mobile}) {
-            font-size: 0.9rem;
-            margin: 1rem;
-            padding: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 25px;
+        box-shadow: 0;
+        transition: all 0.2s ease-in-out;
+
+        border: 1px solid var(--accentColor);
+        background-color: var(--darkBlueColor);
+        color: var(--lightColor);
+
+        &[type="date"] {
+            &::-webkit-calendar-picker-indicator {
+                filter: invert(1);
+            }
         }
 
-        &:focus {
-            box-shadow: 0 0 25px 5px var(--darkestColor);
+        &:focus-visible {
+            outline: none;
+            box-shadow: 0 0 1.5rem -0.25rem var(--accentColor);
         }
     }
 `;
 
-const StyledSelect = styled.div``;
+const StyledFileInput = styled.div`
+    display: flex;
+    flex-direction: column;
 
-const StyledSubmitBtn = styled.div``;
+    input[type="file"] {
+        font-family: "Montserrat";
+        font-size: clamp(0.8rem, 1.1vw, 1.1rem);
+
+        &::file-selector-button {
+            margin: 0.5rem 1rem 0.5rem 0;
+            cursor: pointer;
+            border: none;
+            outline: none;
+
+            background-color: var(--accentColor);
+            color: var(--darkestColor);
+            box-shadow: 0 0.4rem rgb(0, 0, 0, 0.2);
+
+            font-weight: 900;
+            font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+            font-family: "Montserrat";
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+
+            transition: all 0.1s ease-in-out;
+
+            &:active {
+                transform: translateY(0.4rem);
+                box-shadow: 0 0 rgb(0, 0, 0, 0.2);
+            }
+        }
+    }
+`;
+
+const StyledSelect = styled.div`
+    .css-1pcxlbb-ValueContainer {
+        font-size: clamp(1rem, 1.5vw, 1.5rem);
+        padding: 0.35rem 0.5rem;
+        font-weight: normal;
+        border-radius: 25px;
+        #react-select-3-input {
+            color: var(--lightColor) !important;
+        }
+
+        &:focus-visible {
+            outline: none;
+            box-shadow: 0 0 1.5rem -0.25rem var(--accentColor);
+        }
+    }
+`;
+
+const StyledSubmitBtn = styled.div`
+    margin-top: 5rem;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+
+    input {
+        cursor: pointer;
+        border: none;
+        outline: none;
+
+        background-color: var(--dark);
+        border: 2px solid var(--accentColor);
+        color: var(--lightColor);
+        box-shadow: 0 0.4rem rgb(0, 0, 0, 0.2);
+
+        font-weight: 900;
+        font-size: clamp(1rem, 1.5vw, 1.5rem);
+        font-family: "Montserrat";
+
+        padding: 0.6rem 1.5rem;
+
+        border-radius: 25px;
+
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+            background-color: var(--accentColor);
+            color: var(--darkestColor);
+        }
+
+        &:active {
+            transform: translateY(0.4rem);
+            box-shadow: 0 0 rgb(0, 0, 0, 0.2);
+        }
+    }
+`;
 
 export const InputComponent = ({ type = "text", name, label, placeholder, data, setData, errors }) => {
     const handleChange = ({ currentTarget: input }) => {
@@ -45,7 +165,9 @@ export const InputComponent = ({ type = "text", name, label, placeholder, data, 
     };
     return (
         <StyledInput>
-            <label htmlFor={name}>{label}</label>
+            <label htmlFor={name} className="label">
+                {label}
+            </label>
             <input type={type} id={name} value={data[name]} onChange={handleChange} placeholder={placeholder} />
             {errors[name] && <p className="errorContainer">{errors[name]}</p>}
         </StyledInput>
@@ -57,10 +179,12 @@ export const FileInputComponent = ({ name, label, setFile }) => {
         setFile(input.files[0]);
     };
     return (
-        <StyledInput>
-            <label htmlFor={name}>{label}</label>
+        <StyledFileInput>
+            <label htmlFor={name} className="label">
+                {label}
+            </label>
             <input type="file" id={name} onChange={handleChange} />
-        </StyledInput>
+        </StyledFileInput>
     );
 };
 
@@ -72,7 +196,7 @@ export const SelectComponent = ({ name, label, options, isSearchable, isMulti, d
     };
     return (
         <StyledSelect>
-            <p>{label}</p>
+            <p className="label">{label}</p>
             <Select
                 options={options}
                 onChange={handleChange}
