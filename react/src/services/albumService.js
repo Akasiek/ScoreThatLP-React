@@ -15,7 +15,6 @@ export const getAlbum = (id) => {
 };
 
 export const saveAlbum = (album) => {
-    console.log(album);
     return http.post(apiEndpoint + "/", album);
 };
 
