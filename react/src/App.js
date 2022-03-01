@@ -21,6 +21,7 @@ import Footer from "./components/footer";
 
 import styled, { ThemeProvider } from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
+import ArtistForm from "./components/forms/artistForm";
 
 const theme = {
     colors: {
@@ -74,6 +75,7 @@ const App = () => {
                         <Route exact path="/albums/:id" component={AlbumPage} />
                         <Route exact path="/albums/:id/reviews" component={ReviewsPage} />
                         <Route exact path="/artists" component={Artists} />
+                        <Route exact path="/artists/new" component={ArtistForm} />
                         <Route exact path="/artists/:slug" component={ArtistPage} />
                         <Route exact path="/new-releases" component={NewReleases} />
                         <Route exact path="/aoty" component={AOTY} />

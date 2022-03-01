@@ -5,6 +5,7 @@ import ContentGroup from "./common/contentGroup";
 import { StyledContentGroupPage } from "./albums";
 import { getArtists } from "./../services/artistService";
 import LoadingScreen from "./loadingScreen";
+import FormLink from "./forms/formLink";
 
 const Artists = () => {
     const [artists, setArtists] = useState(null);
@@ -20,6 +21,7 @@ const Artists = () => {
                 <title>Artists | ScoreThatLP</title>
             </Helmet>
             <StyledContentGroupPage>
+                <FormLink label="Add Artist" url="/artists/new" />
                 <ContentGroup
                     title="Artists"
                     content={artists}
