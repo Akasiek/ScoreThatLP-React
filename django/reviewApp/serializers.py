@@ -7,7 +7,7 @@ from .models import Album, AlbumLink, Artist, FavoriteReviewerArtist, Review, Re
 
 
 class ArtistSerializer(serializers.ModelSerializer):
-    average_score = serializers.IntegerField()
+    average_score = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Artist

@@ -32,7 +32,7 @@ export const getAOTY = () => {
 };
 
 export const getNewSingles = () => {
-    return http.get(`${apiEndpoint}/?ordering=-release_date&type=Single`);
+    return http.get(`${apiEndpoint}/?ordering=-release_date&release_type=Single`);
 };
 
 export const searchAlbums = (query) => {
