@@ -5,12 +5,11 @@ import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import ClickAwayListener from "react-click-away-listener";
 
 import SearchBar from "./searchBar";
-import { Button } from "../common.styled";
 import { searchArtists } from "./../../services/artistService";
 import { searchReviewers } from "../../services/reviewerService";
 import { searchAlbums } from "./../../services/albumService";
 
-export const StyledNavBar = styled.nav`
+const StyledNavBar = styled.nav`
     top: 0;
     left: 0;
     right: 0;
@@ -19,7 +18,7 @@ export const StyledNavBar = styled.nav`
     overflow: hidden;
 `;
 
-export const NavBarContainer = styled.div`
+const NavBarContainer = styled.div`
     z-index: 200;
     position: sticky;
     background-color: var(--accentColor);
@@ -35,7 +34,7 @@ export const NavBarContainer = styled.div`
     }
 `;
 
-export const LogoContainer = styled.div`
+const LogoContainer = styled.div`
     flex: 1;
     padding-left: 30px;
 
@@ -61,7 +60,7 @@ export const LogoContainer = styled.div`
     }
 `;
 
-export const NavLinks = styled.div`
+const NavLinks = styled.div`
     display: flex;
     align-items: center;
     text-align: right;
@@ -152,7 +151,7 @@ export const NavLinks = styled.div`
     }
 `;
 
-export const SearchIcon = styled.img`
+const SearchIcon = styled.img`
     height: 25px;
     min-height: 15px;
     margin-right: 30px;
@@ -169,7 +168,7 @@ export const SearchIcon = styled.img`
     }
 `;
 
-export const BurgerIcon = styled.img`
+const BurgerIcon = styled.img`
     display: none;
 
     min-height: 15px;
@@ -183,7 +182,7 @@ export const BurgerIcon = styled.img`
     }
 `;
 
-export const CloseMenuIcon = styled.img`
+const CloseMenuIcon = styled.img`
     height: 25px;
     display: none;
     cursor: pointer;
@@ -194,6 +193,32 @@ export const CloseMenuIcon = styled.img`
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
         display: block;
+    }
+`;
+
+const Button = styled.button`
+    background-color: ${({ theme }) => theme.colors.blueColor};
+    border: none;
+
+    color: ${({ theme }) => theme.colors.lightColor};
+    font-family: "Montserrat", sans-serif !important;
+    font-weight: 900;
+    text-decoration: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+
+    aspect-ratio: 2.2 / 1;
+    width: 4.65em;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+    transition: all 0.05s ease-in-out;
+
+    &:active {
+        transform: translateY(4px);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
     }
 `;
 
