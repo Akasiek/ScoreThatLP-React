@@ -15,6 +15,8 @@ export const StyledSearchResults = styled.div`
     min-width: 40%;
     max-width: 50%;
     background-color: var(--blueColor);
+    border: ${(props) => (!props?.isQueryEmpty ? "4px solid var(--accentColor)" : "0")};
+    border-top: 0;
     left: 5%;
     margin: 0;
     margin-right: 5%;
@@ -22,7 +24,6 @@ export const StyledSearchResults = styled.div`
     .simplebar {
         max-height: 60vh;
         .simplebar-scrollbar::before {
-            /* opacity: 1; */
             background-color: var(--lightColor);
         }
     }
@@ -97,7 +98,6 @@ export const StyledSearchResults = styled.div`
         left: 0;
         max-width: none;
         width: 100%;
-        /* flex-direction: row; */
 
         .resultContainer {
             padding: 1rem 2rem 1rem;
@@ -114,15 +114,19 @@ export const StyledSearchResults = styled.div`
 const SearchResults = ({ queryResults: propsQueryResults, searchQuery, timer, onClick }) => {
     const { albums, artists, reviewers } = propsQueryResults;
     const [queryResults, setQueryResults] = useState({ albums: [], artists: [], reviewers: [] });
+    const [isQueryEmpty, setIsQueryEmpty] = useState(true);
 
     useDeepCompareEffect(() => {
         setQueryResults({ albums: albums || [], artists: artists || [], reviewers: reviewers || [] });
+
+        if (!_.isEmpty(albums) || !_.isEmpty(artists) || !_.isEmpty(reviewers)) setIsQueryEmpty(false);
+        else setIsQueryEmpty(true);
     }, [propsQueryResults]);
 
     return (
-        <StyledSearchResults>
+        <StyledSearchResults isQueryEmpty={isQueryEmpty}>
             <SimpleBar className="simplebar" autoHide={false} forceVisible="y">
-                {!_.isEmpty(queryResults.albums) || !_.isEmpty(queryResults.artists) || !_.isEmpty(queryResults.reviewers) ? (
+                {!isQueryEmpty ? (
                     <div className="resultContainer">
                         {queryResults.albums.length !== 0 &&
                             queryResults.albums?.slice(0, 4).map((a) => (
