@@ -62,7 +62,7 @@ const AlbumPageReviewsContainer = ({ album }) => {
         const { data: allReviews } = await getAlbumReviews(album.id);
         setReviews(allReviews.filter((r) => r.review_text !== null));
         setRatings(allReviews.filter((r) => r.review_text === null));
-    }, []);
+    }, [album.id]);
 
     return reviews && ratings ? (
         <StyledReviewsContainer>
