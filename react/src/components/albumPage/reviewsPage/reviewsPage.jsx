@@ -91,7 +91,7 @@ const ReviewsPage = ({ match }) => {
         const { data: allReviews } = await getAlbumReviews(match.params.id);
         setReviews(allReviews.filter((r) => r.review_text !== null));
         setRatings(allReviews.filter((r) => r.review_text === null));
-    }, []);
+    }, [match.params.id]);
 
     return album && reviews && ratings ? (
         <Main pushUnderNavbar={true}>
