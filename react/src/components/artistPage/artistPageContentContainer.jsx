@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { getArtistAlbums, getLatestArtistReviews } from "../../services/fakeMusicService";
+import React, { useState, useEffect } from "react";
 import ContentGroup from "../common/contentGroup";
-import useDeepCompareEffect from "use-deep-compare-effect";
 import ArtistPageAlbumsGroup from "./artistPageAlbumsGroup";
 import { StyledContentGroupPage } from "./../albums";
+import { getLatestArtistReviews } from "../../services/reviewService";
 
 const ArtistPageContentContainer = ({ artist }) => {
-    const [latestReviews, setLatestReviews] = useState(getLatestArtistReviews(artist.id));
+    const [latestReviews, setLatestReviews] = useState(null);
 
-    useDeepCompareEffect(() => {
-        setLatestReviews(getLatestArtistReviews(artist.id));
-    }, [artist]);
+    useEffect(async () => {
+        const { data: reviews } = await getLatestArtistReviews(artist.slug);
+        setLatestReviews(reviews);
+    }, [artist.slug]);
 
     return (
         <StyledContentGroupPage>

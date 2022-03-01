@@ -6,6 +6,10 @@ export const getAlbumReviews = (album_id) => {
     return http.get(`${apiEndpoint}/?album_id=${album_id}`);
 };
 
+export const getLatestArtistReviews = (artist_slug) => {
+    return http.get(`${apiEndpoint}?ordering=-created_at&album_id__artist_id__slug=${artist_slug}`);
+};
+
 export const getReviewerReviews = (reviewer_id) => {
     return http.get(`${apiEndpoint}/?reviewer_id=${reviewer_id}`);
 };
@@ -15,5 +19,5 @@ export const getLatestReviewerReviews = (reviewer_id) => {
 };
 
 export const getLatestReviewsOnly = () => {
-    return http.get(`${apiEndpoint}/?ordering=-created_at&reviews_only`);
+    return http.get(`${apiEndpoint}/?ordering=-created_at&review_text__isnull=False`);
 };
