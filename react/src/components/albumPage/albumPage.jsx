@@ -9,7 +9,7 @@ import { Main } from "../../App";
 import { getAlbum } from "../../services/albumService";
 import LoadingScreen from "../loadingScreen";
 
-export const StyledAlbumPage = styled.header`
+export const StyledAlbumPage = styled.div`
     background-color: var(--darkBlueColor);
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
     max-width: 100%;

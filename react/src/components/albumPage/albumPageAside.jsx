@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import moment from "moment";
+import AlbumPageTracksForm from "./albumPageTracksForm";
 
 const StyledAlbumPageAside = styled.aside`
     display: flex;
@@ -157,6 +158,7 @@ const AlbumPageAside = ({ album }) => {
                     {
                         // TODO: Full album length
                     }
+                    <AlbumPageTracksForm album={album} />
                 </div>
             )}
         </StyledAlbumPageAside>

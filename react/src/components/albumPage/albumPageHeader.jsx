@@ -4,7 +4,7 @@ import styled from "styled-components";
 import moment from "moment";
 import getScoreColor from "../../utils/scoreColor";
 
-export const StyledAlbumPageHeader = styled.div`
+export const StyledAlbumPageHeader = styled.header`
     display: grid;
     grid-template-columns: auto 1fr;
 
