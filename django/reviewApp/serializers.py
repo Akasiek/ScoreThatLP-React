@@ -119,8 +119,8 @@ class CreateAlbumSerializer(serializers.ModelSerializer):
 
 class SimpleAlbumSerializer(serializers.ModelSerializer):
     artist = SimpleArtistSerializer(source="artist_id", read_only=True)
-    overall_score = serializers.IntegerField()
-    number_of_ratings = serializers.IntegerField()
+    overall_score = serializers.IntegerField(read_only=True)
+    number_of_ratings = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Album
