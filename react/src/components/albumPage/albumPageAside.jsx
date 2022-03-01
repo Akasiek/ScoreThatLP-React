@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import AlbumPageTracksForm from "./albumPageTracksForm";
@@ -98,6 +98,15 @@ const StyledAlbumPageAside = styled.aside`
 `;
 
 const AlbumPageAside = ({ album }) => {
+    const [albumDuration, setAlbumDuration] = useState("");
+
+    useEffect(() => {
+        let albumDuration = 0;
+        album.tracks.map((t) => {
+            albumDuration = moment(albumDuration).add(t.duration);
+        });
+        setAlbumDuration(albumDuration);
+    }, [album.id]);
     return (
         <StyledAlbumPageAside>
             {album.links.length !== 0 && (
@@ -158,9 +167,10 @@ const AlbumPageAside = ({ album }) => {
                     {
                         // TODO: Full album length
                     }
-                    <AlbumPageTracksForm album={album} />
+                    {/* <p className="albumDuration">{moment(albumDuration, [moment.ISO_8601, "HH:MM:ss"])}</p> */}
                 </div>
             )}
+            {/* <AlbumPageTracksForm album={album} /> */}
         </StyledAlbumPageAside>
     );
 };
