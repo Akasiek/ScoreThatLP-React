@@ -43,11 +43,9 @@ const AlbumForm = ({ history }) => {
             if (errors["artist_id"] == '"Artist" must be a number') errors["artist_id"] = '"Artist" is not allowed to be empty';
 
             setErrors(errors);
-            console.log(errors);
             return;
         }
 
-        console.log(errors);
         let apiData = new FormData();
         for (let key in data) {
             if (data[key] === "") apiData.append(key, null);
@@ -58,7 +56,7 @@ const AlbumForm = ({ history }) => {
         await saveAlbum(apiData);
         history.push("/albums/");
     };
-    console.log(data);
+
     return (
         <Main pushUnderNavbar={true}>
             <StyledForm onSubmit={handleSubmit}>
