@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
 import AlbumPageHeader from "./albumPageHeader";
-import AlbumPageAside from "./albumPageAside";
+import AlbumPageAside from "./albumPageAside/albumPageAside";
 import AlbumPageReviewSection from "./albumPageReviewSection";
 import { Main } from "../../App";
 import { getAlbum } from "../../services/albumService";
