@@ -41,7 +41,7 @@ class SimpleArtistSerializer(serializers.ModelSerializer):
 class TrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
-        fields = ["position", "title",  "duration", "album_id"]
+        fields = ["id", "position", "title",  "duration", "album_id"]
 
     def save(self, **kwargs):
         validated_data = {**self.validated_data, **kwargs}
