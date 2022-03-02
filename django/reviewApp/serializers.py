@@ -41,7 +41,7 @@ class SimpleArtistSerializer(serializers.ModelSerializer):
 class TrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
-        fields = ["position", "title",  "duration"]
+        fields = ["position", "title",  "duration", "album_id"]
 
     def save(self, **kwargs):
         validated_data = {**self.validated_data, **kwargs}
@@ -76,6 +76,7 @@ class AlbumSerializer(serializers.ModelSerializer):
     artist = SimpleArtistSerializer(source="artist_id", read_only=True)
     overall_score = serializers.IntegerField(read_only=True)
     number_of_ratings = serializers.IntegerField(read_only=True)
+    album_duration = serializers.DurationField(read_only=True)
 
     class Meta:
         model = Album
@@ -92,6 +93,7 @@ class AlbumSerializer(serializers.ModelSerializer):
             "release_date",
             "release_type",
             "tracks",
+            "album_duration",
             "links",
             "aoty"
         ]
@@ -120,7 +122,6 @@ class CreateAlbumSerializer(serializers.ModelSerializer):
 class SimpleAlbumSerializer(serializers.ModelSerializer):
     artist = SimpleArtistSerializer(source="artist_id", read_only=True)
     overall_score = serializers.IntegerField(read_only=True)
-    number_of_ratings = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Album
@@ -132,7 +133,6 @@ class SimpleAlbumSerializer(serializers.ModelSerializer):
             "release_type",
             "artist",
             "overall_score",
-            "number_of_ratings"
         ]
 
 

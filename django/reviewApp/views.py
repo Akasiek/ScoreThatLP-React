@@ -1,5 +1,5 @@
-from django.db.models import F, Avg, Count
-from django.db.models.fields import IntegerField
+from django.db.models import F, Avg, Count, Sum
+from django.db.models.fields import IntegerField, DurationField
 from rest_framework import pagination
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import action
@@ -61,10 +61,13 @@ class ArtistViewSet(ModelViewSet):
 
 class AlbumViewSet(ModelViewSet):
     queryset = Album.objects \
-        .prefetch_related("tracks", "album_genres", "album_links", "reviews") \
+        .prefetch_related("tracks", "album_genres", "album_genres__genre_id", "album_links", "reviews") \
         .select_related("aoty", "artist_id") \
-        .annotate(overall_score=Avg(F("reviews__rating"), output_field=IntegerField()),
-                  number_of_ratings=Count(F("reviews__rating"), output_field=IntegerField()))
+        .annotate(overall_score=Avg("reviews__rating", output_field=IntegerField()),
+                  number_of_ratings=Count("reviews",
+                                          output_field=IntegerField())) \
+        .annotate(album_duration=Sum("tracks__duration",
+                                     output_field=DurationField()))
 
     # permission_classes = [IsAdminOrPostOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
