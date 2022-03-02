@@ -9,6 +9,7 @@ from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from reviewApp import pagination
 from .serializers import (
+    AlbumLinkSerializer,
     AlbumOfTheYearSerializer,
     AlbumSerializer,
     ArtistSerializer,
@@ -18,7 +19,7 @@ from .serializers import (
     SimpleAlbumSerializer,
     TrackSerializer,
 )
-from .models import Album, Artist, Review, Reviewer, Track
+from .models import Album, AlbumLink, Artist, Review, Reviewer, Track
 from .permissions import IsAdminOrPostOnly
 
 
@@ -81,6 +82,11 @@ class AlbumViewSet(ModelViewSet):
         if self.action == "create":
             return CreateAlbumSerializer
         return AlbumSerializer
+
+
+class AlbumLinkViewSet(ModelViewSet):
+    queryset = AlbumLink.objects.select_related("album_id")
+    serializer_class = AlbumLinkSerializer
 
 
 class TrackViewSet(ModelViewSet):

@@ -63,7 +63,7 @@ class TrackSerializer(serializers.ModelSerializer):
 class AlbumLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlbumLink
-        fields = ["service_name", "url"]
+        fields = ["id", "album_id", "service_name", "url"]
 
 
 class AlbumSerializer(serializers.ModelSerializer):
