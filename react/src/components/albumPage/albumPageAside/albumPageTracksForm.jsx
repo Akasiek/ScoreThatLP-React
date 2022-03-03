@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { saveTrack } from "./../../../services/trackService";
 
 const StyledTracksForm = styled.div`
-    margin: -1rem -3rem;
     position: fixed;
     z-index: 500;
     top: 0;
@@ -18,22 +17,113 @@ const StyledTracksForm = styled.div`
     justify-content: center;
     align-items: center;
 
+    input {
+        font-family: "Montserrat";
+        border: none;
+        outline: none;
+        background-color: var(--lightColor);
+        color: var(--darkestColor);
+    }
+
     .formContainer {
         background-color: var(--accentColor);
+        overflow-y: auto;
+        max-height: 100vh;
+        .formHeader {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            h2 {
+                font-size: clamp(1.1rem, 1.65vw, 1.65rem);
+                padding: 1rem;
+            }
+
+            .closeIcon {
+                padding: 1rem;
+                height: clamp(1.25rem, 2vw, 2rem);
+            }
+        }
+    }
+
+    .trackInputsContainer {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 1rem;
+        & > input {
+            font-size: clamp(0.9rem, 1.5vw, 1.5rem);
+            padding: 0.5rem 0.75rem;
+        }
+        .positionInput {
+            text-align: center;
+            width: clamp(2rem, 3vw, 3rem);
+        }
+
+        .titleInput {
+            width: clamp(5rem, 15vw, 15rem);
+        }
+
+        .durationInput {
+            text-align: center;
+            width: clamp(3rem, 5vw, 5rem);
+        }
+
+        .deleteIcon {
+            cursor: pointer;
+            height: clamp(1.25rem, 2vw, 2rem);
+        }
+    }
+
+    .buttonsContainer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        & > input {
+            border-radius: 25px;
+            margin: 0.5rem 1rem 1rem 1rem;
+            padding: 0.25rem 0.65rem;
+            font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+
+            background-color: var(--accentColor);
+            color: var(--lightColor);
+            border: 3px solid var(--lightColor);
+            cursor: pointer;
+
+            transition: all 0.1s ease-in-out;
+
+            &:hover {
+                background-color: var(--lightColor);
+                color: var(--accentColor);
+            }
+        }
+        .addTrackButton {
+        }
+        .submitButton {
+            font-weight: 900;
+        }
+    }
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        .trackInputsContainer {
+            margin: 0.75rem;
+            gap: 0.5rem;
+        }
     }
 `;
 
 const AlbumPageTracksForm = ({ album, setVisibility }) => {
     const [tracks, setTracks] = useState([{ position: 1, title: "", duration: "" }]);
+    const [error, setError] = useState(null);
 
     const handleChange = ({ currentTarget: input }) => {
-        console.log(input);
         const newTracks = [...tracks];
-        const track = newTracks[parseInt(input.className)];
+        const track = newTracks[parseInt(input.id)];
 
         if (input.name == "position") track[input.name] = parseInt(input.value);
         else track[input.name] = input.value;
-        setTracks(newTracks);
+
+        setTracks(_.orderBy(newTracks, (t) => t.position, ["asc"]));
     };
 
     const handleTrackCreate = () => {
@@ -50,40 +140,71 @@ const AlbumPageTracksForm = ({ album, setVisibility }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const newTracks = [...tracks];
-        newTracks.forEach(async (t, index) => {
-            t.album_id = album.id;
-            const respond = await saveTrack(t);
-            console.log(respond);
-            if (index === newTracks.length - 1) {
-                window.location.reload(false);
-            }
-        });
+
+        if (newTracks.filter((t) => t.title === "").length === 0) {
+            setError(null);
+
+            newTracks.forEach(async (t, index) => {
+                t.album_id = album.id;
+                const respond = await saveTrack(t);
+                console.log(respond);
+                if (index === newTracks.length - 1) {
+                    window.location.reload(false);
+                }
+            });
+        } else setError("One or more titles are empty");
     };
 
     return (
         <StyledTracksForm>
             <div className="formContainer">
-                <p>{album.title} tracks</p>
-                <button type="button" onClick={setVisibility}>
-                    X
-                </button>
+                <div className="formHeader">
+                    <h2>{album.title} tracks</h2>
+                    <img src="/images/close.svg" className="closeIcon" onClick={setVisibility} />
+                </div>
+
                 <form onSubmit={handleSubmit}>
                     {_.orderBy(tracks, (t) => t.position, ["asc"]).map((t, index) => {
                         return (
-                            <div className="trackContainer" key={index}>
-                                <input type="number" name="position" className={index} value={t.position} onChange={handleChange} />
-                                <input type="text" name="title" className={index} value={t.title} placeholder="Title..." onChange={handleChange} />
-                                <input type="text" name="duration" className={index} value={t.duration} placeholder="00:00" onChange={handleChange} />
-                                {index > 0 && (
-                                    <button type="button" onClick={() => handleDelete(index)}>
-                                        X
-                                    </button>
-                                )}
+                            <div className="trackInputsContainer" key={index}>
+                                <input
+                                    type="number"
+                                    name="position"
+                                    className="positionInput"
+                                    id={index}
+                                    value={t.position}
+                                    autocomplete="off"
+                                    onChange={handleChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="title"
+                                    className="titleInput"
+                                    id={index}
+                                    value={t.title}
+                                    placeholder="Title..."
+                                    autocomplete="off"
+                                    onChange={handleChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="duration"
+                                    className="durationInput"
+                                    id={index}
+                                    value={t.duration}
+                                    placeholder="00:00"
+                                    autocomplete="off"
+                                    onChange={handleChange}
+                                />
+                                {index > 0 && <img src="/images/close.svg" className="deleteIcon" onClick={() => handleDelete(index)} />}
                             </div>
                         );
                     })}
-                    <input type="button" value="Add Track" onClick={handleTrackCreate} />
-                    <input type="submit" value="Save Tracks" />
+                    {error && <p className="errorContainer">{error}</p>}
+                    <div className="buttonsContainer">
+                        <input type="button" className="addTrackButton" value="Add Track" onClick={handleTrackCreate} />
+                        <input type="submit" className="submitButton" value="Save Tracks" />
+                    </div>
                 </form>
             </div>
         </StyledTracksForm>
