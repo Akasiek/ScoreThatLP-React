@@ -5,6 +5,7 @@ import AlbumPageAsideLinks from "./albumPageAsideLinks";
 import AlbumPageAsideDetails from "./albumPageAsideDetails";
 import AlbumPageAsideTracks from "./albumPageAsideTracks";
 import AlbumPageTracksForm from "./albumPageTracksForm";
+import AlbumPageLinksForm from "./albumPageLinksForm";
 
 const StyledAlbumPageAside = styled.aside`
     display: flex;
@@ -141,8 +142,10 @@ const AddButton = ({ label, onClick }) => {
 
 const AlbumPageAside = ({ album }) => {
     const [isTracksFormVisible, setIsTracksFormVisible] = useState(false);
+    const [isLinksFormVisible, setIsLinksFormVisible] = useState(false);
 
     const handleTracksFormVisiblity = () => setIsTracksFormVisible(!isTracksFormVisible);
+    const handleLinksFormVisiblity = () => setIsLinksFormVisible(!isLinksFormVisible);
 
     return (
         <React.Fragment>
@@ -152,7 +155,7 @@ const AlbumPageAside = ({ album }) => {
                 {album.links.length !== 0 ? (
                     <AlbumPageAsideLinks album={album} />
                 ) : (
-                    <AddButton label="Add Links" onClick={handleTracksFormVisiblity} />
+                    <AddButton label="Add Links" onClick={handleLinksFormVisiblity} />
                 )}
 
                 {album.tracks.length !== 0 ? (
@@ -162,6 +165,7 @@ const AlbumPageAside = ({ album }) => {
                 )}
             </StyledAlbumPageAside>
             {isTracksFormVisible ? <AlbumPageTracksForm album={album} setVisibility={handleTracksFormVisiblity} /> : null}
+            {isLinksFormVisible ? <AlbumPageLinksForm album={album} setVisibility={handleLinksFormVisiblity} /> : null}
         </React.Fragment>
     );
 };

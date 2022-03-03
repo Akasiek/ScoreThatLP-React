@@ -18,6 +18,10 @@ export const saveAlbum = (album) => {
     return http.post(apiEndpoint + "/", album);
 };
 
+export const saveAlbumLink = (link) => {
+    return http.post("/album_links/", link);
+};
+
 export const getNewReleases = () => {
     return http.get(`${apiEndpoint}/?ordering=-release_date&type=LP`);
 };

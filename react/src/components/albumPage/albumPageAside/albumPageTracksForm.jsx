@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { saveTrack } from "./../../../services/trackService";
 
-const StyledTracksForm = styled.div`
+export const StyledTracksForm = styled.div`
     position: fixed;
     z-index: 500;
     top: 0;
@@ -46,18 +46,18 @@ const StyledTracksForm = styled.div`
         }
     }
 
-    .trackInputsContainer {
+    .inputsContainer {
         display: flex;
         align-items: center;
         gap: 1rem;
         margin: 1rem;
         & > input {
-            font-size: clamp(0.9rem, 1.5vw, 1.5rem);
+            font-size: clamp(0.9rem, 1.1vw, 1.1rem);
             padding: 0.5rem 0.75rem;
         }
         .positionInput {
             text-align: center;
-            width: clamp(2rem, 3vw, 3rem);
+            width: clamp(1.8rem, 2vw, 2rem);
         }
 
         .titleInput {
@@ -66,7 +66,7 @@ const StyledTracksForm = styled.div`
 
         .durationInput {
             text-align: center;
-            width: clamp(3rem, 5vw, 5rem);
+            width: clamp(2.5rem, 3.5vw, 3.5rem);
         }
 
         .deleteIcon {
@@ -97,8 +97,7 @@ const StyledTracksForm = styled.div`
                 color: var(--accentColor);
             }
         }
-        .addTrackButton {
-        }
+
         .submitButton {
             font-weight: 900;
         }
@@ -166,7 +165,7 @@ const AlbumPageTracksForm = ({ album, setVisibility }) => {
                 <form onSubmit={handleSubmit}>
                     {_.orderBy(tracks, (t) => t.position, ["asc"]).map((t, index) => {
                         return (
-                            <div className="trackInputsContainer" key={index}>
+                            <div className="inputsContainer" key={index}>
                                 <input
                                     type="number"
                                     name="position"
