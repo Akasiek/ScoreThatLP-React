@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Joi from "joi-browser";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import { InputComponent, SubmitBtnComponent, validate } from "../formComponents";
 import { getJWT } from "../../../services/authService";
+import UserContext from "./../../../context/userContext";
 
 const StyledLoginForm = styled.div`
     height: 100vh;
@@ -66,6 +67,7 @@ const StyledLoginForm = styled.div`
 const LoginForm = ({ history }) => {
     const [data, setData] = useState({ username: "", password: "" });
     const [errors, setErrors] = useState({});
+    const [user, setUser] = useContext(UserContext);
 
     const schema = {
         username: Joi.string().required().label("Username"),
@@ -86,6 +88,11 @@ const LoginForm = ({ history }) => {
             setErrors({});
             localStorage.setItem("jwt", jwt.access);
             localStorage.setItem("refresh", jwt.refresh);
+
+            // For useEffect in App.js
+            setUser(null);
+
+            // Go to homepage
             history.push("/");
         } catch (ex) {
             if (ex.response && ex.response.status === 401) {

@@ -69,16 +69,18 @@ const App = () => {
     const [user, setUser] = useState();
 
     useEffect(async () => {
-        const accessToken = localStorage.getItem("jwt");
-        const jwt = jwtDecode(accessToken);
-        const { data: reviewer } = await getReviewer(jwt.user_id);
-        setUser(reviewer);
-    }, []);
+        if (localStorage.getItem("jwt")) {
+            const accessToken = localStorage.getItem("jwt");
+            const jwt = jwtDecode(accessToken);
+            const { data: reviewer } = await getReviewer(jwt.user_id);
+            setUser(reviewer);
+        }
+    }, [user]);
 
     return (
         <ThemeProvider theme={theme}>
             <StyledToastContainer theme="dark" autoClose={4000} pauseOnFocusLoss={false} transition={Slide} position="bottom-right" />
-            <UserContext.Provider value={user}>
+            <UserContext.Provider value={[user, setUser]}>
                 <StyledApp>
                     <Navbar />
                     <Switch>

@@ -230,7 +230,7 @@ const NavBar = ({ history }) => {
     const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
     const [timer, setTimer] = useState(null);
-    const currentUser = useContext(UserContext);
+    const [currentUser, setCurrentUser] = useContext(UserContext);
     // console.log(currentUsers);
 
     const resetStates = () => {
