@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Joi from "joi-browser";
+import { Helmet } from "react-helmet";
 import { InputComponent, FileInputComponent, StyledForm, SubmitBtnComponent, validate } from "./formComponents";
 import { Main } from "./../../App";
 import { saveArtist } from "./../../services/artistService";
@@ -36,6 +37,9 @@ const ArtistForm = ({ history }) => {
 
     return (
         <Main pushUnderNavbar={true}>
+            <Helmet>
+                <title>Add Artist Form | ScoreThatLP</title>
+            </Helmet>
             <StyledForm onSubmit={handleSubmit}>
                 <InputComponent name="name" label="Artist name" data={data} setData={setData} errors={errors} />
                 <FileInputComponent name="image" label="Artist image (square)" setFile={setArtistImage} />
