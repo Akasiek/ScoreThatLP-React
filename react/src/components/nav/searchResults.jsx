@@ -152,7 +152,7 @@ const SearchResults = ({ queryResults: propsQueryResults, searchQuery, timer, on
                             queryResults.artists?.slice(0, 3).map((a) => (
                                 <React.Fragment key={a.id}>
                                     <hr />
-                                    <Link to={`/artists/${a.id}`} onClick={onClick}>
+                                    <Link to={`/artists/${a.slug}`} onClick={onClick}>
                                         <div className="infoContainer artist">
                                             <div className="imageContainer">
                                                 <img src={a.image} alt={`${a.title} band image`} />
