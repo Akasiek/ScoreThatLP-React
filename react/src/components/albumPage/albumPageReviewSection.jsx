@@ -3,19 +3,40 @@ import styled from "styled-components";
 import AlbumPageReviewForm from "./albumPageReviewForm";
 import AlbumPageReviewsContainer from "./albumPageReviewsContainer";
 
-const mobile = ({ theme }) => theme.mobile;
+// const mobile = ;
 
 const StyledReviewSection = styled.section`
     margin: 3rem;
-    @media (max-width: ${mobile}) {
+
+    .loginPrompt {
+        font-size: clamp(1rem, 1.5vw, 1.5rem);
+        a {
+            color: var(--accentColor);
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
         margin: 3rem 1rem;
+        .loginPrompt > a {
+            text-decoration: underline;
+        }
     }
 `;
 
-const AlbumPageReviewSection = ({ album }) => {
+const AlbumPageReviewSection = ({ album, user }) => {
     return (
         <StyledReviewSection>
-            <AlbumPageReviewForm album={album} />
+            {user ? (
+                <AlbumPageReviewForm album={album} />
+            ) : (
+                <div className="loginPrompt">
+                    You need to be logged in as user to review albums. <a href="/login">Log in here</a>
+                </div>
+            )}
             <AlbumPageReviewsContainer album={album} />
         </StyledReviewSection>
     );

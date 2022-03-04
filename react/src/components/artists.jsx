@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Main } from "../App";
 import ContentGroup from "./common/contentGroup";
@@ -6,9 +6,11 @@ import { StyledContentGroupPage } from "./albums";
 import { getArtists } from "./../services/artistService";
 import LoadingScreen from "./loadingScreen";
 import FormLink from "./forms/formLink";
+import UserContext from "./../context/userContext";
 
 const Artists = () => {
     const [artists, setArtists] = useState(null);
+    const [currentUser, setCurrentUser] = useContext(UserContext);
 
     useEffect(async () => {
         const { data: artists } = await getArtists();
@@ -21,7 +23,7 @@ const Artists = () => {
                 <title>Artists | ScoreThatLP</title>
             </Helmet>
             <StyledContentGroupPage>
-                <FormLink label="Add Artist" url="/artists/new" />
+                {currentUser && <FormLink label="Add Artist" url="/artists/new" />}
                 <ContentGroup
                     title="Artists"
                     content={artists}

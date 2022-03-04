@@ -140,7 +140,7 @@ const AddButton = ({ label, onClick }) => {
     );
 };
 
-const AlbumPageAside = ({ album }) => {
+const AlbumPageAside = ({ album, user }) => {
     const [isTracksFormVisible, setIsTracksFormVisible] = useState(false);
     const [isLinksFormVisible, setIsLinksFormVisible] = useState(false);
 
@@ -152,17 +152,19 @@ const AlbumPageAside = ({ album }) => {
             <StyledAlbumPageAside>
                 <AlbumPageAsideDetails album={album} />
 
-                {album.links.length !== 0 ? (
-                    <AlbumPageAsideLinks album={album} />
-                ) : (
-                    <AddButton label="Add Links" onClick={handleLinksFormVisiblity} />
-                )}
+                {user &&
+                    (album.links.length !== 0 ? (
+                        <AlbumPageAsideLinks album={album} />
+                    ) : (
+                        <AddButton label="Add Links" onClick={handleLinksFormVisiblity} />
+                    ))}
 
-                {album.tracks.length !== 0 ? (
-                    <AlbumPageAsideTracks album={album} />
-                ) : (
-                    <AddButton label="Add Tracklist" onClick={handleTracksFormVisiblity} />
-                )}
+                {user &&
+                    (album.tracks.length !== 0 ? (
+                        <AlbumPageAsideTracks album={album} />
+                    ) : (
+                        <AddButton label="Add Tracklist" onClick={handleTracksFormVisiblity} />
+                    ))}
             </StyledAlbumPageAside>
             {isTracksFormVisible ? <AlbumPageTracksForm album={album} setVisibility={handleTracksFormVisiblity} /> : null}
             {isLinksFormVisible ? <AlbumPageLinksForm album={album} setVisibility={handleLinksFormVisiblity} /> : null}

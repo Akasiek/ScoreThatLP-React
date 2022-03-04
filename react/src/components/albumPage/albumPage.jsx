@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
@@ -8,6 +8,7 @@ import AlbumPageReviewSection from "./albumPageReviewSection";
 import { Main } from "../../App";
 import { getAlbum } from "../../services/albumService";
 import LoadingScreen from "../loadingScreen";
+import UserContext from "./../../context/userContext";
 
 export const StyledAlbumPage = styled.div`
     background-color: var(--darkBlueColor);
@@ -45,6 +46,7 @@ const AlbumPageMain = styled.main`
 
 const AlbumPage = ({ match }) => {
     const [album, setAlbum] = useState(null);
+    const [currentUser, setCurrentUser] = useContext(UserContext);
 
     useEffect(async () => {
         const { data: album } = await getAlbum(match.params.id);
@@ -63,9 +65,9 @@ const AlbumPage = ({ match }) => {
                 <AlbumPageHeader album={album} />
 
                 <AlbumPageMain>
-                    <AlbumPageReviewSection album={album} />
+                    <AlbumPageReviewSection album={album} user={currentUser} />
 
-                    <AlbumPageAside album={album} />
+                    <AlbumPageAside album={album} user={currentUser} />
                 </AlbumPageMain>
             </StyledAlbumPage>
         </Main>

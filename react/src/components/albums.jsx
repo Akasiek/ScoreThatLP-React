@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
 
@@ -7,6 +7,7 @@ import ContentGroup from "./common/contentGroup";
 import FormLink from "./forms/formLink";
 import { Main } from "./../App";
 import { getAlbums } from "./../services/albumService";
+import UserContext from "./../context/userContext";
 
 export const StyledContentGroupPage = styled.div`
     padding: 2rem 0;
@@ -38,6 +39,7 @@ export const StyledContentGroupPage = styled.div`
 
 const Albums = () => {
     const [albums, setAlbums] = useState(null);
+    const [currentUser, setCurrentUser] = useContext(UserContext);
 
     useEffect(async () => {
         const { data: albums } = await getAlbums();
@@ -50,7 +52,7 @@ const Albums = () => {
                 <title>Albums | ScoreThatLP</title>
             </Helmet>
             <StyledContentGroupPage>
-                <FormLink label="Add Album" url="/albums/new" />
+                {currentUser && <FormLink label="Add Album" url="/albums/new" />}
                 <ContentGroup
                     title="Albums"
                     content={albums}

@@ -231,7 +231,6 @@ const NavBar = ({ history }) => {
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
     const [timer, setTimer] = useState(null);
     const [currentUser, setCurrentUser] = useContext(UserContext);
-    // console.log(currentUsers);
 
     const resetStates = () => {
         setSearchQuery("");
@@ -303,7 +302,7 @@ const NavBar = ({ history }) => {
                         </NavLink>
                         <hr />
                         {currentUser ? (
-                            <div>{currentUser.username}</div>
+                            <div className="userContainer">{currentUser.username}</div>
                         ) : (
                             <NavLink to="/login" onClick={handleClickAway}>
                                 <Button>log in</Button>
