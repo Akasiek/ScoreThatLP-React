@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer, Slide } from "react-toastify";
 
 import HomePage from "./components/homePage";
 import SearchPage from "./components/searchPage";
-import NotFound from "./components/notFound";
+// import NotFound from "./components/notFound";
 import Navbar from "./components/nav/navbar";
 import Albums from "./components/albums";
 import AlbumForm from "./components/forms/albumForm";
@@ -12,16 +12,18 @@ import AlbumPage from "./components/albumPage/albumPage";
 import ReviewsPage from "./components/albumPage/reviewsPage/reviewsPage";
 import Artists from "./components/artists";
 import ArtistPage from "./components/artistPage/artistPage";
+import ArtistForm from "./components/forms/artistForm";
 import NewReleases from "./components/newReleases";
 import AOTY from "./components/aoty";
 import ProfilePage from "./components/profilePage/profilePage";
 import ProfileReviews from "./components/profilePage/profileReviews";
 import ProfileRatings from "./components/profilePage/profileRatings";
+import LoginForm from "./components/forms/loginForms/loginForm";
 import Footer from "./components/footer";
 
 import styled, { ThemeProvider } from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
-import ArtistForm from "./components/forms/artistForm";
+import { getUser } from "./services/authService";
 
 const theme = {
     colors: {
@@ -62,6 +64,14 @@ export const Main = styled.main`
 `;
 
 const App = () => {
+    const [user, setUser] = useState();
+
+    useEffect(async () => {
+        const accessToken = localStorage.getItem("jwt");
+        const { data: user } = await getUser(accessToken);
+        setUser(user);
+    }, []);
+
     return (
         <ThemeProvider theme={theme}>
             <StyledToastContainer theme="dark" autoClose={4000} pauseOnFocusLoss={false} transition={Slide} position="bottom-right" />
@@ -82,6 +92,7 @@ const App = () => {
                         <Route exact path="/users/:slug" component={ProfilePage} />
                         <Route exact path="/users/:slug/reviews" component={ProfileReviews} />
                         <Route exact path="/users/:slug/ratings" component={ProfileRatings} />
+                        <Route exact path="/login" component={LoginForm} />
                         <Route path="/search/:searchQuery" component={SearchPage} />
                         {/* <Route path="*" element={<NotFound />} /> */}
                     </Switch>

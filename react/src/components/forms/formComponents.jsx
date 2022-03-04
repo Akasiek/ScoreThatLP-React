@@ -20,6 +20,7 @@ export const StyledForm = styled.form`
     .errorContainer {
         margin-left: 1rem;
         margin-top: 0.5rem;
+        text-align: left;
         font-size: clamp(0.9rem, 1.35vw, 1.35rem);
         color: var(--redScoreColor);
     }
@@ -42,6 +43,7 @@ const StyledInput = styled.div`
     flex-direction: column;
 
     input {
+        min-width: 2rem;
         font-size: clamp(1rem, 1.5vw, 1.5rem);
         font-family: "Montserrat";
         font-weight: normal;
@@ -130,8 +132,8 @@ const StyledSubmitBtn = styled.div`
         border: none;
         outline: none;
 
-        background-color: var(--dark);
-        border: 2px solid var(--accentColor);
+        background-color: var(--darkBlueColor);
+        border: 1px solid var(--accentColor);
         color: var(--lightColor);
         box-shadow: 0 0.4rem rgb(0, 0, 0, 0.2);
 
@@ -210,9 +212,9 @@ export const SelectComponent = ({ name, label, options, isSearchable, isMulti, d
     );
 };
 
-export const SubmitBtnComponent = ({ value }) => {
+export const SubmitBtnComponent = ({ value, style }) => {
     return (
-        <StyledSubmitBtn>
+        <StyledSubmitBtn style={style}>
             <input type="submit" value={value} />
         </StyledSubmitBtn>
     );
