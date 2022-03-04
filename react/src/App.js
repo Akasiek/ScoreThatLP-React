@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer, Slide } from "react-toastify";
+import jwtDecode from "jwt-decode";
 
 import HomePage from "./components/homePage";
 import SearchPage from "./components/searchPage";
@@ -20,10 +21,11 @@ import ProfileReviews from "./components/profilePage/profileReviews";
 import ProfileRatings from "./components/profilePage/profileRatings";
 import LoginForm from "./components/forms/loginForms/loginForm";
 import Footer from "./components/footer";
+import UserContext from "./context/userContext";
+import { getReviewer } from "./services/reviewerService";
 
 import styled, { ThemeProvider } from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
-import { getUser } from "./services/authService";
 
 const theme = {
     colors: {
@@ -68,16 +70,17 @@ const App = () => {
 
     useEffect(async () => {
         const accessToken = localStorage.getItem("jwt");
-        const { data: user } = await getUser(accessToken);
-        setUser(user);
+        const jwt = jwtDecode(accessToken);
+        const { data: reviewer } = await getReviewer(jwt.user_id);
+        setUser(reviewer);
     }, []);
 
     return (
         <ThemeProvider theme={theme}>
             <StyledToastContainer theme="dark" autoClose={4000} pauseOnFocusLoss={false} transition={Slide} position="bottom-right" />
-            <StyledApp>
-                <Navbar />
-                <React.Fragment>
+            <UserContext.Provider value={user}>
+                <StyledApp>
+                    <Navbar />
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route exact path="/albums" component={Albums} />
@@ -96,9 +99,9 @@ const App = () => {
                         <Route path="/search/:searchQuery" component={SearchPage} />
                         {/* <Route path="*" element={<NotFound />} /> */}
                     </Switch>
-                </React.Fragment>
-                <Footer />
-            </StyledApp>
+                    <Footer />
+                </StyledApp>
+            </UserContext.Provider>
         </ThemeProvider>
     );
 };

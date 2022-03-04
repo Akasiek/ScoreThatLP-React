@@ -196,7 +196,8 @@ class ReviewerSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "username",
-            "user",
+            "email",
+            "user_id",
             "slug",
             "profile_pic",
             "about_text",

@@ -12,6 +12,7 @@
     "font-awesome": "^4.7.0",
     "joi": "^17.6.0",
     "joi-browser": "^13.4.0",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",

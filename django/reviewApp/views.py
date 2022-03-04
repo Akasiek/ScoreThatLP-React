@@ -31,7 +31,7 @@ class ReviewerViewSet(ModelViewSet):
                   number_of_reviews=Count(F("review"), output_field=IntegerField()))
 
     serializer_class = ReviewerSerializer
-    lookup_field = "slug"
+    # lookup_field = "slug"
     filter_backends = [SearchFilter]
     search_fields = ["user__username"]
     # TODO! Custom permission to check if user is user

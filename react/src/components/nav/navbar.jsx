@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
@@ -8,6 +8,7 @@ import SearchBar from "./searchBar";
 import { searchArtists } from "./../../services/artistService";
 import { searchReviewers } from "../../services/reviewerService";
 import { searchAlbums } from "./../../services/albumService";
+import UserContext from "./../../context/userContext";
 
 const StyledNavBar = styled.nav`
     top: 0;
@@ -203,6 +204,7 @@ const Button = styled.button`
     color: ${({ theme }) => theme.colors.lightColor};
     font-family: "Montserrat", sans-serif !important;
     font-weight: 900;
+
     text-decoration: none;
     font-size: 1.25rem;
     cursor: pointer;
@@ -228,6 +230,8 @@ const NavBar = ({ history }) => {
     const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
     const [timer, setTimer] = useState(null);
+    const currentUser = useContext(UserContext);
+    // console.log(currentUsers);
 
     const resetStates = () => {
         setSearchQuery("");
@@ -298,9 +302,13 @@ const NavBar = ({ history }) => {
                             new releases
                         </NavLink>
                         <hr />
-                        <NavLink to="/login" onClick={handleClickAway}>
-                            <Button>log in</Button>
-                        </NavLink>
+                        {currentUser ? (
+                            <div>{currentUser.username}</div>
+                        ) : (
+                            <NavLink to="/login" onClick={handleClickAway}>
+                                <Button>log in</Button>
+                            </NavLink>
+                        )}
                     </NavLinks>
                     <BurgerIcon src="/images/burgerMenu.svg" alt="Burger Menu" aria-hidden={true} onClick={toggleMobileMenu} />
                 </NavBarContainer>
