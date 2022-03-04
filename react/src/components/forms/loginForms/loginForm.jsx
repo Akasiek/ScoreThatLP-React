@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Joi from "joi-browser";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
@@ -7,7 +7,7 @@ import { getJWT } from "../../../services/authService";
 import UserContext from "./../../../context/userContext";
 
 const StyledLoginForm = styled.div`
-    height: 100vh;
+    height: 101vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,6 +69,10 @@ const LoginForm = ({ history }) => {
     const [errors, setErrors] = useState({});
     const [user, setUser] = useContext(UserContext);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const schema = {
         username: Joi.string().required().label("Username"),
         password: Joi.string().required().label("Password"),
@@ -93,7 +97,8 @@ const LoginForm = ({ history }) => {
             setUser(null);
 
             // Go to homepage
-            history.push("/");
+            if (history.action === "POP") history.push("/");
+            else history.goBack();
         } catch (ex) {
             if (ex.response && ex.response.status === 401) {
                 const errors = {};
