@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-import { getArtist, users } from "../../services/fakeMusicService";
-
 const StyledProfilePageHeader = styled.div`
     .topPanelContainer {
         width: 100%;

@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import ReadMoreReact from "read-more-react";
-import Like from "./like";
-import { getAlbum, getArtist, getUser } from "../../services/fakeMusicService";
+// import Like from "./like";
 import getScoreColor from "../../utils/scoreColor";
 
 const StyledReviewContainer = styled.div`

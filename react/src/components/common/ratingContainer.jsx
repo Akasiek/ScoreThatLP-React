@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getUser } from "../../services/fakeMusicService";
 import getScoreColor from "../../utils/scoreColor";
+import { getReviewer } from "./../../services/reviewerService";
 
 const StyledRatingContainer = styled.div`
     width: 100%;
@@ -66,12 +66,6 @@ const StyledRatingContainer = styled.div`
 `;
 
 const RatingContainer = ({ rating }) => {
-    const [user, setUser] = useState(getUser(rating.user_id));
-
-    useEffect(() => {
-        setUser(getUser(rating.user_id));
-    }, [rating]);
-
     return (
         <StyledRatingContainer className={`${getScoreColor(rating.rating)}BG`}>
             <Link to={`/users/${rating.reviewer.slug}`}>
