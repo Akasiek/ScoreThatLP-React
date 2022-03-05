@@ -29,7 +29,7 @@ const StyledProfileContainer = styled.div`
         right: 0;
         transform: translateY(100%);
         display: none;
-        background-color: var(--blueColor);
+        background-color: var(--lightBlueColor);
 
         ul {
             list-style-type: none;

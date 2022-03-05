@@ -14,8 +14,7 @@ export const StyledSearchResults = styled.div`
     flex-direction: column;
     min-width: 40%;
     max-width: 50%;
-    background-color: var(--blueColor);
-    border: ${(props) => (!props?.isQueryEmpty ? "4px solid var(--accentColor)" : "0")};
+    background-color: var(--lightBlueColor);
     border-top: 0;
     left: 5%;
     margin: 0;
@@ -45,7 +44,6 @@ export const StyledSearchResults = styled.div`
         a {
             display: block;
             position: relative;
-            /* padding: 0.7rem 0; */
             text-decoration: none;
             color: var(--lightColor);
             transition: all 0.3s ease;
@@ -55,7 +53,6 @@ export const StyledSearchResults = styled.div`
             }
 
             .infoContainer {
-                /* padding: 0.5rem; */
                 display: flex;
                 align-items: center;
                 gap: 2%;
@@ -75,10 +72,18 @@ export const StyledSearchResults = styled.div`
 
                 .textContainer {
                     padding: 0.5rem;
+                    overflow: hidden;
+                    flex: 1;
                     h2 {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                         font-size: clamp(0.9rem, 1.2vw, 1.2rem);
                     }
                     h3 {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                         font-weight: normal;
                         font-size: clamp(0.8rem, 1vw, 1rem);
                     }
