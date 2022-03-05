@@ -31,8 +31,8 @@ class ReviewerViewSet(ModelViewSet):
                   number_of_reviews=Count(F("review"), output_field=IntegerField()))
 
     serializer_class = ReviewerSerializer
-    # lookup_field = "slug"
-    filter_backends = [SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ["slug"]
     search_fields = ["user__username"]
     # TODO! Custom permission to check if user is user
     # permission_classes = [IsAuthenticatedOrReadOnly]

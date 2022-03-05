@@ -68,7 +68,7 @@ const NavBarProfileContainer = ({ user }) => {
     return (
         <StyledProfileContainer>
             <div className="userContainer">
-                <Link to={`/users/${user.id}`}>
+                <Link to={`/users/${user.slug}`}>
                     <img src={user.profile_pic} alt={`${user.username} profile picture`} />
                     <h2>{user.username}</h2>
                 </Link>
@@ -76,10 +76,10 @@ const NavBarProfileContainer = ({ user }) => {
             <div className="hiddenMenu">
                 <ul>
                     <li>
-                        <Link to={`/users/${user.id}`}>Profile</Link>
+                        <Link to={`/users/${user.slug}`}>Profile</Link>
                     </li>
                     <li>
-                        <Link to={`/users/${user.id}/settings`}>Settings</Link>
+                        <Link to={`/users/${user.slug}/settings`}>Settings</Link>
                     </li>
                     <li>
                         <a onClick={handleLogout}>Logout</a>

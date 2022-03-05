@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import ProfilePageHeader from "./profilePageHeader";
 import ProfilePageReviewsContainer from "./profilePageReviewsContainer";
 import { Main } from "./../../App";
-import { getReviewer } from "./../../services/reviewerService";
+import { getReviewerBySlug } from "./../../services/reviewerService";
 import LoadingScreen from "../loadingScreen";
 
 const StyledProfilePage = styled.div``;
@@ -14,8 +14,8 @@ const ProfilePage = ({ match }) => {
     const [reviewer, setReviewer] = useState(null);
 
     useEffect(async () => {
-        const { data: reviewer } = await getReviewer(match.params.slug);
-        setReviewer(reviewer);
+        const { data: reviewer } = await getReviewerBySlug(match.params.slug);
+        setReviewer(reviewer[0]);
     }, [match.params.slug]);
 
     return reviewer ? (
