@@ -113,7 +113,7 @@ class Genre(models.Model):
 
 class AlbumGenre(models.Model):
     album_id = models.ForeignKey(
-        Album, on_delete=models.PROTECT, related_name="album_genres")
+        Album, on_delete=models.CASCADE, related_name="album_genres")
     genre_id = models.ForeignKey(
         Genre,  on_delete=models.PROTECT, related_name="album_genres")
 
@@ -133,7 +133,7 @@ class AlbumLink(models.Model):
         max_length=15, choices=SERVICE_NAME_CHOICES)
     url = models.CharField(max_length=255)
     album_id = models.ForeignKey(
-        Album, on_delete=models.PROTECT, related_name="album_links")
+        Album, on_delete=models.CASCADE, related_name="album_links")
 
     def __str__(self) -> str:
         return f"{self.service_name} - {self.url}"
@@ -143,7 +143,7 @@ class Track(models.Model):
     title = models.CharField(max_length=255)
     position = models.PositiveIntegerField()
     album_id = models.ForeignKey(
-        Album, on_delete=models.PROTECT, related_name="tracks")
+        Album, on_delete=models.CASCADE, related_name="tracks")
     duration = models.DurationField(null=True)
 
     def __str__(self) -> str:
@@ -152,7 +152,7 @@ class Track(models.Model):
 
 class AlbumOfTheYear(models.Model):
     album_id = models.OneToOneField(
-        Album, on_delete=models.PROTECT, related_name="aoty")
+        Album, on_delete=models.CASCADE, related_name="aoty")
     position = models.IntegerField()
 
     def __str__(self) -> str:
@@ -166,7 +166,7 @@ class Review(models.Model):
     )
     review_text = models.TextField(null=True, blank=True)
     album_id = models.ForeignKey(
-        Album, on_delete=models.PROTECT, related_name="reviews")
+        Album, on_delete=models.CASCADE, related_name="reviews")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:

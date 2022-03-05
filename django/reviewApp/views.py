@@ -53,7 +53,7 @@ class ReviewerViewSet(ModelViewSet):
 
 class ArtistViewSet(ModelViewSet):
     queryset = Artist.objects \
-        .annotate(average_score=Avg(F("albums__reviews__rating"), output_field=IntegerField()))
+        .annotate(average_score=Avg("albums__reviews__rating", output_field=IntegerField()))
     serializer_class = ArtistSerializer
     lookup_field = "slug"
     filter_backends = [SearchFilter]
@@ -61,14 +61,12 @@ class ArtistViewSet(ModelViewSet):
 
 
 class AlbumViewSet(ModelViewSet):
-    queryset = Album.objects \
+    queryset = Album.objects.all() \
         .prefetch_related("tracks", "album_genres", "album_genres__genre_id", "album_links", "reviews") \
         .select_related("aoty", "artist_id") \
-        .annotate(overall_score=Avg("reviews__rating", output_field=IntegerField()),
-                  number_of_ratings=Count("reviews",
-                                          output_field=IntegerField())) \
-        .annotate(album_duration=Sum("tracks__duration",
-                                     output_field=DurationField()))
+        .annotate(overall_score=Avg("reviews__rating")) \
+        .annotate(album_duration=Sum("tracks__duration", distinct=True)) \
+        .annotate(number_of_ratings=Count("reviews", distinct=True)).all()
 
     # permission_classes = [IsAdminOrPostOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]

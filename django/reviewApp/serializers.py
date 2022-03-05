@@ -1,5 +1,3 @@
-from django.db.models import Q, F, Avg, Count, ExpressionWrapper
-from django.forms import IntegerField
 from django.utils.text import slugify
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
@@ -67,9 +65,9 @@ class AlbumLinkSerializer(serializers.ModelSerializer):
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    tracks = TrackSerializer(many=True)
+    tracks = TrackSerializer(many=True, read_only=True)
     genres = StringRelatedField(
-        source="album_genres", many=True)
+        source="album_genres", many=True, read_only=True)
     aoty = StringRelatedField(read_only=True)
     links = AlbumLinkSerializer(
         source="album_links", many=True, read_only=True)
