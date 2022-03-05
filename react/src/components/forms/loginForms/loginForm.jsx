@@ -3,11 +3,11 @@ import Joi from "joi-browser";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import { InputComponent, SubmitBtnComponent, validate } from "../formComponents";
-import { getJWT } from "../../../services/authService";
+import { login } from "../../../services/authService";
 import UserContext from "./../../../context/userContext";
 import { Link } from "react-router-dom";
 
-const StyledLoginForm = styled.div`
+export const StyledLoginForm = styled.div`
     height: 101vh;
     display: flex;
     justify-content: center;
@@ -89,7 +89,7 @@ const LoginForm = ({ history }) => {
         }
 
         try {
-            const { data: jwt } = await getJWT(data);
+            const { data: jwt } = await login(data);
             setErrors({});
             localStorage.setItem("jwt", jwt.access);
             localStorage.setItem("refresh", jwt.refresh);
@@ -102,8 +102,7 @@ const LoginForm = ({ history }) => {
             else history.goBack();
         } catch (ex) {
             if (ex.response && ex.response.status === 401) {
-                const errors = {};
-                errors.username = ex.response.data.detail;
+                const err = ex.response.data;
                 setErrors(errors);
             }
         }

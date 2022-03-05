@@ -183,10 +183,10 @@ class ReviewerLinkSerializer(serializers.ModelSerializer):
 
 
 class ReviewerSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source="user", read_only=True)
+    user_id = serializers.IntegerField()
     favorite_artist = FavoriteReviewerArtistSerializer(read_only=True)
-    number_of_ratings = serializers.IntegerField()
-    number_of_reviews = serializers.IntegerField()
+    number_of_ratings = serializers.IntegerField(read_only=True)
+    number_of_reviews = serializers.IntegerField(read_only=True)
     links = ReviewerLinkSerializer(
         source="reviewer_links", many=True, read_only=True)
     # TODO! Followers count
@@ -212,10 +212,10 @@ class ReviewerSerializer(serializers.ModelSerializer):
             'url': {'lookup_field': 'slug'}
         }
 
-    # Save slug
-    def create(self, validated_data):
-        slug = slugify(validated_data["user"])
-        return Reviewer.objects.create(slug=slug, **validated_data)
+    # # Save slug
+    # def create(self, validated_data):
+    #     slug = slugify(validated_data["user_id__user_username"])
+    #     return Reviewer.objects.create(slug=slug, **validated_data)
 
 
 class SimpleReviewerSerializer(serializers.ModelSerializer):

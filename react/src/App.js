@@ -26,6 +26,7 @@ import { getReviewer } from "./services/reviewerService";
 
 import styled, { ThemeProvider } from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
+import RegisterForm from "./components/forms/loginForms/registerForm";
 
 const theme = {
     colors: {
@@ -98,6 +99,7 @@ const App = () => {
                         <Route exact path="/users/:slug/reviews" component={ProfileReviews} />
                         <Route exact path="/users/:slug/ratings" component={ProfileRatings} />
                         <Route exact path="/login" component={LoginForm} />
+                        <Route exact path="/register" component={RegisterForm} />
                         <Route path="/search/:searchQuery" component={SearchPage} />
                         {/* <Route path="*" element={<NotFound />} /> */}
                     </Switch>
