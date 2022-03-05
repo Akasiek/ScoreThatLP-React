@@ -75,7 +75,7 @@ const App = () => {
             const { data: reviewer } = await getReviewer(jwt.user_id);
             setUser(reviewer);
         }
-    }, [user]);
+    }, [user?.id]);
 
     return (
         <ThemeProvider theme={theme}>
