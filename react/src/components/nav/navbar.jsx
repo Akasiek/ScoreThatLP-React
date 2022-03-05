@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import ClickAwayListener from "react-click-away-listener";
 
 import SearchBar from "./searchBar";
+import NavBarProfileContainer from "./navBarProfileContainer";
 import { searchArtists } from "./../../services/artistService";
 import { searchReviewers } from "../../services/reviewerService";
 import { searchAlbums } from "./../../services/albumService";
@@ -16,7 +17,7 @@ const StyledNavBar = styled.nav`
     right: 0;
     z-index: 500;
     position: fixed;
-    overflow: hidden;
+    /* overflow: hidden; */
 `;
 
 const NavBarContainer = styled.div`
@@ -31,19 +32,17 @@ const NavBarContainer = styled.div`
     * {
         color: var(--lightColor);
         text-decoration: none;
-        padding: 0.35rem 0;
     }
 `;
 
 const LogoContainer = styled.div`
     flex: 1;
-    padding-left: 30px;
+    padding-left: clamp(0.75rem, 2vw, 2rem);
 
     display: flex;
     align-items: center;
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
-        padding-left: 15px;
     }
     & > a {
         padding: 0;
@@ -63,30 +62,26 @@ const LogoContainer = styled.div`
 
 const NavLinks = styled.div`
     display: flex;
+    position: relative;
     align-items: center;
     text-align: right;
     gap: clamp(1rem, 2vw, 2rem);
     font-size: clamp(0.8rem, 1.5vw, 1.5rem);
+    margin-right: clamp(1rem, 2vw, 2rem);
 
     & > hr {
-        height: 1.75rem;
-        margin: 0.5rem 0;
+        height: 2.25rem;
         border: 1px solid var(--lightColor);
     }
 
     a {
-        padding: 0;
+        padding: 1.25rem 0;
         transition: all 0.1s ease-in-out;
-        position: relative;
 
         &:not(:last-child):hover {
             transform: scale(1.1);
             transform-origin: center;
         }
-    }
-
-    button {
-        margin-right: 30px;
     }
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
@@ -96,6 +91,7 @@ const NavLinks = styled.div`
         top: 0;
         height: 100vh;
         width: 60%;
+        margin: 0;
         background-color: hsl(240, 28%, 14%, 0.6);
         backdrop-filter: blur(5px);
         font-size: clamp(1.25rem, 4vw, 2rem);
@@ -288,23 +284,23 @@ const NavBar = ({ history }) => {
                     <SearchIcon onClick={toggleSearchBar} src="/images/search.svg" alt="Search Icon" />
                     <NavLinks visibility={isMobileMenuVisible ? 1 : 0}>
                         <CloseMenuIcon src="/images/close.svg" onClick={toggleMobileMenu} />
-                        <NavLink to="/albums" onClick={handleClickAway}>
+                        <NavLink className="navLink" to="/albums" onClick={handleClickAway}>
                             albums
                         </NavLink>
-                        <NavLink to="/artists" onClick={handleClickAway}>
+                        <NavLink className="navLink" to="/artists" onClick={handleClickAway}>
                             artists
                         </NavLink>
-                        <NavLink to="/aoty" onClick={handleClickAway}>
+                        <NavLink className="navLink" to="/aoty" onClick={handleClickAway}>
                             aoty
                         </NavLink>
-                        <NavLink to="/new-releases" onClick={handleClickAway}>
+                        <NavLink className="navLink" to="/new-releases" onClick={handleClickAway}>
                             new releases
                         </NavLink>
                         <hr />
                         {currentUser ? (
-                            <div className="userContainer">{currentUser.username}</div>
+                            <NavBarProfileContainer user={currentUser} />
                         ) : (
-                            <NavLink to="/login" onClick={handleClickAway}>
+                            <NavLink className="navLink" to="/login" onClick={handleClickAway}>
                                 <Button>log in</Button>
                             </NavLink>
                         )}
