@@ -9,7 +9,7 @@ import { getArtist } from "../../services/artistService";
 import LoadingScreen from "./../loadingScreen";
 
 const StyledArtistPage = styled.div`
-    padding: 68px 0 0 0;
+    padding: 64px 0 0 0;
     @media (max-width: ${({ theme }) => theme.mobile}) {
         padding: 55px 0 0 0;
         margin: 0;

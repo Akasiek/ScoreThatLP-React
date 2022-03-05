@@ -59,7 +59,7 @@ const StyledApp = styled.div`
 export const Main = styled.main`
     max-width: 1550px;
     margin: 0 auto;
-    padding: ${(props) => (props.pushUnderNavbar ? "68px 2.5rem 0 " : "0 2.5rem")};
+    padding: ${(props) => (props.pushUnderNavbar ? "64px 2.5rem 0 " : "0 2.5rem")};
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
         padding: ${(props) => (props.pushUnderNavbar ? "55px 0 0 " : "0")};
