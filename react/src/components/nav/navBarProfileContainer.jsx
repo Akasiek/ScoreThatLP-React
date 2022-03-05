@@ -29,8 +29,7 @@ const StyledProfileContainer = styled.div`
         right: 0;
         transform: translateY(100%);
         display: none;
-        background-color: var(--darkBlueColor);
-        box-shadow: 0 0 55px var(--accentColor);
+        background-color: var(--blueColor);
 
         ul {
             list-style-type: none;
