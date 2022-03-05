@@ -16,9 +16,6 @@ const AlbumPageAsideTracks = ({ album }) => {
                     </div>
                 );
             })}
-            {
-                // TODO: Full album length
-            }
             <p className="albumDuration">
                 <span style={{ fontWeight: "normal" }}>Album duration: </span>
                 {moment.duration(album.album_duration).humanize()}

@@ -10,7 +10,7 @@ export const StyledTracksForm = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
 
     display: flex;
@@ -21,12 +21,17 @@ export const StyledTracksForm = styled.div`
         font-family: "Montserrat";
         border: none;
         outline: none;
-        background-color: var(--lightColor);
-        color: var(--darkestColor);
+        background-color: var(--darkBlueColor);
+        color: var(--lightColor);
+        border: 1px solid var(--accentColor);
+        border-radius: 25px;
     }
 
     .formContainer {
-        background-color: var(--accentColor);
+        background-color: var(--darkBlueColor);
+        box-shadow: 0 0 100px -10px var(--accentColor);
+        padding: 1rem;
+        border-radius: 25px;
         overflow-y: auto;
         max-height: 100vh;
         .formHeader {
@@ -49,7 +54,7 @@ export const StyledTracksForm = styled.div`
     .inputsContainer {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: clamp(0.5rem, 1vw, 1rem);
         margin: 1rem;
         & > input {
             font-size: clamp(0.9rem, 1.1vw, 1.1rem);
@@ -82,19 +87,19 @@ export const StyledTracksForm = styled.div`
         & > input {
             border-radius: 25px;
             margin: 0.5rem 1rem 1rem 1rem;
-            padding: 0.25rem 0.65rem;
+            padding: 0.4rem 0.8rem;
             font-size: clamp(0.8rem, 1.2vw, 1.2rem);
 
-            background-color: var(--accentColor);
+            background-color: var(--darkBlueColor);
             color: var(--lightColor);
-            border: 3px solid var(--lightColor);
+            border: 1px solid var(--accentColor);
             cursor: pointer;
 
             transition: all 0.1s ease-in-out;
 
             &:hover {
-                background-color: var(--lightColor);
-                color: var(--accentColor);
+                background-color: var(--accentColor);
+                color: var(--darkestColor);
             }
         }
 
