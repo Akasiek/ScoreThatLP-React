@@ -33,7 +33,7 @@ const StyledProfileContainer = styled.div`
 
         ul {
             list-style-type: none;
-            padding: 1rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -41,7 +41,11 @@ const StyledProfileContainer = styled.div`
             gap: 1rem;
             li {
                 a {
+                    padding: 0;
                     cursor: pointer;
+                    &:hover {
+                        color: var(--accentColor);
+                    }
                 }
             }
         }
@@ -55,6 +59,36 @@ const StyledProfileContainer = styled.div`
         }
         .hiddenMenu {
             display: block;
+        }
+    }
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        .userContainer {
+            display: none;
+        }
+
+        .hiddenMenu {
+            display: block;
+            position: static;
+            transform: none;
+            font-size: inherit;
+            text-transform: lowercase;
+            background-color: transparent;
+            gap: clamp(1.5rem, 2vw, 3rem);
+            ul {
+                li {
+                    text-align: center;
+                }
+            }
+        }
+
+        &::before {
+            content: "";
+            border: 1px solid var(--accentColor);
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0 30%;
         }
     }
 `;

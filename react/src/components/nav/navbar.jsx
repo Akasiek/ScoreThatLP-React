@@ -75,8 +75,9 @@ const NavLinks = styled.div`
     }
 
     a {
-        padding: 1rem 0;
         transition: all 0.1s ease-in-out;
+        position: relative;
+        padding: 1rem 0;
 
         &:not(:last-child):hover {
             transform: scale(1.1);
@@ -100,7 +101,7 @@ const NavLinks = styled.div`
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: clamp(1rem, 3vw, 1.5rem);
+        gap: clamp(1.5rem, 2vw, 3rem);
 
         transform: ${({ visibility }) => (visibility ? "translateX(0)" : "translateX(100%)")};
         transition: transform 0.3s ease-in-out;
@@ -120,6 +121,10 @@ const NavLinks = styled.div`
 
         button:active {
             transform: none;
+        }
+
+        a {
+            padding: 0;
         }
 
         a::after {
