@@ -63,7 +63,7 @@ const StyledProfileContainer = styled.div`
 const NavBarProfileContainer = ({ user }) => {
     const handleLogout = () => {
         localStorage.removeItem("jwt");
-        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("refresh");
         window.location.reload(false);
     };
     return (
