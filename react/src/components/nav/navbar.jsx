@@ -75,7 +75,7 @@ const NavLinks = styled.div`
     }
 
     a {
-        padding: 1.25rem 0;
+        padding: 1rem 0;
         transition: all 0.1s ease-in-out;
 
         &:not(:last-child):hover {
