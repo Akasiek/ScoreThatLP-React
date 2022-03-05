@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import AlbumPageReviewForm from "./albumPageReviewForm";
 import AlbumPageReviewsContainer from "./albumPageReviewsContainer";
@@ -34,7 +35,7 @@ const AlbumPageReviewSection = ({ album, user }) => {
                 <AlbumPageReviewForm album={album} />
             ) : (
                 <div className="loginPrompt">
-                    You need to be logged in as user to review albums. <a href="/login">Log in here</a>
+                    You need to be logged in as user to review albums. <Link to="/login">Log in here</Link>
                 </div>
             )}
             <AlbumPageReviewsContainer album={album} />

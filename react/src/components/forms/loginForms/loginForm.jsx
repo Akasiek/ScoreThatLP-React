@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import { InputComponent, SubmitBtnComponent, validate } from "../formComponents";
 import { getJWT } from "../../../services/authService";
 import UserContext from "./../../../context/userContext";
+import { Link } from "react-router-dom";
 
 const StyledLoginForm = styled.div`
     height: 101vh;
@@ -94,9 +95,9 @@ const LoginForm = ({ history }) => {
             localStorage.setItem("refresh", jwt.refresh);
 
             // For useEffect in App.js
-            setUser(null);
+            setUser({ id: 0 });
 
-            // Go to homepage
+            // Go to last visited page or to homepage
             if (history.action === "POP") history.push("/");
             else history.goBack();
         } catch (ex) {
@@ -120,7 +121,7 @@ const LoginForm = ({ history }) => {
                     <InputComponent type="password" name="password" placeholder="Password" data={data} setData={setData} errors={errors} />
                     <SubmitBtnComponent value="Log in" />
                     <p className="signInPrompt">
-                        New member? <a href="/register">Sign here</a>
+                        New member? <Link to="/register">Sign here</Link>
                     </p>
                 </form>
             </div>

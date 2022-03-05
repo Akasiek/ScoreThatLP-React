@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const StyledFormLink = styled.div`
     display: flex;
@@ -26,7 +27,7 @@ const StyledFormLink = styled.div`
 const FormLink = ({ label, url }) => {
     return (
         <StyledFormLink>
-            <a href={url}>{label}</a>
+            <Link to={url}>{label}</Link>
         </StyledFormLink>
     );
 };
