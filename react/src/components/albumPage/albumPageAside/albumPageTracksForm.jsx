@@ -177,7 +177,7 @@ const AlbumPageTracksForm = ({ album, setVisibility }) => {
                                     className="positionInput"
                                     id={index}
                                     value={t.position}
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     onChange={handleChange}
                                 />
                                 <input
@@ -187,7 +187,7 @@ const AlbumPageTracksForm = ({ album, setVisibility }) => {
                                     id={index}
                                     value={t.title}
                                     placeholder="Title..."
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     onChange={handleChange}
                                 />
                                 <input
@@ -197,7 +197,7 @@ const AlbumPageTracksForm = ({ album, setVisibility }) => {
                                     id={index}
                                     value={t.duration}
                                     placeholder="00:00"
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     onChange={handleChange}
                                 />
                                 {index > 0 && <img src="/images/close.svg" className="deleteIcon" onClick={() => handleDelete(index)} />}
