@@ -31,6 +31,7 @@ export const StyledAlbumPageHeader = styled.header`
         letter-spacing: -0.05rem;
         padding: 2rem;
         background-color: var(--accentColor);
+        transition: background-color 0.3s ease-in-out;
         a {
             position: relative;
             color: var(--lightColor);
