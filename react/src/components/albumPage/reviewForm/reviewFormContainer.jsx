@@ -169,7 +169,7 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
             });
             changeRatingContainerColor(userReview.rating);
         }
-    }, []);
+    }, [album.id]);
 
     const saveUserReview = (newData, timer, setTimer, setSavingPrompt, delay) => {
         // Save review
