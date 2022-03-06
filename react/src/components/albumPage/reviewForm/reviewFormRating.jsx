@@ -3,11 +3,11 @@ import Joi from "joi-browser";
 import { toast } from "react-toastify";
 
 import { ReloadContext } from "../albumPage";
-import { getReviewerAlbumRating, saveReview, deleteReview, createReview } from "../../../services/reviewService";
+// import { getReviewerAlbumRating, saveReview, deleteReview, createReview } from "../../../services/reviewService";
 
-const ReviewFormRating = ({ data, setData, user, album, changeRatingContainerColor }) => {
+const ReviewFormRating = ({ data, setData, saveUserReview, changeRatingContainerColor }) => {
     const [savingPrompt, setSavingPrompt] = useState(null);
-    const [ratingTimer, setRatingTimer] = useState(null);
+    const [timer, setTimer] = useState(null);
     const [reload, setReload] = useContext(ReloadContext);
 
     const schema = {
@@ -37,45 +37,7 @@ const ReviewFormRating = ({ data, setData, user, album, changeRatingContainerCol
         if (input.value !== "") errorMessage = validateProperty(input, schema);
         if (errorMessage) toast.error(errorMessage);
 
-        // Save rating
-        // Wait 0.8s for user not to press anything. Then start saving.
-        clearTimeout(ratingTimer);
-        const newTimer = setTimeout(async () => {
-            // Check if user has already rated this album
-            const { data: reviewData } = await getReviewerAlbumRating(user.id, album.id);
-
-            if (reviewData.length > 0) {
-                if (newData.rating !== "") {
-                    // If there is a rating and new rating isn't null, update it
-                    const promise = saveReview({ rating: newData.rating }, reviewData[0].id);
-                    setSavingPrompt("Saving...");
-                    const respond = await promise;
-                    setSavingPrompt("Saved");
-                } else if (newData.rating === "") {
-                    // If there is a rating and new rating is null, delete the rating in DB
-                    const promise = deleteReview(reviewData[0].id);
-                    setSavingPrompt("Saving...");
-                    const respond = await promise;
-                    setSavingPrompt("Saved");
-                }
-            } else if (reviewData.length == 0) {
-                // If there is no rating, create it
-                const promise = createReview({
-                    rating: newData.rating,
-                    reviewer_id: user.id,
-                    album_id: album.id,
-                });
-                setSavingPrompt("Saving...");
-                const respond = await promise;
-                setSavingPrompt("Saved");
-            }
-
-            // Reload album and reviews info on album page
-            setReload(!reload);
-
-            setRatingTimer(null);
-        }, 800);
-        setRatingTimer(newTimer);
+        saveUserReview(newData, timer, setTimer, setSavingPrompt, 800);
     };
     return (
         <div className="rating" id="ratingContainer">

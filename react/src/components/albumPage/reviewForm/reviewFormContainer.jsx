@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 
 import getScoreColor from "../../../utils/scoreColor";
-import { getReviewerAlbumRating } from "../../../services/reviewService";
-import UserContext from "../../../context/userContext";
 import ReviewFormRating from "./reviewFormRating";
 import ReviewFormReviewText from "./reviewFormReviewText";
+import { ReloadContext } from "../albumPage";
+import { getReviewerAlbumRating, saveReview, deleteReview, createReview } from "../../../services/reviewService";
 
 const StyledReviewForm = styled.div`
     display: grid;
@@ -155,6 +155,7 @@ const changeRatingContainerColor = (value) => {
 
 const AlbumPageReviewFormContainer = ({ album, user }) => {
     const [data, setData] = useState({ rating: "", review: "" });
+    const [reload, setReload] = useContext(ReloadContext);
 
     useEffect(async () => {
         // On load check if user already reviewed this album
@@ -170,10 +171,60 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
         }
     }, []);
 
+    const saveUserReview = (newData, timer, setTimer, setSavingPrompt, delay) => {
+        // Save review
+        // Wait a certain time (delay parameter) for user not to press anything. Then start saving.
+        clearTimeout(timer);
+        const newTimer = setTimeout(async () => {
+            // Check if user has already rated this album
+            const respond = await getReviewerAlbumRating(user.id, album.id);
+
+            const getMethod = () => {
+                if (respond.data.length > 0) {
+                    // If there is a rating...
+                    if (newData.rating !== "" || (newData.rating !== "" && newData.review !== "")) {
+                        // ...And new rating isn't null, update it
+                        // Or new rating and new review text isn't null
+                        setSavingPrompt("Saving...");
+                        return saveReview(
+                            {
+                                rating: newData.rating !== "" ? newData.rating : null,
+                                review_text: newData.review !== "" ? newData.review : null,
+                            },
+                            respond.data[0].id
+                        );
+                    } else if (newData.rating === "" && newData.review === "") {
+                        // ...And new rating and new review text is null, delete the rating in DB
+                        setSavingPrompt("Saving...");
+                        return deleteReview(respond.data[0].id);
+                    }
+                } else if (respond.data.length == 0) {
+                    // If there is no rating, create it
+                    setSavingPrompt("Saving...");
+                    return createReview({
+                        rating: newData.rating !== "" ? newData.rating : null,
+                        review_text: newData.review !== "" ? newData.review : null,
+                        reviewer_id: user.id,
+                        album_id: album.id,
+                    });
+                }
+            };
+
+            const newRespond = await getMethod();
+            if (newRespond) setSavingPrompt("Saved");
+
+            // Reload album and reviews info on album page
+            setReload(!reload);
+
+            setTimer(null);
+        }, delay);
+        setTimer(newTimer);
+    };
+
     return (
         <StyledReviewForm>
-            <ReviewFormRating data={data} setData={setData} user={user} album={album} changeRatingContainerColor={changeRatingContainerColor} />
-            <ReviewFormReviewText data={data} setData={setData} user={user} album={album} />
+            <ReviewFormRating data={data} setData={setData} saveUserReview={saveUserReview} changeRatingContainerColor={changeRatingContainerColor} />
+            <ReviewFormReviewText data={data} setData={setData} saveUserReview={saveUserReview} />
         </StyledReviewForm>
     );
 };
