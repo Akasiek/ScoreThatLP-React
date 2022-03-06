@@ -74,6 +74,8 @@ class Artist(models.Model):
     background_image = models.FileField(
         null=True, blank=True, upload_to=rename_artist_bg_image)
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        Reviewer, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -99,6 +101,8 @@ class Album(models.Model):
     release_type = models.CharField(max_length=10,
                                     choices=RELEASE_TYPE_ALBUM_CHOICES, default="LP")
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        Reviewer, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.title

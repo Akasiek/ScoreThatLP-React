@@ -16,7 +16,8 @@ class ArtistSerializer(serializers.ModelSerializer):
             "image",
             "background_image",
             "average_score",
-            "created_at"
+            "created_at",
+            "created_by"
         ]
         read_only_fields = ["slug"]
         lookup_field = 'slug'
@@ -83,6 +84,7 @@ class AlbumSerializer(serializers.ModelSerializer):
             "title",
             "slug",
             "created_at",
+            "created_by",
             "artist",
             "art_cover",
             "genres",

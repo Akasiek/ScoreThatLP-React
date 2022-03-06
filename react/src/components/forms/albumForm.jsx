@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Joi from "joi-browser";
 import { Helmet } from "react-helmet";
 import { InputComponent, FileInputComponent, SelectComponent, StyledForm, SubmitBtnComponent, validate } from "./formComponents";
 import { Main } from "./../../App";
 import { getArtists } from "./../../services/artistService";
 import { saveAlbum } from "./../../services/albumService";
+import UserContext from "../../context/userContext";
 
 const AlbumForm = ({ history }) => {
     const [data, setData] = useState({ title: "", release_date: "", release_type: "", artist_id: "" });
     const [artCover, setArtCover] = useState();
     const [artistsOptions, setArtistsOptions] = useState([]);
     const [errors, setErrors] = useState({});
+    const [currentUser, setCurrentUser] = useContext(UserContext);
 
     const releaseTypeOptions = [
         { value: "LP", label: "LP" },
@@ -53,6 +55,7 @@ const AlbumForm = ({ history }) => {
             else apiData.append(key, data[key]);
         }
         apiData.append("art_cover", artCover);
+        apiData.append("created_by", currentUser.id);
 
         await saveAlbum(apiData);
         history.push("/albums/");

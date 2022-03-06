@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Joi from "joi-browser";
 import { Helmet } from "react-helmet";
 import { InputComponent, FileInputComponent, StyledForm, SubmitBtnComponent, validate } from "./formComponents";
 import { Main } from "./../../App";
 import { saveArtist } from "./../../services/artistService";
+import UserContext from "../../context/userContext";
 
 const ArtistForm = ({ history }) => {
     const [data, setData] = useState({ name: "" });
     const [artistImage, setArtistImage] = useState();
     const [artistImageBG, setArtistImageBG] = useState();
     const [errors, setErrors] = useState({});
+    const [currentUser, setCurrentUser] = useContext(UserContext);
 
     const schema = {
         name: Joi.string().required().label("Name"),
@@ -30,6 +32,7 @@ const ArtistForm = ({ history }) => {
         }
         apiData.append("image", artistImage);
         apiData.append("background_image", artistImageBG);
+        apiData.append("created_by", currentUser.id);
 
         await saveArtist(apiData);
         history.push("/artists/");
