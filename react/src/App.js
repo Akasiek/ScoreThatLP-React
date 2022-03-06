@@ -93,6 +93,7 @@ const App = () => {
                         <Route exact path="/artists" component={Artists} />
                         <Route exact path="/artists/new" component={ArtistForm} />
                         <Route exact path="/artists/:slug" component={ArtistPage} />
+                        <Route exact path="/artists/:slug/new-album" component={AlbumForm} />
                         <Route exact path="/new-releases" component={NewReleases} />
                         <Route exact path="/aoty" component={AOTY} />
                         <Route exact path="/users/:slug" component={ProfilePage} />

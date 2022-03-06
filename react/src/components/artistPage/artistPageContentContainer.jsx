@@ -3,6 +3,7 @@ import ContentGroup from "../common/contentGroup";
 import ArtistPageAlbumsGroup from "./artistPageAlbumsGroup";
 import { StyledContentGroupPage } from "./../albums";
 import { getLatestArtistReviews } from "../../services/reviewService";
+import FormLink from "../forms/formLink";
 
 const ArtistPageContentContainer = ({ artist }) => {
     const [latestReviews, setLatestReviews] = useState(null);
@@ -14,6 +15,7 @@ const ArtistPageContentContainer = ({ artist }) => {
 
     return (
         <StyledContentGroupPage>
+            <FormLink label={`Add ${artist.name} album`} url={`/artists/${artist.slug}/new-album`} />
             <ArtistPageAlbumsGroup artist={artist} />
             <ContentGroup
                 className="contentGroup"

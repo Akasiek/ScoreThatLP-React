@@ -3,11 +3,11 @@ import Joi from "joi-browser";
 import { Helmet } from "react-helmet";
 import { InputComponent, FileInputComponent, SelectComponent, StyledForm, SubmitBtnComponent, validate } from "./formComponents";
 import { Main } from "./../../App";
-import { getArtists } from "./../../services/artistService";
+import { getArtist, getArtists } from "./../../services/artistService";
 import { saveAlbum } from "./../../services/albumService";
 import UserContext from "../../context/userContext";
 
-const AlbumForm = ({ history }) => {
+const AlbumForm = ({ history, match }) => {
     const [data, setData] = useState({ title: "", release_date: "", release_type: "", artist_id: "" });
     const [artCover, setArtCover] = useState();
     const [artistsOptions, setArtistsOptions] = useState([]);
@@ -36,7 +36,14 @@ const AlbumForm = ({ history }) => {
             artistsOptions.push({ value: a.id, label: a.name });
         });
         setArtistsOptions(artistsOptions);
-    }, []);
+        if (match.params.slug !== "") {
+            const { data: artist } = await getArtist(match.params.slug);
+            const newData = { ...data };
+            newData.artist_id = artist.id;
+            console.log(newData);
+            setData(newData);
+        }
+    }, [match.params.slug]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
