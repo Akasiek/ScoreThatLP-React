@@ -166,7 +166,7 @@ class AlbumOfTheYear(models.Model):
 class Review(models.Model):
     reviewer_id = models.ForeignKey(Reviewer, on_delete=models.PROTECT)
     rating = models.IntegerField(
-        validators=[MaxValueValidator(100), MinValueValidator(0)]
+        validators=[MaxValueValidator(100), MinValueValidator(0)], null=True, blank=True
     )
     review_text = models.TextField(null=True, blank=True)
     album_id = models.ForeignKey(

@@ -112,5 +112,6 @@ class ReviewViewSet(ModelViewSet):
         "album_id": ["exact"],
         "album_id__artist_id__slug": ["exact"],
         "reviewer_id": ["exact"],
-        "review_text": ["exact", "isnull"]
+        "review_text": ["exact", "isnull"],
+        "rating": ["exact", "isnull"]
     }
