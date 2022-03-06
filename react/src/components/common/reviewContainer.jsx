@@ -124,6 +124,7 @@ const StyledReviewContainer = styled.div`
         & > * {
             margin: 0 auto;
             max-width: 800px;
+            white-space: pre-line;
         }
         line-height: 1.6;
         padding: 1.5rem 2rem;
