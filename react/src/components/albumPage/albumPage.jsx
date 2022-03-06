@@ -44,33 +44,38 @@ const AlbumPageMain = styled.main`
     }
 `;
 
+export const ReloadContext = React.createContext();
+
 const AlbumPage = ({ match }) => {
     const [album, setAlbum] = useState(null);
+    const [reload, setReload] = useState(false);
     const [currentUser, setCurrentUser] = useContext(UserContext);
 
     useEffect(async () => {
         const { data: album } = await getAlbum(match.params.id);
         setAlbum(album);
-    }, [match.params.id]);
+    }, [match.params.id, reload]);
 
     return album ? (
-        <Main pushUnderNavbar={true}>
-            <StyledAlbumPage>
-                <Helmet>
-                    <title>
-                        {album.title} - {album.artist.name} | ScoreThatLP
-                    </title>
-                </Helmet>
+        <ReloadContext.Provider value={[reload, setReload]}>
+            <Main pushUnderNavbar={true}>
+                <StyledAlbumPage>
+                    <Helmet>
+                        <title>
+                            {album.title} - {album.artist.name} | ScoreThatLP
+                        </title>
+                    </Helmet>
 
-                <AlbumPageHeader album={album} />
+                    <AlbumPageHeader album={album} />
 
-                <AlbumPageMain>
-                    <AlbumPageReviewSection album={album} user={currentUser} />
+                    <AlbumPageMain>
+                        <AlbumPageReviewSection album={album} user={currentUser} />
 
-                    <AlbumPageAside album={album} user={currentUser} />
-                </AlbumPageMain>
-            </StyledAlbumPage>
-        </Main>
+                        <AlbumPageAside album={album} user={currentUser} />
+                    </AlbumPageMain>
+                </StyledAlbumPage>
+            </Main>
+        </ReloadContext.Provider>
     ) : (
         <LoadingScreen />
     );

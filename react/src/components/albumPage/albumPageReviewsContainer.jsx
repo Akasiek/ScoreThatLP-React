@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import ContentGroup from "../common/contentGroup";
 import { getAlbumReviews } from "../../services/reviewService";
+import { ReloadContext } from "./albumPage";
 
 const StyledReviewsContainer = styled.div`
     /* & > div {
@@ -57,12 +58,13 @@ const StyledReviewsContainer = styled.div`
 const AlbumPageReviewsContainer = ({ album }) => {
     const [reviews, setReviews] = useState();
     const [ratings, setRatings] = useState();
+    const [reload, setReload] = useContext(ReloadContext);
 
     useEffect(async () => {
         const { data: allReviews } = await getAlbumReviews(album.id);
         setReviews(allReviews.filter((r) => r.review_text !== null));
         setRatings(allReviews.filter((r) => r.review_text === null));
-    }, [album.id]);
+    }, [album.id, reload]);
 
     return reviews && ratings ? (
         <StyledReviewsContainer>
