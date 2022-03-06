@@ -22,7 +22,7 @@ const ArtistPage = ({ match }) => {
     useEffect(async () => {
         const { data: artist } = await getArtist(match.params.slug);
         setArtist(artist);
-    }, [match.params.id]);
+    }, [match.params.slug]);
 
     return artist !== null ? (
         <StyledArtistPage>
