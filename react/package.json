@@ -26,6 +26,7 @@
     "react-scripts": "5.0.0",
     "react-scroll": "^1.8.4",
     "react-select": "^5.2.2",
+    "react-show-more-text": "^1.5.2",
     "react-toastify": "^8.1.1",
     "read-more-react": "^1.0.10",
     "simplebar-react": "^2.3.6",

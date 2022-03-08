@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
-import ReadMoreReact from "read-more-react";
+import { scroller } from "react-scroll";
+import ShowMoreText from "react-show-more-text";
+
 // import Like from "./like";
 import getScoreColor from "../../utils/scoreColor";
 
@@ -10,6 +12,10 @@ const StyledReviewContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
+
+    &.expanded {
+        grid-column: 1 / 3;
+    }
 
     .userContainer {
         display: flex;
@@ -148,6 +154,19 @@ const StyledReviewContainer = styled.div`
         margin-top: 0.5rem;
     }
 
+    .showMoreText {
+        a {
+            color: var(--accentColor);
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        &.expanded {
+            color: #ba0000;
+        }
+    }
+
     .creationTimeText {
         opacity: 0.6;
         font-style: italic;
@@ -155,8 +174,23 @@ const StyledReviewContainer = styled.div`
 `;
 
 const ReviewContainer = ({ review, isOutsideAlbum }) => {
+    const showMoreTextRef = useRef(null);
+
+    const handleExpand = (isExpanded) => {
+        if (isExpanded) showMoreTextRef.current.className += " expanded";
+        else {
+            showMoreTextRef.current.className = showMoreTextRef.current.className.slice(0, -9);
+            // showMoreTextRef.current.scrollIntoView({ behavior: "smooth", offset: -200 });
+            scroller.scrollTo(showMoreTextRef.current.className, {
+                smooth: "easeInOut",
+                offset: -150,
+                duration: 750,
+            });
+        }
+    };
+
     return (
-        <StyledReviewContainer>
+        <StyledReviewContainer ref={showMoreTextRef}>
             {review.album && isOutsideAlbum && (
                 <div className="reviewAlbumContainer">
                     <div className="albumCoverContainer">
@@ -184,7 +218,17 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
             </div>
             <div className="reviewContainer">
                 <p className="reviewHeaderText">Review</p>
-                <ReadMoreReact text={review.review_text} min={300} ideal={350} max={400} readMoreText="click here to read more" />
+                <ShowMoreText
+                    lines={4}
+                    more="Show more"
+                    keepNewLines={true}
+                    less="Show less"
+                    className="showMoreText"
+                    truncatedEndingComponent={"... "}
+                    onClick={handleExpand}
+                >
+                    {review.review_text}
+                </ShowMoreText>
                 <p title={moment(review.created_at).format("YYYY-MM-DD HH:MM:ss")} className="creationTimeText">
                     {moment(review.created_at).fromNow()}
                 </p>
