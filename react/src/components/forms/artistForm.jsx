@@ -39,7 +39,7 @@ const ArtistForm = ({ history }) => {
     };
 
     return (
-        <Main pushUnderNavbar={true}>
+        <Main>
             <Helmet>
                 <title>Add Artist Form | ScoreThatLP</title>
             </Helmet>

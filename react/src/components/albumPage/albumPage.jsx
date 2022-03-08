@@ -58,7 +58,7 @@ const AlbumPage = ({ match }) => {
 
     return album ? (
         <ReloadContext.Provider value={[reload, setReload]}>
-            <Main pushUnderNavbar={true}>
+            <Main>
                 <StyledAlbumPage>
                     <Helmet>
                         <title>

@@ -49,7 +49,7 @@ const Albums = () => {
     }, []);
 
     return albums ? (
-        <Main pushUnderNavbar={true}>
+        <Main>
             <Helmet>
                 <title>Albums | ScoreThatLP</title>
             </Helmet>

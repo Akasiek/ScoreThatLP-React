@@ -18,7 +18,7 @@ const NewReleases = () => {
     }, []);
 
     return newReleases ? (
-        <Main pushUnderNavbar={true}>
+        <Main>
             <Helmet>
                 <title>New Releases | ScoreThatLP</title>
             </Helmet>

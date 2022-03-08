@@ -23,7 +23,7 @@ const ProfilePage = ({ match }) => {
             <Helmet>
                 <title>{reviewer.username} Profile | ScoreThatLP</title>
             </Helmet>
-            <Main pushUnderNavbar={true}>
+            <Main>
                 <StyledProfilePage>
                     <ProfilePageHeader reviewer={reviewer} />
 

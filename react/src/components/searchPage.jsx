@@ -24,7 +24,7 @@ const SearchPage = ({ match }) => {
     }, [match.params.searchQuery]);
 
     return foundComponets.albums && foundComponets.artists && foundComponets.reviewers ? (
-        <Main pushUnderNavbar={true}>
+        <Main>
             <Helmet>
                 <title>Search - {searchQuery} | ScoreThatLP</title>
             </Helmet>

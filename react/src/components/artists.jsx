@@ -18,7 +18,7 @@ const Artists = () => {
     }, []);
 
     return artists !== null ? (
-        <Main pushUnderNavbar={true}>
+        <Main>
             <Helmet>
                 <title>Artists | ScoreThatLP</title>
             </Helmet>

@@ -26,7 +26,7 @@ const ProfileReviews = ({ match }) => {
     }, [reviewer?.id]);
 
     return reviewer && reviews ? (
-        <Main pushUnderNavbar={true}>
+        <Main>
             <StyledContentGroupPage>
                 <Helmet>
                     <title>{reviewer.username} Reviews | ScoreThatLP</title>

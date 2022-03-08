@@ -27,6 +27,7 @@ import { getReviewer, getReviewerWithUser } from "./services/reviewerService";
 import styled, { ThemeProvider } from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
 import RegisterForm from "./components/forms/loginForms/registerForm";
+import SettingsForm from "./components/profilePage/settingsForm";
 
 const theme = {
     colors: {
@@ -59,10 +60,10 @@ const StyledApp = styled.div`
 export const Main = styled.main`
     max-width: 1550px;
     margin: 0 auto;
-    padding: ${(props) => (props.pushUnderNavbar ? "64px 2.5rem 0 " : "0 2.5rem")};
+    padding-inline: 0 2.5rem;
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
-        padding: ${(props) => (props.pushUnderNavbar ? "55px 0 0 " : "0")};
+        padding-inline: 0;
     }
 `;
 
@@ -99,6 +100,7 @@ const App = () => {
                         <Route exact path="/users/:username" component={ProfilePage} />
                         <Route exact path="/users/:username/reviews" component={ProfileReviews} />
                         <Route exact path="/users/:username/ratings" component={ProfileRatings} />
+                        <Route exact path="/users/:username/settings" component={SettingsForm} />
                         <Route exact path="/login" component={LoginForm} />
                         <Route exact path="/register" component={RegisterForm} />
                         <Route path="/search/:searchQuery" component={SearchPage} />

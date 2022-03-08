@@ -94,7 +94,7 @@ const ReviewsPage = ({ match }) => {
     }, [match.params.id]);
 
     return album && reviews && ratings ? (
-        <Main pushUnderNavbar={true}>
+        <Main>
             <StyledReviewsPage>
                 <Helmet>
                     <title>

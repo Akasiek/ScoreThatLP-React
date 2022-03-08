@@ -69,7 +69,7 @@ const AlbumForm = ({ history, match }) => {
     };
 
     return (
-        <Main pushUnderNavbar={true}>
+        <Main>
             <Helmet>
                 <title>Add Album Form | ScoreThatLP</title>
             </Helmet>

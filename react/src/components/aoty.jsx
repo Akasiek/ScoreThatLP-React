@@ -15,7 +15,7 @@ const AOTY = () => {
     }, []);
 
     return aoty ? (
-        <Main pushUnderNavbar={true}>
+        <Main>
             <Helmet>
                 <title>Album of the Year | ScoreThatLP</title>
             </Helmet>
