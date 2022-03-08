@@ -198,7 +198,6 @@ class ReviewerSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "user_id",
-            "slug",
             "profile_pic",
             "about_text",
             "favorite_artist",
@@ -206,16 +205,6 @@ class ReviewerSerializer(serializers.ModelSerializer):
             "number_of_reviews",
             "links"
         ]
-        read_only_fields = ["slug"]
-        lookup_field = 'slug'
-        extra_kwargs = {
-            'url': {'lookup_field': 'slug'}
-        }
-
-    # # Save slug
-    # def create(self, validated_data):
-    #     slug = slugify(validated_data["user_id__user_username"])
-    #     return Reviewer.objects.create(slug=slug, **validated_data)
 
 
 class SimpleReviewerSerializer(serializers.ModelSerializer):
@@ -226,7 +215,6 @@ class SimpleReviewerSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "username",
-            "slug",
             "profile_pic"
         ]
 

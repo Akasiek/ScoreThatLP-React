@@ -32,7 +32,6 @@ rename_album_art_cover = RenameImageToSlug("album/art_covers/")
 class Reviewer(models.Model):
     profile_pic = ResizedImageField(size=[500, 500], null=True, blank=True,
                                     upload_to=rename_profile_pic)
-    slug = models.SlugField(max_length=255)
     about_text = models.TextField(null=True, blank=True)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True

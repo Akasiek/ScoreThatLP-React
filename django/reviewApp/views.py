@@ -32,7 +32,7 @@ class ReviewerViewSet(ModelViewSet):
 
     serializer_class = ReviewerSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ["slug", "user__username", "user"]
+    filterset_fields = ["user__username", "user"]
     search_fields = ["user__username"]
     # TODO! Custom permission to check if user is user
     # permission_classes = [IsAuthenticatedOrReadOnly]
