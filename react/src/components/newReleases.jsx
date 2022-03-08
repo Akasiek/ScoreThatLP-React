@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
+import moment from "moment";
+
 import { Main } from "../App";
 import { StyledContentGroupPage } from "./albums";
 import ContentGroup from "./common/contentGroup";
@@ -10,7 +12,8 @@ const NewReleases = () => {
     const [newReleases, setNewReleases] = useState(null);
 
     useEffect(async () => {
-        const { data: albums } = await getAlbums();
+        let { data: albums } = await getAlbums();
+        albums = albums.filter((a) => moment(a.release_date) < moment());
         setNewReleases(albums);
     }, []);
 

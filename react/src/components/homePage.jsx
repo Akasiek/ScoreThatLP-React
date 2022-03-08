@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import { Link as ScrollLink } from "react-scroll";
+import moment from "moment";
 
 import ContentGroup from "./common/contentGroup";
 import { Main } from "../App";
@@ -129,7 +130,8 @@ const HomePage = () => {
         const { data: aoty } = await getAOTY();
         setAOTY(aoty);
 
-        const { data: newReleases } = await getNewReleases();
+        let { data: newReleases } = await getNewReleases();
+        newReleases = newReleases.filter((a) => moment(a.release_date) < moment());
         setNewReleases(newReleases);
 
         const { data: artists } = await getArtists();

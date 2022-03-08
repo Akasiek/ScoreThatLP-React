@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
+import moment from "moment";
 
 import LoadingScreen from "./loadingScreen";
 import ContentGroup from "./common/contentGroup";
@@ -42,7 +43,8 @@ const Albums = () => {
     const [currentUser, setCurrentUser] = useContext(UserContext);
 
     useEffect(async () => {
-        const { data: albums } = await getAlbums();
+        let { data: albums } = await getAlbums();
+        albums = albums.filter((a) => moment(a.release_date) < moment());
         setAlbums(albums);
     }, []);
 
