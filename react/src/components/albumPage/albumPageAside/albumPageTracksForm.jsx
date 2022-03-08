@@ -151,7 +151,6 @@ const AlbumPageTracksForm = ({ album, setVisibility }) => {
             newTracks.forEach(async (t, index) => {
                 t.album_id = album.id;
                 const respond = await saveTrack(t);
-                console.log(respond);
                 if (index === newTracks.length - 1) {
                     window.location.reload(false);
                 }

@@ -41,7 +41,6 @@ const AlbumForm = ({ history, match }) => {
             const { data: artist } = await getArtist(match.params.slug);
             const newData = { ...data };
             newData.artist_id = artist.id;
-            console.log(newData);
             setData(newData);
         }
     }, [match.params.slug]);

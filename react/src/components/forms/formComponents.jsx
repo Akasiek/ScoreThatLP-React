@@ -192,7 +192,6 @@ export const FileInputComponent = ({ name, label, setFile }) => {
 
 export const SelectComponent = ({ name, label, options, isSearchable, isMulti, data, setData, errors }) => {
     const handleChange = (value) => {
-        console.log(value);
         const newData = { ...data };
         newData[name] = value.value;
         setData(newData);
