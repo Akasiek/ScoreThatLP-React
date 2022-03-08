@@ -60,10 +60,10 @@ const StyledApp = styled.div`
 export const Main = styled.main`
     max-width: 1550px;
     margin: 0 auto;
-    padding-inline: 0 2.5rem;
+    padding-bottom: 2.5rem;
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
-        padding-inline: 0;
+        padding-bottom: 0;
     }
 `;
 
