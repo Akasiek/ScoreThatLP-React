@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ContentGroup from "../common/contentGroup";
 import ArtistPageAlbumsGroup from "./artistPageAlbumsGroup";
 import { StyledContentGroupPage } from "./../albums";
 import { getLatestArtistReviews } from "../../services/reviewService";
 import FormLink from "../forms/formLink";
+import UserContext from "./../../context/userContext";
 
 const ArtistPageContentContainer = ({ artist }) => {
     const [latestReviews, setLatestReviews] = useState(null);
+    const [user, setUser] = useContext(UserContext);
 
     useEffect(async () => {
         const { data: reviews } = await getLatestArtistReviews(artist.slug);
@@ -15,7 +17,7 @@ const ArtistPageContentContainer = ({ artist }) => {
 
     return (
         <StyledContentGroupPage>
-            <FormLink label={`Add ${artist.name} album`} url={`/artists/${artist.slug}/new-album`} />
+            {user && <FormLink label={`Add ${artist.name} album`} url={`/artists/${artist.slug}/new-album`} />}
             <ArtistPageAlbumsGroup artist={artist} />
             <ContentGroup
                 className="contentGroup"
