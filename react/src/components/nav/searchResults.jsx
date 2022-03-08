@@ -174,7 +174,7 @@ const SearchResults = ({ queryResults: propsQueryResults, searchQuery, timer, on
                             queryResults.reviewers?.slice(0, 3).map((u) => (
                                 <React.Fragment key={u.id}>
                                     <hr />
-                                    <Link to={`/users/${u.slug}`} onClick={onClick}>
+                                    <Link to={`/users/${u.username}`} onClick={onClick}>
                                         <div className="infoContainer users">
                                             <div className="imageContainer">
                                                 <img src={u.profile_pic} alt={`${u.profile_pic} band image`} />

@@ -5,7 +5,7 @@ import { Main } from "../../App";
 import ContentGroup from "./../common/contentGroup";
 import { StyledContentGroupPage } from "./../albums";
 import { getReviewerReviews } from "../../services/reviewService";
-import { getReviewer } from "./../../services/reviewerService";
+import { getReviewerByUsername } from "./../../services/reviewerService";
 import LoadingScreen from "../loadingScreen";
 
 const ProfileRatings = ({ match }) => {
@@ -13,9 +13,9 @@ const ProfileRatings = ({ match }) => {
     const [ratings, setRatings] = useState(null);
 
     useEffect(async () => {
-        const { data: reviewer } = await getReviewer(match.params.slug);
-        setReviewer(reviewer);
-    }, [match.params.slug]);
+        const { data: reviewer } = await getReviewerByUsername(match.params.username);
+        setReviewer(reviewer[0]);
+    }, [match.params.username]);
 
     useEffect(async () => {
         if (reviewer?.id) {

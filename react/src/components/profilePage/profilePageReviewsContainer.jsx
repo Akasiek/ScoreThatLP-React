@@ -46,7 +46,7 @@ const ProfilePageReviewsContainer = ({ reviewer }) => {
             />
             <ContentGroup
                 title="Latest ratings"
-                viewAllUrl={`/users/${reviewer.slug}/ratings`}
+                viewAllUrl={`/users/${reviewer.username}/ratings`}
                 className="contentGroup"
                 content={latestRatings}
                 contentType="ratingAlbums"
@@ -56,7 +56,7 @@ const ProfilePageReviewsContainer = ({ reviewer }) => {
 
             <ContentGroup
                 title="Latest reviews"
-                viewAllUrl={`/users/${reviewer.slug}/reviews`}
+                viewAllUrl={`/users/${reviewer.username}/reviews`}
                 className="contentGroup"
                 content={latestReviews}
                 contentType="reviews"

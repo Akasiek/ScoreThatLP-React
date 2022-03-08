@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet";
 
 import { Main } from "../../App";
-import { getReviewer } from "../../services/reviewerService";
 import { getLatestReviewerReviews, getReviewerReviews } from "../../services/reviewService";
 import ContentGroup from "../common/contentGroup";
 import LoadingScreen from "../loadingScreen";
 import { StyledContentGroupPage } from "./../albums";
+import { getReviewerByUsername } from "./../../services/reviewerService";
+import UserContext from "./../../context/userContext";
 
 const ProfileReviews = ({ match }) => {
     const [reviewer, setReviewer] = useState(null);
     const [reviews, setReviews] = useState(null);
 
     useEffect(async () => {
-        const { data: reviewer } = await getReviewer(match.params.slug);
-        setReviewer(reviewer);
-    }, [match.params.slug]);
+        const { data: reviewer } = await getReviewerByUsername(match.params.username);
+        setReviewer(reviewer[0]);
+    }, [match.params.username]);
 
     useEffect(async () => {
         if (reviewer?.id) {
