@@ -27,8 +27,8 @@ class ReviewerViewSet(ModelViewSet):
     queryset = Reviewer.objects \
         .select_related("user") \
         .prefetch_related("favorite_artist", "favorite_artist__artist_id") \
-        .annotate(number_of_ratings=Count(F("review__review_text"), output_field=IntegerField()),
-                  number_of_reviews=Count(F("review"), output_field=IntegerField()))
+        .annotate(number_of_ratings=Count(F("review"), output_field=IntegerField()),
+                  number_of_reviews=Count(F("review__review_text"), output_field=IntegerField()))
 
     serializer_class = ReviewerSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
