@@ -29,6 +29,7 @@ const AlbumForm = ({ history, match }) => {
     };
 
     useEffect(async () => {
+        window.scrollTo(0, 0);
         // Get artists from API and use them as options in select component
         const { data: artists } = await getArtists();
         const artistsOptions = [];
