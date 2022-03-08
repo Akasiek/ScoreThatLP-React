@@ -22,7 +22,7 @@ import ProfileRatings from "./components/profilePage/profileRatings";
 import LoginForm from "./components/forms/loginForms/loginForm";
 import Footer from "./components/footer";
 import UserContext from "./context/userContext";
-import { getReviewer } from "./services/reviewerService";
+import { getReviewer, getReviewerWithUser } from "./services/reviewerService";
 
 import styled, { ThemeProvider } from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
@@ -73,8 +73,8 @@ const App = () => {
         if (localStorage.getItem("jwt")) {
             const accessToken = localStorage.getItem("jwt");
             const jwt = jwtDecode(accessToken);
-            const { data: reviewer } = await getReviewer(jwt.user_id);
-            setUser(reviewer);
+            const { data: reviewer } = await getReviewerWithUser(jwt.user_id);
+            setUser(reviewer[0]);
         }
     }, [user?.id]);
 
@@ -96,9 +96,9 @@ const App = () => {
                         <Route exact path="/artists/:slug/new-album" component={AlbumForm} />
                         <Route exact path="/new-releases" component={NewReleases} />
                         <Route exact path="/aoty" component={AOTY} />
-                        <Route exact path="/users/:slug" component={ProfilePage} />
-                        <Route exact path="/users/:slug/reviews" component={ProfileReviews} />
-                        <Route exact path="/users/:slug/ratings" component={ProfileRatings} />
+                        <Route exact path="/users/:username" component={ProfilePage} />
+                        <Route exact path="/users/:username/reviews" component={ProfileReviews} />
+                        <Route exact path="/users/:username/ratings" component={ProfileRatings} />
                         <Route exact path="/login" component={LoginForm} />
                         <Route exact path="/register" component={RegisterForm} />
                         <Route path="/search/:searchQuery" component={SearchPage} />

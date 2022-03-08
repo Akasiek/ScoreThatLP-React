@@ -7,6 +7,7 @@ import { InputComponent, SubmitBtnComponent, validate } from "../formComponents"
 import { register, login } from "../../../services/authService";
 import UserContext from "../../../context/userContext";
 import { createReviewer } from "../../../services/reviewerService";
+import { Link } from "react-router-dom";
 
 const RegisterForm = ({ history }) => {
     const [data, setData] = useState({ username: "", email: "", password: "" });
@@ -62,6 +63,9 @@ const RegisterForm = ({ history }) => {
                     <InputComponent name="email" placeholder="E-mail" data={data} setData={setData} errors={errors} />
                     <InputComponent type="password" name="password" placeholder="Password" data={data} setData={setData} errors={errors} />
                     <SubmitBtnComponent value="Sign in" />
+                    <p className="signInPrompt">
+                        Already have an account? <Link to="/login">Log in</Link>
+                    </p>
                 </form>
             </div>
         </StyledLoginForm>
