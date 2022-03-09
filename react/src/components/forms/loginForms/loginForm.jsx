@@ -103,7 +103,7 @@ const LoginForm = ({ history }) => {
         } catch (ex) {
             if (ex.response && ex.response.status === 401) {
                 const err = ex.response.data;
-                setErrors(err);
+                setErrors({ password: err.detail });
             }
         }
     };
