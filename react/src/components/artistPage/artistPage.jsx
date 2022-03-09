@@ -8,13 +8,7 @@ import ArtistPageContentContainer from "./artistPageContentContainer";
 import { getArtist } from "../../services/artistService";
 import LoadingScreen from "./../loadingScreen";
 
-const StyledArtistPage = styled.div`
-    padding: 64px 0 0 0;
-    @media (max-width: ${({ theme }) => theme.mobile}) {
-        padding: 55px 0 0 0;
-        margin: 0;
-    }
-`;
+const StyledArtistPage = styled.div``;
 
 const ArtistPage = ({ match }) => {
     const [artist, setArtist] = useState(null);
