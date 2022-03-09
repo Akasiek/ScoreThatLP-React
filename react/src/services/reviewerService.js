@@ -7,7 +7,7 @@ export const getReviewer = (id) => {
 };
 
 export const getReviewerWithUser = (user_id) => {
-    return http.get(`${apiEndpoint}?user_id=${user_id}`);
+    return http.get(`${apiEndpoint}?user=${user_id}`);
 };
 
 export const getReviewerByUsername = (username) => {
@@ -16,6 +16,10 @@ export const getReviewerByUsername = (username) => {
 
 export const createReviewer = (user) => {
     return http.post(`${apiEndpoint}`, user);
+};
+
+export const updateReviewer = (reviewer_id, reviewer) => {
+    return http.patch(`${apiEndpoint}${reviewer_id}/`, reviewer);
 };
 
 export const searchReviewers = (query) => {
