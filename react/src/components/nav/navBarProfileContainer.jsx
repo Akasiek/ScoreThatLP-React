@@ -116,7 +116,9 @@ const NavBarProfileContainer = ({ user }) => {
                         <Link to={`/users/${user.username}/settings`}>Settings</Link>
                     </li>
                     <li>
-                        <p onClick={handleLogout}>Logout</p>
+                        <a href="/" onClick={handleLogout}>
+                            Logout
+                        </a>
                     </li>
                 </ul>
             </div>
