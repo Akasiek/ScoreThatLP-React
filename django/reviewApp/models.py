@@ -23,7 +23,6 @@ class RenameImageToSlug(object):
         return os.path.join(self.path, filename)
 
 
-rename_profile_pic = RenameImageToSlug("users/profile_pics/")
 rename_artist_image = RenameImageToSlug("artist/images/")
 rename_artist_bg_image = RenameImageToSlug("artist/bg_images/")
 rename_album_art_cover = RenameImageToSlug("album/art_covers/")
@@ -31,7 +30,7 @@ rename_album_art_cover = RenameImageToSlug("album/art_covers/")
 
 class Reviewer(models.Model):
     profile_pic = ResizedImageField(size=[500, 500], null=True, blank=True,
-                                    upload_to=rename_profile_pic)
+                                    upload_to="users/profile_pics/")
     about_text = models.TextField(null=True, blank=True)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True

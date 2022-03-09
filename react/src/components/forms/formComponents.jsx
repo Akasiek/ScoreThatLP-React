@@ -127,7 +127,7 @@ const StyledSubmitBtn = styled.div`
     display: flex;
     justify-content: flex-end;
 
-    input {
+    button {
         cursor: pointer;
         border: none;
         outline: none;
@@ -155,6 +155,25 @@ const StyledSubmitBtn = styled.div`
         &:active {
             transform: translateY(0.4rem);
             box-shadow: 0 0 rgb(0, 0, 0, 0.2);
+        }
+    }
+`;
+
+const StyledTextArea = styled.div`
+    textarea {
+        font-size: clamp(1rem, 1.2vw, 1.2rem);
+        font-family: "Montserrat";
+        background-color: var(--darkBlueColor);
+        border: 1px solid var(--accentColor);
+        border-radius: 25px;
+        color: var(--lightColor);
+        padding: 1rem;
+        height: 7rem;
+        width: 40rem;
+        transition: all 0.2s ease-in-out;
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 1.5rem -0.25rem var(--accentColor);
         }
     }
 `;
@@ -216,8 +235,23 @@ export const SelectComponent = ({ name, label, options, isSearchable, isMulti, d
 export const SubmitBtnComponent = ({ value, style }) => {
     return (
         <StyledSubmitBtn style={style}>
-            <input type="submit" value={value} />
+            {/* <input type="submit" value={value} /> */}
+            <button>{value}</button>
         </StyledSubmitBtn>
+    );
+};
+
+export const TextAreaComponent = ({ name, label, data, setData, placeholder }) => {
+    const handleChange = ({ currentTarget: input }) => {
+        const newData = { ...data };
+        newData[name] = input.value;
+        setData(newData);
+    };
+    return (
+        <StyledTextArea>
+            <p className="label">{label}</p>
+            <textarea value={data[name]} onChange={handleChange} placeholder={placeholder} />
+        </StyledTextArea>
     );
 };
 
