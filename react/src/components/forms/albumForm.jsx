@@ -12,7 +12,7 @@ const AlbumForm = ({ history, match }) => {
     const [artCover, setArtCover] = useState();
     const [artistsOptions, setArtistsOptions] = useState([]);
     const [errors, setErrors] = useState({});
-    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const currentUser = useContext(UserContext)[0];
 
     const releaseTypeOptions = [
         { value: "LP", label: "LP" },
@@ -28,29 +28,34 @@ const AlbumForm = ({ history, match }) => {
         artist_id: Joi.number().label("Artist"),
     };
 
-    useEffect(async () => {
+    useEffect(() => {
         window.scrollTo(0, 0);
-        // Get artists from API and use them as options in select component
-        const { data: artists } = await getArtists();
-        const artistsOptions = [];
-        artists.forEach((a) => {
-            artistsOptions.push({ value: a.id, label: a.name });
-        });
-        setArtistsOptions(artistsOptions);
-        if (match.params.slug !== "") {
-            const { data: artist } = await getArtist(match.params.slug);
-            const newData = { ...data };
-            newData.artist_id = artist.id;
-            setData(newData);
-        }
-    }, [match.params.slug]);
+        (async () => {
+            // Get artists from API and use them as options in select component
+            const { data: artists } = await getArtists();
+
+            const artistsOptions = [];
+            artists.forEach((a) => {
+                artistsOptions.push({ value: a.id, label: a.name });
+            });
+            setArtistsOptions(artistsOptions);
+
+            // If url params have artist slug, set artist value to this artist
+            if (match.params.slug) {
+                const { data: artist } = await getArtist(match.params.slug);
+                const newData = { ...data };
+                newData.artist_id = artist.id;
+                setData(newData);
+            }
+        })();
+    }, [match.params.slug, data]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const errors = validate(data, schema);
         if (errors) {
             // Stupid fix but works...
-            if (errors["artist_id"] == '"Artist" must be a number') errors["artist_id"] = '"Artist" is not allowed to be empty';
+            if (errors["artist_id"] === '"Artist" must be a number') errors["artist_id"] = '"Artist" is not allowed to be empty';
 
             setErrors(errors);
             return;

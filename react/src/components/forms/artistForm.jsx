@@ -11,7 +11,7 @@ const ArtistForm = ({ history }) => {
     const [artistImage, setArtistImage] = useState();
     const [artistImageBG, setArtistImageBG] = useState();
     const [errors, setErrors] = useState({});
-    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const currentUser = useContext(UserContext)[0];
 
     const schema = {
         name: Joi.string().required().label("Name"),

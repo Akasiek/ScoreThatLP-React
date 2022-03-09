@@ -160,7 +160,7 @@ const SearchResults = ({ queryResults: propsQueryResults, searchQuery, timer, on
                                     <Link to={`/artists/${a.slug}`} onClick={onClick}>
                                         <div className="infoContainer artist">
                                             <div className="imageContainer">
-                                                <img src={a.image} alt={`${a.title} band image`} />
+                                                <img src={a.image} alt={`${a.title} band`} />
                                             </div>
                                             <div className="textContainer">
                                                 <h2>{a.name}</h2>
@@ -177,7 +177,7 @@ const SearchResults = ({ queryResults: propsQueryResults, searchQuery, timer, on
                                     <Link to={`/users/${u.username}`} onClick={onClick}>
                                         <div className="infoContainer users">
                                             <div className="imageContainer">
-                                                <img src={u.profile_pic} alt={`${u.profile_pic} band image`} />
+                                                <img src={u.profile_pic} alt={`${u.profile_pic} band`} />
                                             </div>
                                             <div className="textContainer">
                                                 <h2>{u.username}</h2>

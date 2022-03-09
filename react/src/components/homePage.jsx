@@ -126,22 +126,24 @@ const HomePage = () => {
     const [latestReviews, setLatestReviews] = useState(null);
     const [newSingles, setNewSingles] = useState(null);
 
-    useEffect(async () => {
-        const { data: aoty } = await getAOTY();
-        setAOTY(aoty);
+    useEffect(() => {
+        (async () => {
+            const { data: aoty } = await getAOTY();
+            setAOTY(aoty);
 
-        let { data: newReleases } = await getNewReleases();
-        newReleases = newReleases.filter((a) => moment(a.release_date) < moment());
-        setNewReleases(newReleases);
+            let { data: newReleases } = await getNewReleases();
+            newReleases = newReleases.filter((a) => moment(a.release_date) < moment());
+            setNewReleases(newReleases);
 
-        const { data: artists } = await getArtists();
-        setArtists(artists);
+            const { data: artists } = await getArtists();
+            setArtists(artists);
 
-        const { data: latestReviews } = await getLatestReviewsOnly();
-        setLatestReviews(latestReviews);
+            const { data: latestReviews } = await getLatestReviewsOnly();
+            setLatestReviews(latestReviews);
 
-        const { data: singles } = await getNewSingles();
-        setNewSingles(singles);
+            const { data: singles } = await getNewSingles();
+            setNewSingles(singles);
+        })();
     }, []);
 
     return aoty && newReleases ? (

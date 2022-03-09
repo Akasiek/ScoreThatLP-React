@@ -13,9 +13,11 @@ const StyledProfilePage = styled.div``;
 const ProfilePage = ({ match }) => {
     const [reviewer, setReviewer] = useState(null);
 
-    useEffect(async () => {
-        const { data: reviewer } = await getReviewerByUsername(match.params.username);
-        setReviewer(reviewer[0]);
+    useEffect(() => {
+        (async () => {
+            const { data: reviewer } = await getReviewerByUsername(match.params.username);
+            setReviewer(reviewer[0]);
+        })();
     }, [match.params.username]);
 
     return reviewer ? (

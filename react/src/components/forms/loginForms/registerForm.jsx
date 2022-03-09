@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 const RegisterForm = ({ history }) => {
     const [data, setData] = useState({ username: "", email: "", password: "" });
     const [errors, setErrors] = useState({});
-    const [user, setUser] = useContext(UserContext);
+    const setUser = useContext(UserContext)[1];
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -35,7 +35,7 @@ const RegisterForm = ({ history }) => {
 
         try {
             const { data: user } = await register(data);
-            const { data: reviewer } = await createReviewer({ user_id: user.id });
+            await createReviewer({ user_id: user.id });
 
             const { data: jwt } = await login({ username: data.username, password: data.password });
             localStorage.setItem("jwt", jwt.access);

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { saveAlbumLink } from "../../../services/albumService";
@@ -53,7 +52,7 @@ const AlbumPageLinksForm = ({ album, setVisibility }) => {
                 linkData.append("album_id", album.id);
                 linkData.append("service_name", key);
                 linkData.append("url", links[key]);
-                const respond = await saveAlbumLink(linkData);
+                await saveAlbumLink(linkData);
             }
         }
 
@@ -65,7 +64,7 @@ const AlbumPageLinksForm = ({ album, setVisibility }) => {
             <div className="formContainer">
                 <div className="formHeader">
                     <h2>{album.title} links</h2>
-                    <img src="/images/close.svg" className="closeIcon" onClick={setVisibility} />
+                    <img src="/images/close.svg" className="closeIcon" alt="Close icon" onClick={setVisibility} />
                 </div>
 
                 <form onSubmit={handleSubmit}>

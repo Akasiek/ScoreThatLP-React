@@ -7,13 +7,14 @@ import { Helmet } from "react-helmet";
 import { FileInputComponent, StyledForm, SubmitBtnComponent, TextAreaComponent } from "../forms/formComponents";
 
 const SettingsForm = ({ match, history }) => {
-    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const currentUser = useContext(UserContext)[0];
     const [user, setUser] = useState({ id: null });
 
     const [data, setData] = useState({ about_text: "" });
     const [profilePic, setProfilePic] = useState();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         (async () => {
             const { data: newUser } = await getReviewerByUsername(match.params.username);
             setUser(newUser[0]);
@@ -27,10 +28,12 @@ const SettingsForm = ({ match, history }) => {
                 history.push(`/users/${currentUser?.username}/settings`);
             }
         }
+    }, [user.id, user?.username, currentUser, history]);
 
+    useEffect(() => {
         // Populate inputs
         setData({ about_text: user.about_text || "" });
-    }, [user.id, currentUser]);
+    }, [user.about_text]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -39,7 +42,7 @@ const SettingsForm = ({ match, history }) => {
         if (data.about_text !== "") apiData.append("about_text", data.about_text);
         if (profilePic) apiData.append("profile_pic", profilePic);
 
-        const respond = await updateReviewer(user.id, apiData);
+        await updateReviewer(user.id, apiData);
         history.push(`/users/${user.username}`);
     };
 

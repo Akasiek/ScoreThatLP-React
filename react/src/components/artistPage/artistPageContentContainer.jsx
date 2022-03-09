@@ -8,11 +8,13 @@ import UserContext from "./../../context/userContext";
 
 const ArtistPageContentContainer = ({ artist }) => {
     const [latestReviews, setLatestReviews] = useState(null);
-    const [user, setUser] = useContext(UserContext);
+    const user = useContext(UserContext)[0];
 
-    useEffect(async () => {
-        const { data: reviews } = await getLatestArtistReviews(artist.slug);
-        setLatestReviews(reviews);
+    useEffect(() => {
+        (async () => {
+            const { data: reviews } = await getLatestArtistReviews(artist.slug);
+            setLatestReviews(reviews);
+        })();
     }, [artist.slug]);
 
     return (

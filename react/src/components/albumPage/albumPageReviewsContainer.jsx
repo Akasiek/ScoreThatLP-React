@@ -58,12 +58,14 @@ const StyledReviewsContainer = styled.div`
 const AlbumPageReviewsContainer = ({ album }) => {
     const [reviews, setReviews] = useState();
     const [ratings, setRatings] = useState();
-    const [reload, setReload] = useContext(ReloadContext);
+    const reload = useContext(ReloadContext)[0];
 
-    useEffect(async () => {
-        const { data: allReviews } = await getAlbumReviews(album.id);
-        setReviews(allReviews.filter((r) => r.review_text !== null));
-        setRatings(allReviews.filter((r) => r.review_text === null));
+    useEffect(() => {
+        (async () => {
+            const { data: allReviews } = await getAlbumReviews(album.id);
+            setReviews(allReviews.filter((r) => r.review_text !== null));
+            setRatings(allReviews.filter((r) => r.review_text === null));
+        })();
     }, [album.id, reload]);
 
     return reviews && ratings ? (

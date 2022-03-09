@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import getScoreColor from "../../utils/scoreColor";
-import { getReviewer } from "./../../services/reviewerService";
 
 const StyledRatingContainer = styled.div`
     width: 100%;
@@ -69,7 +68,7 @@ const RatingContainer = ({ rating }) => {
     return (
         <StyledRatingContainer className={`${getScoreColor(rating.rating)}BG`}>
             <Link to={`/users/${rating.reviewer.username}`}>
-                <img src={rating.reviewer.profile_pic} alt={`${rating.reviewer.username} profile picture`} />
+                <img src={rating.reviewer.profile_pic} alt={`${rating.reviewer.username} profile avatar`} />
                 <h4>{rating.reviewer.username}</h4>
             </Link>
             <h2>{rating.rating}</h2>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { scroller } from "react-scroll/modules";
-import useDeepCompareEffect from "use-deep-compare-effect";
 
 import TitleBar from "./titleBar";
 import AlbumContainer from "./albumContainer";

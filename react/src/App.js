@@ -22,7 +22,7 @@ import ProfileRatings from "./components/profilePage/profileRatings";
 import LoginForm from "./components/forms/loginForms/loginForm";
 import Footer from "./components/footer";
 import UserContext from "./context/userContext";
-import { getReviewer, getReviewerWithUser } from "./services/reviewerService";
+import { getReviewerWithUser } from "./services/reviewerService";
 
 import styled, { ThemeProvider } from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
@@ -65,13 +65,15 @@ export const Main = styled.main`
 const App = () => {
     const [user, setUser] = useState();
 
-    useEffect(async () => {
-        if (localStorage.getItem("jwt")) {
-            const accessToken = localStorage.getItem("jwt");
-            const jwt = jwtDecode(accessToken);
-            const { data: reviewer } = await getReviewerWithUser(jwt.user_id);
-            setUser(reviewer[0]);
-        }
+    useEffect(() => {
+        (async () => {
+            if (localStorage.getItem("jwt")) {
+                const accessToken = localStorage.getItem("jwt");
+                const jwt = jwtDecode(accessToken);
+                const { data: reviewer } = await getReviewerWithUser(jwt.user_id);
+                setUser(reviewer[0]);
+            }
+        })();
     }, [user?.id]);
 
     return (

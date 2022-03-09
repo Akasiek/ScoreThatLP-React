@@ -231,7 +231,7 @@ const NavBar = ({ history }) => {
     const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
     const [timer, setTimer] = useState(null);
-    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const currentUser = useContext(UserContext)[0];
 
     const resetStates = () => {
         setSearchQuery("");

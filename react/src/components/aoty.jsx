@@ -9,9 +9,11 @@ import LoadingScreen from "./loadingScreen";
 const AOTY = () => {
     const [aoty, setAoty] = useState(null);
 
-    useEffect(async () => {
-        const { data: aoty } = await getAOTY();
-        setAoty(aoty);
+    useEffect(() => {
+        (async () => {
+            const { data: aoty } = await getAOTY();
+            setAoty(aoty);
+        })();
     }, []);
 
     return aoty ? (

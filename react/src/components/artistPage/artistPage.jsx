@@ -13,9 +13,11 @@ const StyledArtistPage = styled.div``;
 const ArtistPage = ({ match }) => {
     const [artist, setArtist] = useState(null);
 
-    useEffect(async () => {
-        const { data: artist } = await getArtist(match.params.slug);
-        setArtist(artist);
+    useEffect(() => {
+        (async () => {
+            const { data: artist } = await getArtist(match.params.slug);
+            setArtist(artist);
+        })();
     }, [match.params.slug]);
 
     return artist !== null ? (

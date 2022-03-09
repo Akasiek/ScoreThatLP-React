@@ -13,14 +13,19 @@ const SearchPage = ({ match }) => {
     const [searchQuery, setSearchQuery] = useState(match.params.searchQuery);
     const [foundComponets, setFoundComponents] = useState({ albums: [], artists: [], users: [] });
 
-    useEffect(async () => {
+    useEffect(() => {
         const searchQuery = match.params.searchQuery;
 
-        const { data: artistsResults } = await searchArtists(searchQuery);
-        const { data: albumsResults } = await searchAlbums(searchQuery);
-        const { data: reviewersResults } = await searchReviewers(searchQuery);
+        const getResults = async () => {
+            const { data: artistsResults } = await searchArtists(searchQuery);
+            const { data: albumsResults } = await searchAlbums(searchQuery);
+            const { data: reviewersResults } = await searchReviewers(searchQuery);
+            setFoundComponents({ albums: albumsResults, artists: artistsResults, reviewers: reviewersResults });
+        };
+
+        getResults();
+
         setSearchQuery(searchQuery);
-        setFoundComponents({ albums: albumsResults, artists: artistsResults, reviewers: reviewersResults });
     }, [match.params.searchQuery]);
 
     return foundComponets.albums && foundComponets.artists && foundComponets.reviewers ? (

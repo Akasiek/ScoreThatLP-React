@@ -11,10 +11,12 @@ import LoadingScreen from "./loadingScreen";
 const NewReleases = () => {
     const [newReleases, setNewReleases] = useState(null);
 
-    useEffect(async () => {
-        let { data: albums } = await getAlbums();
-        albums = albums.filter((a) => moment(a.release_date) < moment());
-        setNewReleases(albums);
+    useEffect(() => {
+        (async () => {
+            let { data: albums } = await getAlbums();
+            albums = albums.filter((a) => moment(a.release_date) < moment());
+            setNewReleases(albums);
+        })();
     }, []);
 
     return newReleases ? (

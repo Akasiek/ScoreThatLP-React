@@ -222,7 +222,7 @@ export const SelectComponent = ({ name, label, options, isSearchable, isMulti, d
                 options={options}
                 onChange={handleChange}
                 styles={selectStyles}
-                value={options.find((o) => o.value == data[name])}
+                value={options.find((o) => o.value === data[name])}
                 getValue={(value) => handleChange(value)}
                 isSearchable={isSearchable}
                 isMulti={isMulti}

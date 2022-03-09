@@ -124,7 +124,7 @@ const AlbumPageTracksForm = ({ album, setVisibility }) => {
         const newTracks = [...tracks];
         const track = newTracks[parseInt(input.id)];
 
-        if (input.name == "position") track[input.name] = parseInt(input.value);
+        if (input.name === "position") track[input.name] = parseInt(input.value);
         else track[input.name] = input.value;
 
         setTracks(_.orderBy(newTracks, (t) => t.position, ["asc"]));
@@ -150,7 +150,7 @@ const AlbumPageTracksForm = ({ album, setVisibility }) => {
 
             newTracks.forEach(async (t, index) => {
                 t.album_id = album.id;
-                const respond = await saveTrack(t);
+                await saveTrack(t);
                 if (index === newTracks.length - 1) {
                     window.location.reload(false);
                 }
@@ -163,7 +163,7 @@ const AlbumPageTracksForm = ({ album, setVisibility }) => {
             <div className="formContainer">
                 <div className="formHeader">
                     <h2>{album.title} tracks</h2>
-                    <img src="/images/close.svg" className="closeIcon" onClick={setVisibility} />
+                    <img src="/images/close.svg" className="closeIcon" alt="Close icon" onClick={setVisibility} />
                 </div>
 
                 <form onSubmit={handleSubmit}>
@@ -199,7 +199,9 @@ const AlbumPageTracksForm = ({ album, setVisibility }) => {
                                     autoComplete="off"
                                     onChange={handleChange}
                                 />
-                                {index > 0 && <img src="/images/close.svg" className="deleteIcon" onClick={() => handleDelete(index)} />}
+                                {index > 0 && (
+                                    <img src="/images/close.svg" className="deleteIcon" alt="Delete track icon" onClick={() => handleDelete(index)} />
+                                )}
                             </div>
                         );
                     })}

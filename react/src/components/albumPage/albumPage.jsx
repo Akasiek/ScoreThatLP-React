@@ -49,11 +49,13 @@ export const ReloadContext = React.createContext();
 const AlbumPage = ({ match }) => {
     const [album, setAlbum] = useState(null);
     const [reload, setReload] = useState(false);
-    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const currentUser = useContext(UserContext)[0];
 
-    useEffect(async () => {
-        const { data: album } = await getAlbum(match.params.id);
-        setAlbum(album);
+    useEffect(() => {
+        (async () => {
+            const { data: album } = await getAlbum(match.params.id);
+            setAlbum(album);
+        })();
     }, [match.params.id, reload]);
 
     return album ? (

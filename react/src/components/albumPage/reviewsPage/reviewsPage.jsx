@@ -84,13 +84,15 @@ const ReviewsPage = ({ match }) => {
     const [reviews, setReviews] = useState();
     const [ratings, setRatings] = useState();
 
-    useEffect(async () => {
-        const { data: album } = await getAlbum(match.params.id);
-        setAlbum(album);
+    useEffect(() => {
+        (async () => {
+            const { data: album } = await getAlbum(match.params.id);
+            setAlbum(album);
 
-        const { data: allReviews } = await getAlbumReviews(match.params.id);
-        setReviews(allReviews.filter((r) => r.review_text !== null));
-        setRatings(allReviews.filter((r) => r.review_text === null));
+            const { data: allReviews } = await getAlbumReviews(match.params.id);
+            setReviews(allReviews.filter((r) => r.review_text !== null));
+            setRatings(allReviews.filter((r) => r.review_text === null));
+        })();
     }, [match.params.id]);
 
     return album && reviews && ratings ? (

@@ -1,14 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Joi from "joi-browser";
 import { toast } from "react-toastify";
-
-import { ReloadContext } from "../albumPage";
-// import { getReviewerAlbumRating, saveReview, deleteReview, createReview } from "../../../services/reviewService";
 
 const ReviewFormRating = ({ data, setData, saveUserReview, changeRatingContainerColor }) => {
     const [savingPrompt, setSavingPrompt] = useState(null);
     const [timer, setTimer] = useState(null);
-    const [reload, setReload] = useContext(ReloadContext);
 
     const schema = {
         rating: Joi.number().integer().min(0).max(100).required().label("Rating"),

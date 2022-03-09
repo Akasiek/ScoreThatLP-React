@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ContentGroup from "../common/contentGroup";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import { getArtistAlbums } from "../../services/albumService";
 
 const getReleaseTypeTitle = (release_type) => {
-    if (release_type == "LP") return "Albums";
-    if (release_type == "Single") return "Singles";
-    if (release_type == "EP") return "EPs";
-    if (release_type == "Live") return "Live albums";
+    if (release_type === "LP") return "Albums";
+    if (release_type === "Single") return "Singles";
+    if (release_type === "EP") return "EPs";
+    if (release_type === "Live") return "Live albums";
 };
 
 const ArtistPageAlbumsGroup = ({ artist }) => {

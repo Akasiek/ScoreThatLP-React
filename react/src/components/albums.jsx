@@ -40,12 +40,14 @@ export const StyledContentGroupPage = styled.div`
 
 const Albums = () => {
     const [albums, setAlbums] = useState(null);
-    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const currentUser = useContext(UserContext)[0];
 
-    useEffect(async () => {
-        let { data: albums } = await getAlbums();
-        albums = albums.filter((a) => moment(a.release_date) < moment());
-        setAlbums(albums);
+    useEffect(() => {
+        (async () => {
+            let { data: albums } = await getAlbums();
+            albums = albums.filter((a) => moment(a.release_date) < moment());
+            setAlbums(albums);
+        })();
     }, []);
 
     return albums ? (

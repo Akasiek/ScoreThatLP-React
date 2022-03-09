@@ -68,7 +68,7 @@ export const StyledLoginForm = styled.div`
 const LoginForm = ({ history }) => {
     const [data, setData] = useState({ username: "", password: "" });
     const [errors, setErrors] = useState({});
-    const [user, setUser] = useContext(UserContext);
+    const setUser = useContext(UserContext)[1];
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -103,7 +103,7 @@ const LoginForm = ({ history }) => {
         } catch (ex) {
             if (ex.response && ex.response.status === 401) {
                 const err = ex.response.data;
-                setErrors(errors);
+                setErrors(err);
             }
         }
     };

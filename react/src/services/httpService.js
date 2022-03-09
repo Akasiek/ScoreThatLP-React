@@ -19,7 +19,7 @@ function setJwt(jwt) {
     axios.defaults.headers.common["x-auth-token"] = jwt;
 }
 
-export default {
+const httpMethods = {
     get: axios.get,
     post: axios.post,
     put: axios.put,
@@ -27,3 +27,5 @@ export default {
     delete: axios.delete,
     setJwt,
 };
+
+export default httpMethods;

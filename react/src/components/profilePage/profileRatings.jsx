@@ -12,16 +12,20 @@ const ProfileRatings = ({ match }) => {
     const [reviewer, setReviewer] = useState(null);
     const [ratings, setRatings] = useState(null);
 
-    useEffect(async () => {
-        const { data: reviewer } = await getReviewerByUsername(match.params.username);
-        setReviewer(reviewer[0]);
+    useEffect(() => {
+        (async () => {
+            const { data: reviewer } = await getReviewerByUsername(match.params.username);
+            setReviewer(reviewer[0]);
+        })();
     }, [match.params.username]);
 
-    useEffect(async () => {
-        if (reviewer?.id) {
-            const { data: reviews } = await getReviewerReviews(reviewer.id);
-            setRatings(reviews);
-        }
+    useEffect(() => {
+        (async () => {
+            if (reviewer?.id) {
+                const { data: reviews } = await getReviewerReviews(reviewer.id);
+                setRatings(reviews);
+            }
+        })();
     }, [reviewer?.id]);
 
     return reviewer && ratings ? (

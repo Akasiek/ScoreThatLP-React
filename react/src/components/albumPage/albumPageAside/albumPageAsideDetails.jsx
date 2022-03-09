@@ -17,9 +17,6 @@ const AlbumPageAsideDetails = ({ album }) => {
                     <li>
                         Genres:
                         {album.genres.map((g, index) => {
-                            {
-                                // TODO: Genres links
-                            }
                             return (
                                 <span key={index} className="genreLink" style={{ fontWeight: 900 }}>
                                     {g}

@@ -162,9 +162,6 @@ const StyledReviewContainer = styled.div`
                 text-decoration: underline;
             }
         }
-        &.expanded {
-            color: #ba0000;
-        }
     }
 
     .creationTimeText {
@@ -177,10 +174,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
     const showMoreTextRef = useRef(null);
 
     const handleExpand = (isExpanded) => {
-        if (isExpanded) showMoreTextRef.current.className += " expanded";
-        else {
-            showMoreTextRef.current.className = showMoreTextRef.current.className.slice(0, -9);
-            // showMoreTextRef.current.scrollIntoView({ behavior: "smooth", offset: -200 });
+        if (!isExpanded) {
             scroller.scrollTo(showMoreTextRef.current.className, {
                 smooth: "easeInOut",
                 offset: -150,

@@ -15,7 +15,7 @@ const StyledPagination = styled.div`
         grid-auto-rows: 1fr;
         grid-auto-flow: column;
         gap: 1rem;
-        a {
+        p {
             transition: background-color 0.25s ease-in-out;
             background-color: var(--blueColor);
             &.active {
@@ -46,9 +46,9 @@ const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
         <StyledPagination>
             <nav aria-label="Page navigation example">
                 {pages.map((page) => (
-                    <a key={page} className={page === currentPage ? "active" : ""} onClick={() => onPageChange(page)}>
+                    <p key={page} className={page === currentPage ? "active" : ""} onClick={() => onPageChange(page)}>
                         {page}
-                    </a>
+                    </p>
                 ))}
             </nav>
         </StyledPagination>

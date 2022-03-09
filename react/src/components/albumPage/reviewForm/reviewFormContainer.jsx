@@ -157,19 +157,21 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
     const [data, setData] = useState({ rating: "", review: "" });
     const [reload, setReload] = useContext(ReloadContext);
 
-    useEffect(async () => {
-        // On load check if user already reviewed this album
-        // If so, populate the form with his review
-        const { data } = await getReviewerAlbumRating(user.id, album.id);
-        const userReview = data[0];
-        if (data.length > 0) {
-            setData({
-                rating: userReview.rating,
-                review: userReview.review_text !== null ? userReview.review_text : "",
-            });
-            changeRatingContainerColor(userReview.rating);
-        }
-    }, [album.id]);
+    useEffect(() => {
+        (async () => {
+            // On load check if user already reviewed this album
+            // If so, populate the form with his review
+            const { data } = await getReviewerAlbumRating(user.id, album.id);
+            const userReview = data[0];
+            if (data.length > 0) {
+                setData({
+                    rating: userReview.rating,
+                    review: userReview.review_text !== null ? userReview.review_text : "",
+                });
+                changeRatingContainerColor(userReview.rating);
+            }
+        })();
+    }, [album.id, user.id]);
 
     const saveUserReview = (newData, timer, setTimer, setSavingPrompt, delay) => {
         // Save review
@@ -198,7 +200,7 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
                         setSavingPrompt("Saving...");
                         return deleteReview(respond.data[0].id);
                     }
-                } else if (respond.data.length == 0) {
+                } else if (respond.data.length === 0) {
                     // If there is no rating, create it
                     setSavingPrompt("Saving...");
                     return createReview({

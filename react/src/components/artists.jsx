@@ -10,11 +10,13 @@ import UserContext from "./../context/userContext";
 
 const Artists = () => {
     const [artists, setArtists] = useState(null);
-    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const currentUser = useContext(UserContext)[0];
 
-    useEffect(async () => {
-        const { data: artists } = await getArtists();
-        setArtists(artists);
+    useEffect(() => {
+        (async () => {
+            const { data: artists } = await getArtists();
+            setArtists(artists);
+        })();
     }, []);
 
     return artists !== null ? (
