@@ -37,12 +37,12 @@ const RegisterForm = ({ history }) => {
             const { data: user } = await register(data);
             await createReviewer({ user_id: user.id });
 
-            const { data: jwt } = await login({ username: data.username, password: data.password });
+            const { data: jwt } = await login({ username: user.username, password: user.password });
             localStorage.setItem("jwt", jwt.access);
             localStorage.setItem("refresh", jwt.refresh);
 
             setUser({ id: 0 });
-            history.push(`/users/${user.id}/settings`);
+            history.push(`/users/${user.username}/settings`);
         } catch (ex) {
             if (ex.response && ex.response.status === 400) {
                 const err = ex.response.data;
