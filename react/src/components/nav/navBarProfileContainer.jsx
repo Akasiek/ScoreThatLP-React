@@ -110,14 +110,14 @@ const NavBarProfileContainer = ({ user }) => {
             <div className="hiddenMenu">
                 <ul>
                     <li>
-                        <Link to={`/users/${user.username}`}>Profile</Link>
+                        <Link to={`/users/${user.username}`}>profile</Link>
                     </li>
                     <li>
-                        <Link to={`/users/${user.username}/settings`}>Settings</Link>
+                        <Link to={`/users/${user.username}/settings`}>settings</Link>
                     </li>
                     <li>
                         <a href="/" onClick={handleLogout}>
-                            Logout
+                            logout
                         </a>
                     </li>
                 </ul>
