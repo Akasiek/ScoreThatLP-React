@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
+import { Redirect } from "react-router-dom";
 
 import AlbumPageHeader from "./albumPageHeader";
 import AlbumPageAside from "./albumPageAside/albumPageAside";
@@ -46,17 +47,23 @@ const AlbumPageMain = styled.main`
 
 export const ReloadContext = React.createContext();
 
-const AlbumPage = ({ match }) => {
+const AlbumPage = ({ match, history }) => {
     const [album, setAlbum] = useState(null);
     const [reload, setReload] = useState(false);
     const currentUser = useContext(UserContext)[0];
 
     useEffect(() => {
         (async () => {
-            const { data: album } = await getAlbum(match.params.id);
-            setAlbum(album);
+            try {
+                const { data: album } = await getAlbum(match.params.id);
+                setAlbum(album);
+            } catch (ex) {
+                if (ex.response && ex.response.status === 404) {
+                    history.push("/not-found");
+                }
+            }
         })();
-    }, [match.params.id, reload]);
+    }, [match.params.id, reload, history]);
 
     return album ? (
         <ReloadContext.Provider value={[reload, setReload]}>

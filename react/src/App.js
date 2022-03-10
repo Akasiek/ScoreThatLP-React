@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer, Slide } from "react-toastify";
 import jwtDecode from "jwt-decode";
 
+import ProtectedRoute from "./components/common/protectedRoute";
 import HomePage from "./components/homePage";
 import SearchPage from "./components/searchPage";
-// import NotFound from "./components/notFound";
+import NotFound from "./components/notFound";
 import Navbar from "./components/nav/navbar";
 import Albums from "./components/albums";
 import AlbumForm from "./components/forms/albumForm";
@@ -85,23 +86,24 @@ const App = () => {
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route exact path="/albums" component={Albums} />
-                        <Route exact path="/albums/new" component={AlbumForm} />
+                        <ProtectedRoute exact path="/albums/new" component={AlbumForm} />
                         <Route exact path="/albums/:id" component={AlbumPage} />
                         <Route exact path="/albums/:id/reviews" component={ReviewsPage} />
                         <Route exact path="/artists" component={Artists} />
-                        <Route exact path="/artists/new" component={ArtistForm} />
+                        <ProtectedRoute exact path="/artists/new" component={ArtistForm} />
                         <Route exact path="/artists/:slug" component={ArtistPage} />
-                        <Route exact path="/artists/:slug/new-album" component={AlbumForm} />
+                        <ProtectedRoute exact path="/artists/:slug/new-album" component={AlbumForm} />
                         <Route exact path="/new-releases" component={NewReleases} />
                         <Route exact path="/aoty" component={AOTY} />
                         <Route exact path="/users/:username" component={ProfilePage} />
                         <Route exact path="/users/:username/reviews" component={ProfileReviews} />
                         <Route exact path="/users/:username/ratings" component={ProfileRatings} />
-                        <Route exact path="/users/:username/settings" component={SettingsForm} />
+                        <ProtectedRoute exact path="/users/:username/settings" component={SettingsForm} />
                         <Route exact path="/login" component={LoginForm} />
                         <Route exact path="/register" component={RegisterForm} />
-                        <Route path="/search/:searchQuery" component={SearchPage} />
-                        {/* <Route path="*" element={<NotFound />} /> */}
+                        <Route exact path="/search/:searchQuery" component={SearchPage} />
+                        <Route path="/not-found" component={NotFound} />
+                        <Redirect from="*" to="/not-found" />
                     </Switch>
                     <Footer />
                 </StyledApp>
