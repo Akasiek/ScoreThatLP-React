@@ -30,7 +30,7 @@ rename_album_art_cover = RenameImageToSlug("album/art_covers/")
 
 class Reviewer(models.Model):
     profile_pic = ResizedImageField(size=[500, 500], null=True, blank=True,
-                                    upload_to="users/profile_pics/")
+                                    upload_to="users/profile_pics/", max_length=255)
     about_text = models.TextField(null=True, blank=True)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True
@@ -68,9 +68,9 @@ class Artist(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     image = ResizedImageField(size=[500, 500], null=True, blank=True,
-                              upload_to=rename_artist_image)
-    background_image = models.FileField(
-        null=True, blank=True, upload_to=rename_artist_bg_image)
+                              upload_to=rename_artist_image, max_length=255)
+    background_image = ResizedImageField(
+        null=True, blank=True, upload_to=rename_artist_bg_image, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         Reviewer, on_delete=models.SET_NULL, null=True, blank=True)
@@ -95,7 +95,7 @@ class Album(models.Model):
         Artist, on_delete=models.PROTECT, related_name="albums"
     )
     art_cover = ResizedImageField(
-        size=[750, 750], null=True, blank=True, upload_to=rename_album_art_cover)
+        size=[750, 750], null=True, blank=True, upload_to=rename_album_art_cover, max_length=255)
     release_type = models.CharField(max_length=10,
                                     choices=RELEASE_TYPE_ALBUM_CHOICES, default="LP")
     created_at = models.DateTimeField(auto_now_add=True)
