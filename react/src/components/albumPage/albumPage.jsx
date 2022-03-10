@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import { Redirect } from "react-router-dom";
 
 import AlbumPageHeader from "./albumPageHeader";
 import AlbumPageAside from "./albumPageAside/albumPageAside";
