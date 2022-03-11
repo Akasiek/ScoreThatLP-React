@@ -9,11 +9,36 @@ import UserContext from "./../context/userContext";
 const StyledFooter = styled.footer`
     background-color: var(--accentColor);
     min-height: 300px;
+    padding-bottom: 1rem;
+
+    a {
+        color: var(--lightColor);
+        text-decoration: none;
+        position: relative;
+    }
+
+    a::after {
+        content: "";
+        height: 2px;
+        background-color: var(--lightColor);
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        transition: transform 0.1s ease-in-out;
+    }
+
+    a:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
 
     .mainLinksContainer {
         padding: 1rem 1.5rem;
         display: flex;
-        flex-wrap: wrap;
+        justify-content: center;
         gap: 1rem;
         hr {
             border: 1px solid var(--lightColor);
@@ -21,8 +46,9 @@ const StyledFooter = styled.footer`
         }
         .linksContainer {
             h2 {
-                font-size: clamp(1.25rem, 1.5vw, 1.75rem);
-                margin-bottom: 0.5rem;
+                font-size: clamp(1.2rem, 1.4vw, 1.4rem);
+                text-transform: uppercase;
+                margin-bottom: 0.25rem;
             }
             ul {
                 display: flex;
@@ -31,35 +57,44 @@ const StyledFooter = styled.footer`
                 li {
                     list-style-type: none;
                     a {
-                        font-weight: normal;
                         font-size: clamp(0.9rem, 1.1vw, 1.1rem);
-                        color: var(--lightColor);
-                        text-decoration: none;
-                        position: relative;
-                    }
-
-                    a::after {
-                        content: "";
-                        height: 2px;
-                        background-color: var(--lightColor);
-                        width: 100%;
-                        position: absolute;
-                        left: 0;
-                        bottom: 0;
-                        transform: scaleX(0);
-                        transform-origin: bottom right;
-                        transition: transform 0.1s ease-in-out;
-                    }
-
-                    a:hover::after {
-                        transform: scaleX(1);
-                        transform-origin: bottom left;
+                        font-weight: normal;
                     }
                 }
             }
         }
     }
     .infoContainer {
+        display: flex;
+        flex-direction: column;
+        margin-top: 3rem;
+        gap: 0.5rem;
+        text-align: center;
+        font-weight: normal;
+        font-size: clamp(1rem, 1.2vw, 1.2rem);
+        .copyRightContainer {
+            font-weight: 900;
+        }
+    }
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        .mainLinksContainer {
+            /* justify-content: space-between; */
+            flex-direction: column;
+            hr {
+                margin: 0 25% 0 0;
+            }
+            .linksContainer {
+                ul {
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    li:not(:last-child)::after {
+                        font-weight: normal;
+                        content: " | ";
+                    }
+                }
+            }
+        }
     }
 `;
 
@@ -128,7 +163,13 @@ const Footer = () => {
                     )}
                 </div>
                 <div className="infoContainer">
-                    <div className="copyRightContainer">ScoreThatLP &copy; {moment().format("YYYY")}</div>.
+                    <div className="copyRightContainer">ScoreThatLP &copy; {moment().format("YYYY")}</div>
+
+                    <div className="madeWithContainer">
+                        Made with 💜 using <a href="https://reactjs.org/">React</a> | <a href="https://www.djangoproject.com/">django</a> |{" "}
+                        <a href="https://www.postgresql.org/">PostgreSQL</a>
+                    </div>
+
                     <div className="authorContainer">
                         Made by <a href="https://linktr.ee/kamilpomykala">Kamil Pomykała</a>
                     </div>
