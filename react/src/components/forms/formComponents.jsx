@@ -169,7 +169,7 @@ const StyledTextArea = styled.div`
         color: var(--lightColor);
         padding: 1rem;
         height: 7rem;
-        width: 40rem;
+        width: clamp(20rem, 40vw, 40rem);
         transition: all 0.2s ease-in-out;
         &:focus {
             outline: none;
