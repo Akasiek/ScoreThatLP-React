@@ -104,6 +104,7 @@ const StyledProfilePageHeader = styled.div`
         .aboutContainer {
             max-width: 50vw;
             font-weight: normal;
+            white-space: pre-wrap;
             font-size: clamp(0.8rem, 1.25vw, 1.25vw);
         }
 
