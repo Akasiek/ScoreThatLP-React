@@ -29,7 +29,6 @@ const AlbumForm = ({ history, match }) => {
     };
 
     useEffect(() => {
-        window.scrollTo(0, 0);
         (async () => {
             // Get artists from API and use them as options in select component
             const { data: artists } = await getArtists();
@@ -39,16 +38,22 @@ const AlbumForm = ({ history, match }) => {
                 artistsOptions.push({ value: a.id, label: a.name });
             });
             setArtistsOptions(artistsOptions);
+        })();
+    }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        (async () => {
             // If url params have artist slug, set artist value to this artist
             if (match.params.slug) {
-                const { data: artist } = await getArtist(match.params.slug);
+                const { data: artists } = await getArtist(match.params.slug);
                 const newData = { ...data };
-                newData.artist_id = artist.id;
+                newData.artist_id = artists.id;
                 setData(newData);
             }
         })();
-    }, [match.params.slug, data]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [match.params.slug]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
