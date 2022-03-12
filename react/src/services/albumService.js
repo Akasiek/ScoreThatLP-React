@@ -23,7 +23,7 @@ export const saveAlbumLink = (link) => {
 };
 
 export const getNewReleases = () => {
-    return http.get(`${apiEndpoint}/?ordering=-release_date&type=LP`);
+    return http.get(`${apiEndpoint}/?ordering=-release_date&release_type=LP`);
 };
 
 export const getArtistAlbums = (slug) => {
