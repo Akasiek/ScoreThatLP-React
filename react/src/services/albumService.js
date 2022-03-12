@@ -31,7 +31,7 @@ export const getArtistAlbums = (slug) => {
 };
 
 export const getAOTY = () => {
-    return http.get("/album_of_the_year/?ordering=aoty");
+    return http.get("/album_of_the_year/?ordering=aoty__position");
 };
 
 export const getNewSingles = () => {

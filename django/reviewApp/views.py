@@ -99,7 +99,7 @@ class AlbumOfTheYearViewSet(ModelViewSet):
         .filter(aoty__isnull=False).all()
     serializer_class = AlbumOfTheYearSerializer
     filter_backends = [OrderingFilter]
-    ordering_fields = ['aoty']
+    ordering_fields = ["aoty__position"]
 
 
 class ReviewViewSet(ModelViewSet):

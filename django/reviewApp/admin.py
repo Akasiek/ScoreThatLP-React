@@ -51,7 +51,8 @@ class AlbumLinkAdmin(admin.ModelAdmin):
 
 @admin.register(models.AlbumOfTheYear)
 class AlbumOfTheYear(admin.ModelAdmin):
-    pass
+    list_display = ["__str__", "album_id"]
+    autocomplete_fields = ["album_id"]
 
 
 @admin.register(models.Track)
