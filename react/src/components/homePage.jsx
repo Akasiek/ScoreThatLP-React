@@ -171,7 +171,7 @@ const HomePage = () => {
                     <ContentGroup
                         id="aoty"
                         className="contentGroup"
-                        title="Album of the Year 2021"
+                        title="Album of the Year 2022"
                         viewAllUrl="/aoty"
                         content={aoty}
                         contentType="albums"
