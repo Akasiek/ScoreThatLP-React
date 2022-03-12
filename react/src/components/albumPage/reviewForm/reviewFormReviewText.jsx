@@ -10,7 +10,8 @@ const ReviewFormReviewText = ({ data, setData, saveUserReview }) => {
         newData.review = textarea.value;
         setData(newData);
 
-        saveUserReview(newData, timer, setTimer, setSavingPrompt, 2000);
+        setSavingPrompt(null);
+        saveUserReview(newData, timer, setTimer, setSavingPrompt, 1000);
     };
     return (
         <div className="review">

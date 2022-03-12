@@ -33,7 +33,7 @@ const ReviewFormRating = ({ data, setData, saveUserReview, changeRatingContainer
         if (input.value !== "") errorMessage = validateProperty(input, schema);
         if (errorMessage) toast.error(errorMessage);
 
-        saveUserReview(newData, timer, setTimer, setSavingPrompt, 800);
+        saveUserReview(newData, timer, setTimer, setSavingPrompt, 1000);
     };
     return (
         <div className="rating" id="ratingContainer">
