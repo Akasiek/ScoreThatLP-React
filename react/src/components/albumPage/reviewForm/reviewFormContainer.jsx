@@ -184,9 +184,8 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
             const getMethod = () => {
                 if (respond.data.length > 0) {
                     // If there is a rating...
-                    if (newData.rating !== "" || (newData.rating !== "" && newData.review !== "")) {
+                    if (newData.rating !== "") {
                         // ...And new rating isn't null, update it
-                        // Or new rating and new review text isn't null
                         setSavingPrompt("Saving...");
                         return saveReview(
                             {
@@ -201,14 +200,18 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
                         return deleteReview(respond.data[0].id);
                     }
                 } else if (respond.data.length === 0) {
-                    // If there is no rating, create it
-                    setSavingPrompt("Saving...");
-                    return createReview({
-                        rating: newData.rating !== "" ? newData.rating : null,
-                        review_text: newData.review !== "" ? newData.review : null,
-                        reviewer_id: user.id,
-                        album_id: album.id,
-                    });
+                    // If there is no rating...
+                    if (newData.rating !== "") {
+                        // ...And new rating isn't null, create it.
+                        // To prevent making reviews without score
+                        setSavingPrompt("Saving...");
+                        return createReview({
+                            rating: newData.rating !== "" ? newData.rating : null,
+                            review_text: newData.review !== "" ? newData.review : null,
+                            reviewer_id: user.id,
+                            album_id: album.id,
+                        });
+                    }
                 }
             };
 
