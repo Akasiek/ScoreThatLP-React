@@ -85,22 +85,29 @@ const App = () => {
                     <Navbar />
                     <Switch>
                         <Route exact path="/" component={HomePage} />
+
+                        {/* ALBUMS */}
                         <Route exact path="/albums" component={Albums} />
+                        <Route exact path="/new-releases" component={NewReleases} />
+                        <Route exact path="/aoty" component={AOTY} />
                         <ProtectedRoute exact path="/albums/new" component={AlbumForm} />
                         <Route exact path="/albums/:id" component={AlbumPage} />
                         <Route exact path="/albums/:id/reviews" component={ReviewsPage} />
+
+                        {/* ARTISTS */}
                         <Route exact path="/artists" component={Artists} />
                         <ProtectedRoute exact path="/artists/new" component={ArtistForm} />
                         <Route exact path="/artists/:slug" component={ArtistPage} />
                         <ProtectedRoute exact path="/artists/:slug/new-album" component={AlbumForm} />
-                        <Route exact path="/new-releases" component={NewReleases} />
-                        <Route exact path="/aoty" component={AOTY} />
+
+                        {/* USERS */}
                         <Route exact path="/users/:username" component={ProfilePage} />
                         <Route exact path="/users/:username/reviews" component={ProfileReviews} />
                         <Route exact path="/users/:username/ratings" component={ProfileRatings} />
                         <ProtectedRoute exact path="/users/:username/settings" component={SettingsForm} />
                         <Route exact path="/login" component={LoginForm} />
                         <Route exact path="/register" component={RegisterForm} />
+
                         <Route exact path="/search/:searchQuery" component={SearchPage} />
                         <Route path="/not-found" component={NotFound} />
                         <Redirect from="*" to="/not-found" />
