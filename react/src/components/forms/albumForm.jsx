@@ -21,8 +21,6 @@ const AlbumForm = ({ history, match }) => {
         { value: "Live", label: "Live album" },
     ];
 
-    console.log(artCover);
-
     const schema = {
         title: Joi.string().required().label("Title"),
         release_date: Joi.date().iso().required().label("Release date"),
