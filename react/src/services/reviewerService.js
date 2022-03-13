@@ -14,8 +14,8 @@ export const getReviewerByUsername = (username) => {
     return http.get(`${apiEndpoint}?user__username=${username}`);
 };
 
-export const createReviewer = (user) => {
-    return http.post(`${apiEndpoint}`, user);
+export const createReviewer = (user, headers = null) => {
+    return http.post(`${apiEndpoint}`, user, { headers: headers });
 };
 
 export const updateReviewer = (reviewer_id, reviewer) => {

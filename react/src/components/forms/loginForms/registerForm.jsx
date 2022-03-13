@@ -35,11 +35,12 @@ const RegisterForm = ({ history }) => {
 
         try {
             const { data: user } = await register(data);
-            await createReviewer({ user_id: user.id });
 
             const { data: jwt } = await login({ username: user.username, password: user.password });
             localStorage.setItem("jwt", jwt.access);
             localStorage.setItem("refresh", jwt.refresh);
+
+            await createReviewer({ user: user.id }, { Authorization: "JWT " + jwt.access });
 
             setUser({ id: 0 });
             history.push(`/users/${user.username}/settings`);
