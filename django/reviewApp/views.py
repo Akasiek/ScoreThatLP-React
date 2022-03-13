@@ -3,7 +3,7 @@ from django.db.models.fields import IntegerField, DurationField
 from rest_framework import pagination, status
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
@@ -20,7 +20,7 @@ from .serializers import (
     TrackSerializer,
 )
 from .models import Album, AlbumLink, Artist, Review, Reviewer, Track
-from .permissions import IsAdminOrPostOnly, IsAdminOrGetOnly
+from .permissions import IsAdminOrPostOnly, IsAdminOrReadOnly
 
 
 class ReviewerViewSet(ModelViewSet):
@@ -101,7 +101,7 @@ class AlbumOfTheYearViewSet(ModelViewSet):
         .annotate(overall_score=Avg(F("reviews__rating"), output_field=IntegerField())) \
         .filter(aoty__isnull=False).all()
     serializer_class = AlbumOfTheYearSerializer
-    permission_classes = [IsAdminOrGetOnly]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [OrderingFilter]
     ordering_fields = ["aoty__position"]
 
@@ -111,6 +111,7 @@ class ReviewViewSet(ModelViewSet):
         "album_id", "reviewer_id", "album_id__artist_id", "reviewer_id__user")
     serializer_class = ReviewSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     ordering_fields = ['created_at']
     filterset_fields = {
         "album_id": ["exact"],
