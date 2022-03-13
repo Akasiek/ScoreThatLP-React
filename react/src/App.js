@@ -8,6 +8,7 @@ import HomePage from "./components/homePage";
 import SearchPage from "./components/searchPage";
 import NotFound from "./components/notFound";
 import Navbar from "./components/nav/navbar";
+import { handleLogout } from "./components/nav/navBarProfileContainer";
 import Albums from "./components/albums";
 import AlbumForm from "./components/forms/albumForm";
 import AlbumPage from "./components/albumPage/albumPage";
@@ -24,6 +25,7 @@ import LoginForm from "./components/forms/loginForms/loginForm";
 import Footer from "./components/footer";
 import UserContext from "./context/userContext";
 import { getReviewerWithUser } from "./services/reviewerService";
+import { setJwt } from "./services/httpService";
 
 import styled, { ThemeProvider } from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
@@ -71,8 +73,15 @@ const App = () => {
             if (localStorage.getItem("jwt")) {
                 const accessToken = localStorage.getItem("jwt");
                 const jwt = jwtDecode(accessToken);
-                const { data: reviewer } = await getReviewerWithUser(jwt.user_id);
-                setUser(reviewer[0]);
+                setJwt(`JWT ${accessToken}`);
+                try {
+                    const { data: reviewer } = await getReviewerWithUser(jwt.user_id);
+                    setUser(reviewer[0]);
+                } catch (ex) {
+                    if (ex.response && ex.response.status === 401) {
+                        handleLogout();
+                    }
+                }
             }
         })();
     }, [user?.id]);

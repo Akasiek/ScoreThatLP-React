@@ -93,12 +93,13 @@ const StyledProfileContainer = styled.div`
     }
 `;
 
+export const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("refresh");
+    window.location.reload(false);
+};
+
 const NavBarProfileContainer = ({ user }) => {
-    const handleLogout = () => {
-        localStorage.removeItem("jwt");
-        localStorage.removeItem("refresh");
-        window.location.reload(false);
-    };
     return (
         <StyledProfileContainer>
             <div className="userContainer">
