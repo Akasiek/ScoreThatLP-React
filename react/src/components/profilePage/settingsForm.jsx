@@ -41,6 +41,7 @@ const SettingsForm = ({ match, history }) => {
         let apiData = new FormData();
         if (data.about_text !== "") apiData.append("about_text", data.about_text);
         if (profilePic) apiData.append("profile_pic", profilePic);
+        apiData.append("user", user.user);
 
         await updateReviewer(user.id, apiData);
         history.push(`/users/${user.username}`);

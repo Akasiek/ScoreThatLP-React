@@ -183,21 +183,20 @@ class ReviewerLinkSerializer(serializers.ModelSerializer):
 
 
 class ReviewerSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField()
+    # user_id = serializers.IntegerField()
     favorite_artist = FavoriteReviewerArtistSerializer(read_only=True)
     number_of_ratings = serializers.IntegerField(read_only=True)
     number_of_reviews = serializers.IntegerField(read_only=True)
     links = ReviewerLinkSerializer(
         source="reviewer_links", many=True, read_only=True)
-    # TODO! Followers count
 
     class Meta:
         model = Reviewer
         fields = [
             "id",
             "username",
+            "user",
             "email",
-            "user_id",
             "profile_pic",
             "about_text",
             "favorite_artist",
@@ -205,6 +204,18 @@ class ReviewerSerializer(serializers.ModelSerializer):
             "number_of_reviews",
             "links"
         ]
+
+    def create(self, validated_data):
+        if str(self.context["request"].user) != str(self.validated_data["user"]):
+            raise serializers.ValidationError(
+                'User cannot create diffrent user')
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if str(self.context["request"].user) != str(self.validated_data["user"]):
+            raise serializers.ValidationError(
+                'User cannot update another user')
+        return super().update(instance, validated_data)
 
 
 class SimpleReviewerSerializer(serializers.ModelSerializer):

@@ -31,11 +31,10 @@ class ReviewerViewSet(ModelViewSet):
                   number_of_reviews=Count(F("review__review_text"), output_field=IntegerField()))
 
     serializer_class = ReviewerSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ["user__username", "user"]
     search_fields = ["user__username"]
-    # TODO! Custom permission to check if user is user
-    # permission_classes = [IsAuthenticated]
 
     @ action(detail=False, methods=["GET", "PUT"], permission_classes=[IsAuthenticated])
     def me(self, request):
@@ -49,6 +48,12 @@ class ReviewerViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if (str(obj) != str(request.user)):
+            return Response(data={'message': "User cannot delete another user"}, status=status.HTTP_401_UNAUTHORIZED)
+        return super().destroy(request, *args, **kwargs)
 
 
 class ArtistViewSet(ModelViewSet):
