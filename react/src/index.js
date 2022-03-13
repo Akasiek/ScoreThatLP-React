@@ -5,6 +5,9 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import "font-awesome/css/font-awesome.css";
+import logMethods from "./services/logService";
+
+logMethods.init();
 
 ReactDOM.render(
     <BrowserRouter>
