@@ -4,8 +4,7 @@ import styled from "styled-components";
 const StyledProfilePageHeader = styled.div`
     .topPanelContainer {
         width: 100%;
-        min-height: 150px;
-        max-height: 300px;
+        height: 300px;
         background-color: var(--darkBlueColor);
         position: relative;
 
