@@ -4,7 +4,9 @@ import styled from "styled-components";
 const StyledProfilePageHeader = styled.div`
     .topPanelContainer {
         width: 100%;
-        height: 300px;
+        /* height: 300px; */
+        max-height: 300px;
+        min-height: 225px;
         background-color: var(--darkBlueColor);
         position: relative;
 
@@ -45,6 +47,9 @@ const StyledProfilePageHeader = styled.div`
         }
 
         @media (max-width: ${({ theme }) => theme.mobile}) {
+            & {
+                min-height: 150px;
+            }
             .profilePicContainer {
                 right: 0;
                 left: 0;
