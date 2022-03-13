@@ -1,6 +1,6 @@
 from django.db.models import F, Avg, Count, Sum
 from django.db.models.fields import IntegerField, DurationField
-from rest_framework import pagination
+from rest_framework import pagination, status
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -20,7 +20,7 @@ from .serializers import (
     TrackSerializer,
 )
 from .models import Album, AlbumLink, Artist, Review, Reviewer, Track
-from .permissions import IsAdminOrPostOnly
+from .permissions import IsAdminOrPostOnly, IsAdminOrGetOnly
 
 
 class ReviewerViewSet(ModelViewSet):
@@ -35,7 +35,7 @@ class ReviewerViewSet(ModelViewSet):
     filterset_fields = ["user__username", "user"]
     search_fields = ["user__username"]
     # TODO! Custom permission to check if user is user
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    # permission_classes = [IsAuthenticated]
 
     @ action(detail=False, methods=["GET", "PUT"], permission_classes=[IsAuthenticated])
     def me(self, request):
@@ -55,6 +55,7 @@ class ArtistViewSet(ModelViewSet):
     queryset = Artist.objects \
         .annotate(average_score=Avg("albums__reviews__rating", output_field=IntegerField()))
     serializer_class = ArtistSerializer
+    permission_classes = [IsAdminOrPostOnly]
     lookup_field = "slug"
     filter_backends = [SearchFilter]
     search_fields = ["name"]
@@ -68,7 +69,7 @@ class AlbumViewSet(ModelViewSet):
         .annotate(album_duration=Sum("tracks__duration", distinct=True)) \
         .annotate(number_of_ratings=Count("reviews", distinct=True)).all()
 
-    # permission_classes = [IsAdminOrPostOnly]
+    permission_classes = [IsAdminOrPostOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     ordering_fields = ["id", "title", "release_date"]
     filterset_fields = ("release_type", "artist_id__slug")
@@ -85,11 +86,13 @@ class AlbumViewSet(ModelViewSet):
 class AlbumLinkViewSet(ModelViewSet):
     queryset = AlbumLink.objects.select_related("album_id")
     serializer_class = AlbumLinkSerializer
+    permission_classes = [IsAdminOrPostOnly]
 
 
 class TrackViewSet(ModelViewSet):
     queryset = Track.objects.all()
     serializer_class = TrackSerializer
+    permission_classes = [IsAdminOrPostOnly]
 
 
 class AlbumOfTheYearViewSet(ModelViewSet):
@@ -98,6 +101,7 @@ class AlbumOfTheYearViewSet(ModelViewSet):
         .annotate(overall_score=Avg(F("reviews__rating"), output_field=IntegerField())) \
         .filter(aoty__isnull=False).all()
     serializer_class = AlbumOfTheYearSerializer
+    permission_classes = [IsAdminOrGetOnly]
     filter_backends = [OrderingFilter]
     ordering_fields = ["aoty__position"]
 

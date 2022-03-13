@@ -8,3 +8,10 @@ class IsAdminOrPostOnly(permissions.BasePermission):
         elif request.method == "POST":
             return bool(request.user and request.user.is_authenticated)
         return bool(request.user and request.user.is_staff)
+
+
+class IsAdminOrGetOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return bool(request.user and request.user.is_staff)
