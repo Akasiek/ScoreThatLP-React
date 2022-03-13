@@ -16,7 +16,7 @@ const StyledNavBar = styled.nav`
     left: 0;
     right: 0;
     z-index: 500;
-    position: sticky;
+    position: fixed;
     /* overflow: hidden; */
 `;
 
