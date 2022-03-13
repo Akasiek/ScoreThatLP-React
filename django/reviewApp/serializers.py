@@ -248,5 +248,5 @@ class ReviewSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         if str(self.context["request"].user) != str(self.validated_data["reviewer_id"]):
             raise serializers.ValidationError(
-                'User cannot create reviews as someone else')
+                'User cannot update reviews as someone else')
         return super().update(instance, validated_data)
