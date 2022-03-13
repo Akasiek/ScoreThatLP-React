@@ -145,9 +145,9 @@ const ProfilePageHeader = ({ reviewer }) => {
                 <div className="usernameCounterContainer">
                     <h1>{reviewer.username}</h1>
                     <div className="countersContainer">
-                        <h3>
+                        {/* <h3>
                             <span style={{ fontWeight: 900 }}>{reviewer.number_of_followers}</span> Followers
-                        </h3>
+                        </h3> */}
                         <h3>
                             <span style={{ fontWeight: 900 }}>{reviewer.number_of_ratings}</span> Ratings
                         </h3>
