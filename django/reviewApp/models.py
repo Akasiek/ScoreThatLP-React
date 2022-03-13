@@ -67,8 +67,8 @@ class ReviewerLink(models.Model):
 class Artist(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    image = ResizedImageField(size=[500, 500], null=True, blank=True,
-                              upload_to=rename_artist_image, max_length=255)
+    image = ResizedImageField(size=[500, 500], crop=['middle', 'center'],
+                              null=True, blank=True, upload_to=rename_artist_image, max_length=255)
     background_image = ResizedImageField(
         null=True, blank=True, upload_to=rename_artist_bg_image, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -80,7 +80,6 @@ class Artist(models.Model):
 
 
 class Album(models.Model):
-
     RELEASE_TYPE_ALBUM_CHOICES = [
         ("LP", "LP"),
         ("EP", "EP"),
@@ -95,7 +94,7 @@ class Album(models.Model):
         Artist, on_delete=models.PROTECT, related_name="albums"
     )
     art_cover = ResizedImageField(
-        size=[750, 750], null=True, blank=True, upload_to=rename_album_art_cover, max_length=255)
+        size=[750, 750], crop=['middle', 'center'], null=True, blank=True, upload_to=rename_album_art_cover, max_length=255)
     release_type = models.CharField(max_length=10,
                                     choices=RELEASE_TYPE_ALBUM_CHOICES, default="LP")
     created_at = models.DateTimeField(auto_now_add=True)

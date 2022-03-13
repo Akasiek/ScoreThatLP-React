@@ -8,7 +8,7 @@ const StyledArtistPageHeader = styled.div`
     @media (max-width: ${({ theme }) => theme.mobile}) {
         height: 50vh;
     }
-    background-image: url(${(props) => props.bg_image || "/images/image-404.jpg"});
+    background-image: url(${(props) => props.bg_image || "/images/artist-bg-404.jpg"});
     background-origin: content-box;
     background-position: center;
     background-size: cover;

@@ -140,7 +140,7 @@ const SearchResults = ({ queryResults: propsQueryResults, searchQuery, timer, on
                                     <Link to={`/albums/${a.id}`} onClick={onClick}>
                                         <div className="infoContainer album">
                                             <div className="imageContainer">
-                                                <img src={a.art_cover} alt={`${a.title} cover art`} />
+                                                <img src={a.art_cover || `/images/square-404.jpg`} alt={`${a.title} cover art`} />
                                             </div>
                                             <div className="textContainer">
                                                 <h2>{a.title}</h2>
@@ -160,7 +160,7 @@ const SearchResults = ({ queryResults: propsQueryResults, searchQuery, timer, on
                                     <Link to={`/artists/${a.slug}`} onClick={onClick}>
                                         <div className="infoContainer artist">
                                             <div className="imageContainer">
-                                                <img src={a.image} alt={`${a.title} band`} />
+                                                <img src={a.image || `/images/square-404.jpg`} alt={`${a.title} band`} />
                                             </div>
                                             <div className="textContainer">
                                                 <h2>{a.name}</h2>
@@ -177,7 +177,7 @@ const SearchResults = ({ queryResults: propsQueryResults, searchQuery, timer, on
                                     <Link to={`/users/${u.username}`} onClick={onClick}>
                                         <div className="infoContainer users">
                                             <div className="imageContainer">
-                                                <img src={u.profile_pic} alt={`${u.profile_pic} band`} />
+                                                <img src={u.profile_pic || `/images/avatar_placeholder.jpg`} alt={`${u.profile_pic} band`} />
                                             </div>
                                             <div className="textContainer">
                                                 <h2>{u.username}</h2>

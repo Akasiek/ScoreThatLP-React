@@ -17,14 +17,19 @@ const StyledArtistContainer = styled.div`
     }
 
     .artist-image-container {
-        width: inherit;
-        height: inherit;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+
+        border-radius: 100%;
+        outline: 0 solid ${accentColor};
+        transition: all 0.1s ease-in-out, box-shadow 0.4s ease-in-out;
 
         img {
             width: 100%;
-            border-radius: 100%;
-            outline: 0 solid ${accentColor};
-            transition: all 0.1s ease-in-out, box-shadow 0.4s ease-in-out;
         }
     }
 
@@ -58,7 +63,7 @@ const StyledArtistContainer = styled.div`
         transition: all 0.1s ease-in-out;
     }
 
-    &:hover img {
+    &:hover .artist-image-container {
         outline-offset: -0.35rem;
         outline-width: 0.35rem;
         box-shadow: 0 0 25px ${accentColor};
@@ -71,7 +76,7 @@ const ArtistContainer = ({ artist, onClick, showAvgScore }) => {
         <StyledArtistContainer>
             <Link to={`/artists/${artist.slug}`} onClick={onClick}>
                 <div className="artist-image-container">
-                    <img src={artist.image} alt={artist.name} />
+                    <img src={artist.image || `/images/square-404.jpg`} alt={artist.name} />
                 </div>
                 <div className="artist-name-container">
                     <h1>{artist.name}</h1>

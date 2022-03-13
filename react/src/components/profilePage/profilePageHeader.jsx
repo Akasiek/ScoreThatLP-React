@@ -139,11 +139,9 @@ const ProfilePageHeader = ({ reviewer }) => {
                         <img src={reviewer.favorite_artist.artist.background_image} alt="Profile background" />
                     </div>
                 )}
-                {reviewer.profile_pic && (
-                    <div className="profilePicContainer">
-                        <img src={reviewer.profile_pic} alt={`${reviewer.username} profile avatar`} />
-                    </div>
-                )}
+                <div className="profilePicContainer">
+                    <img src={reviewer.profile_pic || `/images/avatar_placeholder.jpg`} alt={`${reviewer.username} profile avatar`} />
+                </div>
             </div>
             <div className="bottomPanelContainer">
                 <div className="usernameCounterContainer">

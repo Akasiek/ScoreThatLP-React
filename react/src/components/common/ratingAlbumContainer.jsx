@@ -26,7 +26,7 @@ const RatingAlbumContainer = ({ review, isReviewDateHidden }) => {
         <StyledRatingAlbumContainer>
             <div className="albumImageContainer">
                 <Link to={`/albums/${review.album.id}`}>
-                    <img src={review.album.art_cover} alt={`${review.album.title} art cover`} />
+                    <img src={review.album.art_cover || `/images/square-404.jpg`} alt={`${review.album.title} art cover`} />
                 </Link>
             </div>
 

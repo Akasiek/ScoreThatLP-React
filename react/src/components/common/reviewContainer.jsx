@@ -189,7 +189,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
                 <div className="reviewAlbumContainer">
                     <div className="albumCoverContainer">
                         <Link to={`/albums/${review.album.id}`}>
-                            <img src={review.album.art_cover} alt={`${review.album.title} Cover Art`} />
+                            <img src={review.album.art_cover || `/images/square-404.jpg`} alt={`${review.album.title} Cover Art`} />
                         </Link>
                     </div>
                     <div className="albumTextContainer">
@@ -205,7 +205,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
             )}
             <div className={`userContainer ${getScoreColor(review.rating)}BG`}>
                 <Link to={`/users/${review.reviewer.username}`}>
-                    <img src={review.reviewer.profile_pic} alt="" />
+                    <img src={review.reviewer.profile_pic || `/images/avatar_placeholder.jpg`} alt="" />
                     <h4>{review.reviewer.username}</h4>
                 </Link>
                 <h2>{review.rating}</h2>
