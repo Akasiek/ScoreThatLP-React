@@ -4,14 +4,14 @@ import { Helmet } from "react-helmet";
 import { InputComponent, FileInputComponent, StyledForm, SubmitBtnComponent, validate } from "./formComponents";
 import { Main } from "./../../App";
 import { saveArtist } from "./../../services/artistService";
-import UserContext from "../../context/userContext";
+import ReviewerContext from "../../context/reviewerContext";
 
 const ArtistForm = ({ history }) => {
     const [data, setData] = useState({ name: "" });
     const [artistImage, setArtistImage] = useState();
     const [artistImageBG, setArtistImageBG] = useState();
     const [errors, setErrors] = useState({});
-    const currentUser = useContext(UserContext)[0];
+    const currentReviewer = useContext(ReviewerContext)[0];
 
     const schema = {
         name: Joi.string().required().label("Name"),
@@ -32,7 +32,7 @@ const ArtistForm = ({ history }) => {
         }
         apiData.append("image", artistImage);
         apiData.append("background_image", artistImageBG);
-        apiData.append("created_by", currentUser.id);
+        apiData.append("created_by", currentReviewer.id);
 
         await saveArtist(apiData);
         history.push("/artists/");

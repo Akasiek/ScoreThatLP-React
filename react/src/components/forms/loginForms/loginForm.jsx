@@ -2,10 +2,11 @@ import React, { useState, useContext, useEffect } from "react";
 import Joi from "joi-browser";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
+
 import { InputComponent, SubmitBtnComponent, validate } from "../formComponents";
 import { login } from "../../../services/authService";
-import UserContext from "./../../../context/userContext";
-import { Link } from "react-router-dom";
+import ReviewerContext from "../../../context/reviewerContext";
 
 export const StyledLoginForm = styled.div`
     height: 101vh;
@@ -68,7 +69,7 @@ export const StyledLoginForm = styled.div`
 const LoginForm = ({ history }) => {
     const [data, setData] = useState({ username: "", password: "" });
     const [errors, setErrors] = useState({});
-    const setUser = useContext(UserContext)[1];
+    const setReviewer = useContext(ReviewerContext)[1];
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -95,7 +96,7 @@ const LoginForm = ({ history }) => {
             localStorage.setItem("refresh", jwt.refresh);
 
             // For useEffect in App.js
-            setUser({ id: 0 });
+            setReviewer({ id: 0 });
 
             // Go to last visited page or to homepage
             if (history.action === "POP") history.push("/");

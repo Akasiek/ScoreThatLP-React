@@ -1,14 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import UserContext from "./../../context/userContext";
+import ReviewerContext from "./../../context/reviewerContext";
 import { Main } from "./../../App";
 import { getReviewerByUsername, updateReviewer } from "./../../services/reviewerService";
 import { Helmet } from "react-helmet";
 import { FileInputComponent, StyledForm, SubmitBtnComponent, TextAreaComponent } from "../forms/formComponents";
 
 const SettingsForm = ({ match, history }) => {
-    const currentUser = useContext(UserContext)[0];
-    const [user, setUser] = useState({ id: null });
+    const currentReviewer = useContext(ReviewerContext)[0];
+    const [reviewer, setReviewer] = useState({ id: null });
 
     const [data, setData] = useState({ about_text: "" });
     const [profilePic, setProfilePic] = useState();
@@ -16,24 +16,24 @@ const SettingsForm = ({ match, history }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
         (async () => {
-            const { data: newUser } = await getReviewerByUsername(match.params.username);
-            setUser(newUser[0]);
+            const { data: newReviewer } = await getReviewerByUsername(match.params.username);
+            setReviewer(newReviewer[0]);
         })();
     }, [match.params.username]);
 
     useEffect(() => {
         // If user from url param and current user aren't the same, go to current user settings
-        if (user.id !== null && currentUser) {
-            if (user?.username !== currentUser?.username) {
-                history.push(`/users/${currentUser?.username}/settings`);
+        if (reviewer.id !== null && currentReviewer) {
+            if (reviewer?.username !== currentReviewer?.username) {
+                history.push(`/users/${currentReviewer?.username}/settings`);
             }
         }
-    }, [user.id, user?.username, currentUser, history]);
+    }, [reviewer.id, reviewer?.username, currentReviewer, history]);
 
     useEffect(() => {
         // Populate inputs
-        setData({ about_text: user.about_text || "" });
-    }, [user.about_text]);
+        setData({ about_text: reviewer.about_text || "" });
+    }, [reviewer.about_text]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -41,10 +41,10 @@ const SettingsForm = ({ match, history }) => {
         let apiData = new FormData();
         if (data.about_text !== "") apiData.append("about_text", data.about_text);
         if (profilePic) apiData.append("profile_pic", profilePic);
-        apiData.append("user", user.user);
+        apiData.append("user", reviewer.user);
 
-        await updateReviewer(user.id, apiData);
-        history.push(`/users/${user.username}`);
+        await updateReviewer(reviewer.id, apiData);
+        history.push(`/users/${reviewer.username}`);
     };
 
     return (

@@ -4,7 +4,7 @@ import moment from "moment";
 import styled from "styled-components";
 
 import { Main } from "../App";
-import UserContext from "./../context/userContext";
+import ReviewerContext from "./../context/reviewerContext";
 
 const StyledFooter = styled.footer`
     background-color: var(--accentColor);
@@ -99,7 +99,7 @@ const StyledFooter = styled.footer`
 `;
 
 const Footer = () => {
-    const currentUser = useContext(UserContext)[0];
+    const currentReviewer = useContext(ReviewerContext)[0];
 
     const handleLogout = () => {
         localStorage.removeItem("jwt");
@@ -140,17 +140,17 @@ const Footer = () => {
                             </li>
                         </ul>
                     </div>
-                    {currentUser && (
+                    {currentReviewer && (
                         <React.Fragment>
                             <hr />
                             <div className="linksContainer">
                                 <h2>Profile</h2>
                                 <ul>
                                     <li>
-                                        <Link to={`/users/${currentUser.username}`}>my profile</Link>
+                                        <Link to={`/users/${currentReviewer.username}`}>my profile</Link>
                                     </li>
                                     <li>
-                                        <Link to={`/users/${currentUser.username}/settings`}>settings</Link>
+                                        <Link to={`/users/${currentReviewer.username}/settings`}>settings</Link>
                                     </li>
                                     <li>
                                         <a href="/" onClick={handleLogout}>

@@ -5,14 +5,14 @@ import { Helmet } from "react-helmet";
 import { StyledLoginForm } from "./loginForm";
 import { InputComponent, SubmitBtnComponent, validate } from "../formComponents";
 import { register, login } from "../../../services/authService";
-import UserContext from "../../../context/userContext";
 import { createReviewer } from "../../../services/reviewerService";
+import ReviewerContext from "./../../../context/reviewerContext";
 import { Link } from "react-router-dom";
 
 const RegisterForm = ({ history }) => {
     const [data, setData] = useState({ username: "", email: "", password: "" });
     const [errors, setErrors] = useState({});
-    const setUser = useContext(UserContext)[1];
+    const setReviewer = useContext(ReviewerContext)[1];
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -42,7 +42,7 @@ const RegisterForm = ({ history }) => {
 
             await createReviewer({ user: user.id }, { Authorization: "JWT " + jwt.access });
 
-            setUser({ id: 0 });
+            setReviewer({ id: 0 });
             history.push(`/users/${user.username}/settings`);
         } catch (ex) {
             if (ex.response && ex.response.status === 400) {

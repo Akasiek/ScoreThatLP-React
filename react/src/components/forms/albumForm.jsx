@@ -5,14 +5,14 @@ import { InputComponent, FileInputComponent, SelectComponent, StyledForm, Submit
 import { Main } from "./../../App";
 import { getArtist, getArtists } from "./../../services/artistService";
 import { saveAlbum } from "./../../services/albumService";
-import UserContext from "../../context/userContext";
+import ReviewerContext from "../../context/reviewerContext";
 
 const AlbumForm = ({ history, match }) => {
     const [data, setData] = useState({ title: "", release_date: "", release_type: "", artist_id: "" });
     const [artCover, setArtCover] = useState();
     const [artistsOptions, setArtistsOptions] = useState([]);
     const [errors, setErrors] = useState({});
-    const currentUser = useContext(UserContext)[0];
+    const currentReviewer = useContext(ReviewerContext)[0];
 
     const releaseTypeOptions = [
         { value: "LP", label: "LP" },
@@ -72,7 +72,7 @@ const AlbumForm = ({ history, match }) => {
             else apiData.append(key, data[key]);
         }
         apiData.append("art_cover", artCover);
-        apiData.append("created_by", currentUser.id);
+        apiData.append("created_by", currentReviewer.id);
 
         await saveAlbum(apiData);
         history.push("/albums/");

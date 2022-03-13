@@ -99,22 +99,22 @@ export const handleLogout = () => {
     window.location.reload(false);
 };
 
-const NavBarProfileContainer = ({ user }) => {
+const NavBarProfileContainer = ({ reviewer }) => {
     return (
         <StyledProfileContainer>
             <div className="userContainer">
-                <Link to={`/users/${user.username}`}>
-                    <img src={user.profile_pic} alt={`${user.username} profile avatar`} />
-                    <h2>{user.username}</h2>
+                <Link to={`/users/${reviewer.username}`}>
+                    <img src={reviewer.profile_pic} alt={`${reviewer.username} profile avatar`} />
+                    <h2>{reviewer.username}</h2>
                 </Link>
             </div>
             <div className="hiddenMenu">
                 <ul>
                     <li>
-                        <Link to={`/users/${user.username}`}>profile</Link>
+                        <Link to={`/users/${reviewer.username}`}>profile</Link>
                     </li>
                     <li>
-                        <Link to={`/users/${user.username}/settings`}>settings</Link>
+                        <Link to={`/users/${reviewer.username}/settings`}>settings</Link>
                     </li>
                     <li>
                         <a href="/" onClick={handleLogout}>

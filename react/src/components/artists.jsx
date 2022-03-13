@@ -6,11 +6,11 @@ import { StyledContentGroupPage } from "./albums";
 import { getArtists } from "./../services/artistService";
 import LoadingScreen from "./loadingScreen";
 import FormLink from "./forms/formLink";
-import UserContext from "./../context/userContext";
+import ReviewerContext from "./../context/reviewerContext";
 
 const Artists = () => {
     const [artists, setArtists] = useState(null);
-    const currentUser = useContext(UserContext)[0];
+    const currentReviewer = useContext(ReviewerContext)[0];
 
     useEffect(() => {
         (async () => {
@@ -25,7 +25,7 @@ const Artists = () => {
                 <title>Artists | ScoreThatLP</title>
             </Helmet>
             <StyledContentGroupPage>
-                {currentUser && <FormLink label="Add Artist" url="/artists/new" />}
+                {currentReviewer && <FormLink label="Add Artist" url="/artists/new" />}
                 <ContentGroup
                     title="Artists"
                     content={artists}

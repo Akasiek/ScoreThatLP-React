@@ -9,7 +9,7 @@ import NavBarProfileContainer from "./navBarProfileContainer";
 import { searchArtists } from "./../../services/artistService";
 import { searchReviewers } from "../../services/reviewerService";
 import { searchAlbums } from "./../../services/albumService";
-import UserContext from "./../../context/userContext";
+import ReviewerContext from "./../../context/reviewerContext";
 
 const StyledNavBar = styled.nav`
     top: 0;
@@ -231,7 +231,7 @@ const NavBar = ({ history }) => {
     const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
     const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
     const [timer, setTimer] = useState(null);
-    const currentUser = useContext(UserContext)[0];
+    const currentReviewer = useContext(ReviewerContext)[0];
 
     const resetStates = () => {
         setSearchQuery("");
@@ -302,8 +302,8 @@ const NavBar = ({ history }) => {
                             new releases
                         </NavLink>
                         <hr />
-                        {currentUser ? (
-                            <NavBarProfileContainer user={currentUser} />
+                        {currentReviewer ? (
+                            <NavBarProfileContainer reviewer={currentReviewer} />
                         ) : (
                             <NavLink className="navLink" to="/login" onClick={handleClickAway}>
                                 <Button>log in</Button>

@@ -4,11 +4,11 @@ import ArtistPageAlbumsGroup from "./artistPageAlbumsGroup";
 import { StyledContentGroupPage } from "./../albums";
 import { getLatestArtistReviews } from "../../services/reviewService";
 import FormLink from "../forms/formLink";
-import UserContext from "./../../context/userContext";
+import ReviewerContext from "./../../context/reviewerContext";
 
 const ArtistPageContentContainer = ({ artist }) => {
     const [latestReviews, setLatestReviews] = useState(null);
-    const user = useContext(UserContext)[0];
+    const currentReviewer = useContext(ReviewerContext)[0];
 
     useEffect(() => {
         (async () => {
@@ -19,7 +19,7 @@ const ArtistPageContentContainer = ({ artist }) => {
 
     return (
         <StyledContentGroupPage>
-            {user && <FormLink label={`Add ${artist.name} album`} url={`/artists/${artist.slug}/new-album`} />}
+            {currentReviewer && <FormLink label={`Add ${artist.name} album`} url={`/artists/${artist.slug}/new-album`} />}
             <ArtistPageAlbumsGroup artist={artist} />
             <ContentGroup
                 className="contentGroup"

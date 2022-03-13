@@ -8,7 +8,7 @@ import ContentGroup from "./common/contentGroup";
 import FormLink from "./forms/formLink";
 import { Main } from "./../App";
 import { getAlbums } from "./../services/albumService";
-import UserContext from "./../context/userContext";
+import ReviewerContext from "./../context/reviewerContext";
 
 export const StyledContentGroupPage = styled.div`
     padding: 2rem 0;
@@ -40,7 +40,7 @@ export const StyledContentGroupPage = styled.div`
 
 const Albums = () => {
     const [albums, setAlbums] = useState(null);
-    const currentUser = useContext(UserContext)[0];
+    const currentReviewer = useContext(ReviewerContext)[0];
 
     useEffect(() => {
         (async () => {
@@ -56,7 +56,7 @@ const Albums = () => {
                 <title>Albums | ScoreThatLP</title>
             </Helmet>
             <StyledContentGroupPage>
-                {currentUser && <FormLink label="Add Album" url="/albums/new" />}
+                {currentReviewer && <FormLink label="Add Album" url="/albums/new" />}
                 <ContentGroup
                     title="Albums"
                     content={albums}

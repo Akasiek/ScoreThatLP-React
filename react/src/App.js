@@ -23,7 +23,7 @@ import ProfileReviews from "./components/profilePage/profileReviews";
 import ProfileRatings from "./components/profilePage/profileRatings";
 import LoginForm from "./components/forms/loginForms/loginForm";
 import Footer from "./components/footer";
-import UserContext from "./context/userContext";
+import ReviewerContext from "./context/reviewerContext";
 import { getReviewerWithUser } from "./services/reviewerService";
 import { setJwt } from "./services/httpService";
 
@@ -66,7 +66,7 @@ export const Main = styled.main`
 `;
 
 const App = () => {
-    const [user, setUser] = useState();
+    const [reviewer, setReviewer] = useState();
 
     useEffect(() => {
         (async () => {
@@ -76,7 +76,7 @@ const App = () => {
                 setJwt(`JWT ${accessToken}`);
                 try {
                     const { data: reviewer } = await getReviewerWithUser(jwt.user_id);
-                    setUser(reviewer[0]);
+                    setReviewer(reviewer[0]);
                 } catch (ex) {
                     if (ex.response && ex.response.status === 401) {
                         handleLogout();
@@ -84,12 +84,12 @@ const App = () => {
                 }
             }
         })();
-    }, [user?.id]);
+    }, [reviewer?.id]);
 
     return (
         <ThemeProvider theme={theme}>
             <StyledToastContainer theme="dark" autoClose={4000} pauseOnFocusLoss={false} transition={Slide} position="bottom-right" />
-            <UserContext.Provider value={[user, setUser]}>
+            <ReviewerContext.Provider value={[reviewer, setReviewer]}>
                 <StyledApp>
                     <Navbar />
                     <Switch>
@@ -123,7 +123,7 @@ const App = () => {
                     </Switch>
                     <Footer />
                 </StyledApp>
-            </UserContext.Provider>
+            </ReviewerContext.Provider>
         </ThemeProvider>
     );
 };

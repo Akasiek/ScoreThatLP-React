@@ -8,7 +8,7 @@ import AlbumPageReviewSection from "./albumPageReviewSection";
 import { Main } from "../../App";
 import { getAlbum } from "../../services/albumService";
 import LoadingScreen from "../loadingScreen";
-import UserContext from "./../../context/userContext";
+import ReviewerContext from "./../../context/reviewerContext";
 
 export const StyledAlbumPage = styled.div`
     background-color: var(--darkBlueColor);
@@ -49,7 +49,7 @@ export const ReloadContext = React.createContext();
 const AlbumPage = ({ match, history }) => {
     const [album, setAlbum] = useState(null);
     const [reload, setReload] = useState(false);
-    const currentUser = useContext(UserContext)[0];
+    const currentReviewer = useContext(ReviewerContext)[0];
 
     useEffect(() => {
         (async () => {
@@ -77,9 +77,9 @@ const AlbumPage = ({ match, history }) => {
                     <AlbumPageHeader album={album} />
 
                     <AlbumPageMain>
-                        <AlbumPageReviewSection album={album} user={currentUser} />
+                        <AlbumPageReviewSection album={album} user={currentReviewer} />
 
-                        <AlbumPageAside album={album} user={currentUser} />
+                        <AlbumPageAside album={album} user={currentReviewer} />
                     </AlbumPageMain>
                 </StyledAlbumPage>
             </Main>
