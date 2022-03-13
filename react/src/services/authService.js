@@ -11,5 +11,5 @@ export const register = (user) => {
 };
 
 export const getUser = (token) => {
-    return http.get(`${apiEndpoint}users/me`, { headers: { Authorization: "JWT " + token } });
+    return http.get(`${apiEndpoint}users/me`);
 };
