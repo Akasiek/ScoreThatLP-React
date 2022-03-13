@@ -119,3 +119,9 @@ class ReviewViewSet(ModelViewSet):
         "review_text": ["exact", "isnull"],
         "rating": ["exact", "isnull"]
     }
+
+    def destroy(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if (str(obj.reviewer_id) != str(request.user)):
+            return Response(data={'message': "User cannot delete another user review"}, status=status.HTTP_401_UNAUTHORIZED)
+        return super().destroy(request, *args, **kwargs)
