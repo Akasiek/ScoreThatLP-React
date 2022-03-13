@@ -94,7 +94,8 @@ class Album(models.Model):
         Artist, on_delete=models.PROTECT, related_name="albums"
     )
     art_cover = ResizedImageField(
-        size=[750, 750], crop=['middle', 'center'], null=True, blank=True, upload_to=rename_album_art_cover, max_length=255)
+        size=[750, 750], null=True, blank=True, upload_to=rename_album_art_cover, max_length=255)
+    art_cover_url = models.URLField(max_length=255, null=True, blank=True)
     release_type = models.CharField(max_length=10,
                                     choices=RELEASE_TYPE_ALBUM_CHOICES, default="LP")
     created_at = models.DateTimeField(auto_now_add=True)

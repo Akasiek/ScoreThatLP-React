@@ -21,6 +21,8 @@ const AlbumForm = ({ history, match }) => {
         { value: "Live", label: "Live album" },
     ];
 
+    console.log(artCover);
+
     const schema = {
         title: Joi.string().required().label("Title"),
         release_date: Joi.date().iso().required().label("Release date"),
@@ -71,7 +73,8 @@ const AlbumForm = ({ history, match }) => {
             if (data[key] === "") apiData.append(key, null);
             else apiData.append(key, data[key]);
         }
-        if (artCover) apiData.append("art_cover", artCover);
+        if (artCover.file) apiData.append("art_cover", artCover.file);
+        if (artCover.url) apiData.append("art_cover_url", artCover.url);
         apiData.append("created_by", currentReviewer.id);
 
         await saveAlbum(apiData);
@@ -111,7 +114,7 @@ const AlbumForm = ({ history, match }) => {
                     setData={setData}
                     errors={errors}
                 />
-                <FileInputComponent name="art_cover" label="Art cover" setFile={setArtCover} />
+                <FileInputComponent name="art_cover" label="Art cover" file={artCover} setFile={setArtCover} optionalURL={true} />
                 <SubmitBtnComponent value="Upload album" />
             </StyledForm>
         </Main>

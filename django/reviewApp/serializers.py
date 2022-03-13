@@ -87,6 +87,7 @@ class AlbumSerializer(serializers.ModelSerializer):
             "created_by",
             "artist",
             "art_cover",
+            "art_cover_url",
             "genres",
             "overall_score",
             "number_of_ratings",
@@ -106,6 +107,7 @@ class CreateAlbumSerializer(serializers.ModelSerializer):
             "title",
             "artist_id",
             "art_cover",
+            "art_cover_url",
             "release_date",
             "release_type"
         ]
@@ -129,6 +131,7 @@ class SimpleAlbumSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "art_cover",
+            "art_cover_url",
             "release_date",
             "release_type",
             "artist",

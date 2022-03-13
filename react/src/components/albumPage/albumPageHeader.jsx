@@ -114,7 +114,7 @@ export const StyledAlbumPageHeader = styled.header`
 const AlbumPageHeader = ({ album, isCompact }) => {
     return (
         <StyledAlbumPageHeader isCompact={isCompact}>
-            <img src={album.art_cover || `/images/square-404.jpg`} alt="" />
+            <img src={album.art_cover || album.art_cover_url || `/images/square-404.jpg`} alt="" />
             <div className={`${getScoreColor(album.overall_score)}BG`}>
                 <h3>
                     <Link to={`/artists/${album.artist.slug}`}>{album.artist.name}</Link>

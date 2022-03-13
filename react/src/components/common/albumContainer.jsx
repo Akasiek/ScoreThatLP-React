@@ -136,7 +136,7 @@ const AlbumContainer = ({ album, customScore, isAoty, isInArtistPage }) => {
         <StyledAlbumContainer>
             <div className="albumImageContainer">
                 <Link to={`/albums/${album.id}`}>
-                    <img src={album.art_cover || `/images/square-404.jpg`} alt={`${album.title} art cover`} />
+                    <img src={album.art_cover || album.art_cover_url || `/images/square-404.jpg`} alt={`${album.title} art cover`} />
                     {album.position && isAoty && <div className="albumAOTYPositionContainer">{album.position}</div>}
                 </Link>
             </div>

@@ -102,6 +102,12 @@ const StyledFileInput = styled.div`
             }
         }
     }
+
+    h3 {
+        font-size: clamp(0.9rem, 1.25vw, 1.25rem);
+        font-weight: normal;
+        margin-block: 1rem;
+    }
 `;
 
 const StyledSelect = styled.div`
@@ -195,9 +201,12 @@ export const InputComponent = ({ type = "text", name, label, placeholder, data, 
     );
 };
 
-export const FileInputComponent = ({ name, label, setFile }) => {
+export const FileInputComponent = ({ name, label, file, setFile, optionalURL }) => {
     const handleChange = ({ currentTarget: input }) => {
-        setFile(input.files[0]);
+        const newFile = { ...file };
+        if (input.files) newFile.file = input.files[0];
+        else newFile.url = input.value;
+        setFile(newFile);
     };
     return (
         <StyledFileInput>
@@ -205,6 +214,14 @@ export const FileInputComponent = ({ name, label, setFile }) => {
                 {label}
             </label>
             <input type="file" id={name} onChange={handleChange} />
+            {optionalURL && (
+                <React.Fragment>
+                    <h3>Or type in URL</h3>
+                    <StyledInput>
+                        <input placeholder="URL" onChange={handleChange} />
+                    </StyledInput>
+                </React.Fragment>
+            )}
         </StyledFileInput>
     );
 };
