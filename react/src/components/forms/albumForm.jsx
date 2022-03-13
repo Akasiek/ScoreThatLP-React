@@ -71,7 +71,7 @@ const AlbumForm = ({ history, match }) => {
             if (data[key] === "") apiData.append(key, null);
             else apiData.append(key, data[key]);
         }
-        apiData.append("art_cover", artCover);
+        if (artCover) apiData.append("art_cover", artCover);
         apiData.append("created_by", currentReviewer.id);
 
         await saveAlbum(apiData);

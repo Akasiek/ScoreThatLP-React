@@ -30,8 +30,8 @@ const ArtistForm = ({ history }) => {
             if (data[key] === "") apiData.append(key, null);
             else apiData.append(key, data[key]);
         }
-        apiData.append("image", artistImage);
-        apiData.append("background_image", artistImageBG);
+        if (artistImage) apiData.append("image", artistImage);
+        if (artistImageBG) apiData.append("background_image", artistImageBG);
         apiData.append("created_by", currentReviewer.id);
 
         await saveArtist(apiData);
