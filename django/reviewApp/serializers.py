@@ -240,4 +240,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         if Review.objects.filter(album_id=self.validated_data["album_id"], reviewer_id=self.validated_data["reviewer_id"]).exists():
             raise serializers.ValidationError(
                 'This user created review for this album already')
+        if str(self.context["request"].user) != str(self.validated_data["reviewer_id"]):
+            raise serializers.ValidationError(
+                'User cannot create reviews as someone else')
         return Review.objects.create(**validated_data)
