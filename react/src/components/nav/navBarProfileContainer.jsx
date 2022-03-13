@@ -114,7 +114,7 @@ const NavBarProfileContainer = ({ reviewer }) => {
                         <Link to={`/users/${reviewer.username}`}>profile</Link>
                     </li>
                     <li>
-                        <Link to={`/users/${reviewer.username}/settings`}>settings</Link>
+                        <Link to={`/settings`}>settings</Link>
                     </li>
                     <li>
                         <a href="/" onClick={handleLogout}>

@@ -113,7 +113,7 @@ const App = () => {
                         <Route exact path="/users/:username" component={ProfilePage} />
                         <Route exact path="/users/:username/reviews" component={ProfileReviews} />
                         <Route exact path="/users/:username/ratings" component={ProfileRatings} />
-                        <ProtectedRoute exact path="/users/:username/settings" component={SettingsForm} />
+                        <ProtectedRoute exact path="/settings" component={SettingsForm} />
                         <Route exact path="/login" component={LoginForm} />
                         <Route exact path="/register" component={RegisterForm} />
 

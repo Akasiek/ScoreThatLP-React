@@ -150,7 +150,7 @@ const Footer = () => {
                                         <Link to={`/users/${currentReviewer.username}`}>my profile</Link>
                                     </li>
                                     <li>
-                                        <Link to={`/users/${currentReviewer.username}/settings`}>settings</Link>
+                                        <Link to={`/settings`}>settings</Link>
                                     </li>
                                     <li>
                                         <a href="/" onClick={handleLogout}>
