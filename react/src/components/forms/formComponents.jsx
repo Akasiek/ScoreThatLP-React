@@ -9,7 +9,7 @@ export const StyledForm = styled.form`
     padding: 3rem 5rem;
 
     & > div {
-        margin-bottom: 2.5rem;
+        margin-bottom: 5rem;
     }
 
     .label {
@@ -29,7 +29,7 @@ export const StyledForm = styled.form`
         padding: 1.5rem 2rem;
 
         & > div {
-            margin-bottom: 2rem;
+            margin-bottom: 4rem;
         }
 
         .label {

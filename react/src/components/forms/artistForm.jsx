@@ -30,8 +30,12 @@ const ArtistForm = ({ history }) => {
             if (data[key] === "") apiData.append(key, null);
             else apiData.append(key, data[key]);
         }
-        if (artistImage) apiData.append("image", artistImage);
-        if (artistImageBG) apiData.append("background_image", artistImageBG);
+        if (artistImage.file) apiData.append("image", artistImage.file);
+        if (artistImage.url) apiData.append("image_url", artistImage.url);
+
+        if (artistImageBG.file) apiData.append("background_image", artistImageBG.file);
+        if (artistImageBG.url) apiData.append("background_image_url", artistImageBG.url);
+
         apiData.append("created_by", currentReviewer.id);
 
         await saveArtist(apiData);
@@ -45,8 +49,14 @@ const ArtistForm = ({ history }) => {
             </Helmet>
             <StyledForm onSubmit={handleSubmit}>
                 <InputComponent name="name" label="Artist name" data={data} setData={setData} errors={errors} />
-                <FileInputComponent name="image" label="Artist image (square)" setFile={setArtistImage} />
-                <FileInputComponent name="background_image" label="Artist background image" setFile={setArtistImageBG} />
+                <FileInputComponent name="image" label="Artist image (square)" file={artistImage} setFile={setArtistImage} optionalURL={true} />
+                <FileInputComponent
+                    name="background_image"
+                    label="Artist background image"
+                    file={artistImageBG}
+                    setFile={setArtistImageBG}
+                    optionalURL={true}
+                />
                 <SubmitBtnComponent value="Upload artist" />
             </StyledForm>
         </Main>

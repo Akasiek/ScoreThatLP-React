@@ -189,7 +189,10 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
                 <div className="reviewAlbumContainer">
                     <div className="albumCoverContainer">
                         <Link to={`/albums/${review.album.id}`}>
-                            <img src={review.album.art_cover || `/images/square-404.jpg`} alt={`${review.album.title} Cover Art`} />
+                            <img
+                                src={review.album.art_cover || review.album.art_cover_url || `/images/square-404.jpg`}
+                                alt={`${review.album.title} Cover Art`}
+                            />
                         </Link>
                     </div>
                     <div className="albumTextContainer">

@@ -14,7 +14,9 @@ class ArtistSerializer(serializers.ModelSerializer):
             "name",
             "slug",
             "image",
+            "image_url",
             "background_image",
+            "background_image_url",
             "average_score",
             "created_at",
             "created_by"
@@ -151,6 +153,7 @@ class AlbumOfTheYearSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "art_cover",
+            "art_cover_url",
             "release_date",
             "artist",
             "overall_score"
@@ -162,7 +165,14 @@ class ReviewAlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ["id", "title", "art_cover", "release_date", "artist"]
+        fields = [
+            "id",
+            "title",
+            "art_cover",
+            "art_cover_url",
+            "release_date",
+            "artist"
+        ]
 
 
 class FavoriteArtistSerializer(serializers.ModelSerializer):

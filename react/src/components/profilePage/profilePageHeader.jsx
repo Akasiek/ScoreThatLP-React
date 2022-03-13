@@ -134,9 +134,12 @@ const ProfilePageHeader = ({ reviewer }) => {
     return (
         <StyledProfilePageHeader>
             <div className="topPanelContainer">
-                {reviewer.favorite_artist?.artist.background_image && (
+                {(reviewer.favorite_artist?.artist.background_image || reviewer.favorite_artist?.artist.background_image_url) && (
                     <div className="artistImageContainer">
-                        <img src={reviewer.favorite_artist.artist.background_image} alt="Profile background" />
+                        <img
+                            src={reviewer.favorite_artist.artist.background_image || reviewer.favorite_artist?.artist.background_image_url}
+                            alt="Profile background"
+                        />
                     </div>
                 )}
                 <div className="profilePicContainer">

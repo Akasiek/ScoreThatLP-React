@@ -69,8 +69,11 @@ class Artist(models.Model):
     slug = models.SlugField(max_length=255)
     image = ResizedImageField(size=[500, 500], crop=['middle', 'center'],
                               null=True, blank=True, upload_to=rename_artist_image, max_length=255)
+    image_url = models.URLField(max_length=255, null=True, blank=True)
     background_image = ResizedImageField(
         null=True, blank=True, upload_to=rename_artist_bg_image, max_length=255)
+    background_image_url = models.URLField(
+        max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         Reviewer, on_delete=models.SET_NULL, null=True, blank=True)
