@@ -191,6 +191,7 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
                             {
                                 rating: newData.rating !== "" ? newData.rating : null,
                                 review_text: newData.review !== "" ? newData.review : null,
+                                reviewer_id: user.id,
                             },
                             respond.data[0].id
                         );

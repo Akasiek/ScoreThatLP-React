@@ -104,7 +104,10 @@ const NavBarProfileContainer = ({ reviewer }) => {
         <StyledProfileContainer>
             <div className="userContainer">
                 <Link to={`/users/${reviewer.username}`}>
-                    <img src={reviewer.profile_pic || `/images/avatar_placeholder.jpg`} alt={`${reviewer.username} profile avatar`} />
+                    <img
+                        src={reviewer.profile_pic || reviewer.profile_pic_url || `/images/avatar_placeholder.jpg`}
+                        alt={`${reviewer.username} profile avatar`}
+                    />
                     <h2>{reviewer.username}</h2>
                 </Link>
             </div>

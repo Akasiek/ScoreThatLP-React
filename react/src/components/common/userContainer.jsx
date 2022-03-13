@@ -66,7 +66,7 @@ const UserContainer = ({ user }) => {
         <StyledUserContainer>
             <Link to={`/users/${user.username}`}>
                 <div className="imageContainer">
-                    <img src={user.profile_pic || `/images/avatar_placeholder.jpg`} alt={`${user.username} profile avatar`} />
+                    <img src={user.profile_pic || user.profile_pic_url || `/images/avatar_placeholder.jpg`} alt={`${user.username} profile avatar`} />
                 </div>
                 <div className="usernameContainer">
                     <h1>{user.username}</h1>

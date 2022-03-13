@@ -211,6 +211,7 @@ class ReviewerSerializer(serializers.ModelSerializer):
             "user",
             "email",
             "profile_pic",
+            "profile_pic_url",
             "about_text",
             "favorite_artist",
             "number_of_ratings",
@@ -239,7 +240,8 @@ class SimpleReviewerSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "username",
-            "profile_pic"
+            "profile_pic",
+            "profile_pic_url"
         ]
 
 

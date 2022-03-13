@@ -68,7 +68,10 @@ const RatingContainer = ({ rating }) => {
     return (
         <StyledRatingContainer className={`${getScoreColor(rating.rating)}BG`}>
             <Link to={`/users/${rating.reviewer.username}`}>
-                <img src={rating.reviewer.profile_pic || `/images/avatar_placeholder.jpg`} alt={`${rating.reviewer.username} profile avatar`} />
+                <img
+                    src={rating.reviewer.profile_pic || rating.reviewer.profile_pic_url || `/images/avatar_placeholder.jpg`}
+                    alt={`${rating.reviewer.username} profile avatar`}
+                />
                 <h4>{rating.reviewer.username}</h4>
             </Link>
             <h2>{rating.rating}</h2>

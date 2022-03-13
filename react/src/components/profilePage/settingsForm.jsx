@@ -26,7 +26,8 @@ const SettingsForm = ({ history }) => {
 
         let apiData = new FormData();
         if (data.about_text !== "") apiData.append("about_text", data.about_text);
-        if (profilePic) apiData.append("profile_pic", profilePic);
+        if (profilePic.file) apiData.append("profile_pic", profilePic.file);
+        if (profilePic.url) apiData.append("profile_pic_url", profilePic.url);
         apiData.append("user", currentReviewer.user);
 
         const { data: newReviewer } = await updateReviewer(currentReviewer.id, apiData);
@@ -40,7 +41,7 @@ const SettingsForm = ({ history }) => {
                 <title>Profile Settings | ScoreThatLP</title>
             </Helmet>
             <StyledForm onSubmit={handleSubmit}>
-                <FileInputComponent name="profile_pic" label="Profile picture" setFile={setProfilePic} />
+                <FileInputComponent name="profile_pic" label="Profile picture" file={profilePic} setFile={setProfilePic} optionalURL={true} />
                 <TextAreaComponent name="about_text" label="About Me Text" data={data} setData={setData} placeholder="About me..." />
                 <SubmitBtnComponent value="Update profile" />
             </StyledForm>

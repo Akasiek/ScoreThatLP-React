@@ -143,7 +143,10 @@ const ProfilePageHeader = ({ reviewer }) => {
                     </div>
                 )}
                 <div className="profilePicContainer">
-                    <img src={reviewer.profile_pic || `/images/avatar_placeholder.jpg`} alt={`${reviewer.username} profile avatar`} />
+                    <img
+                        src={reviewer.profile_pic || reviewer.profile_pic_url || `/images/avatar_placeholder.jpg`}
+                        alt={`${reviewer.username} profile avatar`}
+                    />
                 </div>
             </div>
             <div className="bottomPanelContainer">

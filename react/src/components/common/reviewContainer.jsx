@@ -208,7 +208,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
             )}
             <div className={`userContainer ${getScoreColor(review.rating)}BG`}>
                 <Link to={`/users/${review.reviewer.username}`}>
-                    <img src={review.reviewer.profile_pic || `/images/avatar_placeholder.jpg`} alt="" />
+                    <img src={review.reviewer.profile_pic || review.reviewer.profile_pic_url || `/images/avatar_placeholder.jpg`} alt="" />
                     <h4>{review.reviewer.username}</h4>
                 </Link>
                 <h2>{review.rating}</h2>
