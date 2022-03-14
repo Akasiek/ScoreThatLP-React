@@ -77,7 +77,6 @@ class AlbumSerializer(serializers.ModelSerializer):
     artist = SimpleArtistSerializer(source="artist_id", read_only=True)
     overall_score = serializers.IntegerField(read_only=True)
     number_of_ratings = serializers.IntegerField(read_only=True)
-    album_duration = serializers.DurationField(read_only=True)
 
     class Meta:
         model = Album
@@ -96,7 +95,6 @@ class AlbumSerializer(serializers.ModelSerializer):
             "release_date",
             "release_type",
             "tracks",
-            "album_duration",
             "links",
             "aoty"
         ]

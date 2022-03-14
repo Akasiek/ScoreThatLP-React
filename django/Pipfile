@@ -19,6 +19,9 @@ django-cors-headers = "*"
 django-cleanup = "*"
 django-resized = "*"
 pillow = "*"
+whitenoise = "*"
+gunicorn = "*"
+django-heroku = "*"
 
 [dev-packages]
 black = "*"

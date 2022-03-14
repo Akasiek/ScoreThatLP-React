@@ -71,7 +71,6 @@ class AlbumViewSet(ModelViewSet):
         .prefetch_related("tracks", "album_genres", "album_genres__genre_id", "album_links", "reviews") \
         .select_related("aoty", "artist_id") \
         .annotate(overall_score=Avg("reviews__rating")) \
-        .annotate(album_duration=Sum("tracks__duration", distinct=True)) \
         .annotate(number_of_ratings=Count("reviews", distinct=True)).all()
 
     permission_classes = [IsAdminOrPostOnly]
