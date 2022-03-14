@@ -56,7 +56,7 @@ const NotFound = () => {
                 <h1>404</h1>
                 <h2>Not Found</h2>
                 <p>Are you lost my little friend?</p>
-                <Link>Go back to homepage</Link>
+                <Link to={"/"}>Go back to homepage</Link>
             </div>
         </StyledNotFound>
     );
