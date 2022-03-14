@@ -201,7 +201,7 @@ const HomePage = () => {
                         content={artists}
                         contentType="artists"
                         itemsCount={5}
-                        colSize={[5, 3, 3]}
+                        colSize={[5, 3, 2]}
                     />
 
                     <ContentGroup
