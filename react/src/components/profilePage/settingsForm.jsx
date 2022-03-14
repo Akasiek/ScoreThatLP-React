@@ -10,7 +10,7 @@ const SettingsForm = ({ history }) => {
     const [currentReviewer, setCurrentUser] = useContext(ReviewerContext);
 
     const [data, setData] = useState({ about_text: "" });
-    const [profilePic, setProfilePic] = useState();
+    const [profilePic, setProfilePic] = useState({ file: null, url: null });
 
     useEffect(() => {
         window.scrollTo(0, 0);
