@@ -92,7 +92,7 @@ const StyledProfilePageHeader = styled.div`
         }
 
         .linksContainer {
-            padding-block: clamp(1.5rem, 2vw, 2rem);
+            padding-top: clamp(1.5rem, 2vw, 2rem);
             display: flex;
             align-items: center;
             gap: clamp(1rem, 2vw, 2rem);
@@ -109,6 +109,7 @@ const StyledProfilePageHeader = styled.div`
         }
 
         .aboutContainer {
+            padding-top: clamp(1.5rem, 2vw, 2rem);
             max-width: 50vw;
             font-weight: normal;
             white-space: pre-wrap;
@@ -167,24 +168,26 @@ const ProfilePageHeader = ({ reviewer }) => {
                         </h3>
                     </div>
                 </div>
-                <div className="linksContainer">
-                    {reviewer.links?.map((l, index) => {
-                        return (
-                            <a key={index} href={l.url} rel="noreferrer" target="_blank">
-                                <img src={`/images/serviceIcons/${l.service_name}.svg`} alt={`${l.service} music service provider logo`} />
-                            </a>
-                        );
-                    })}
-                </div>
-                <div className="aboutContainer">
-                    {reviewer.about_text && (
+                {reviewer.links.length > 0 && (
+                    <div className="linksContainer">
+                        {reviewer.links?.map((l, index) => {
+                            return (
+                                <a key={index} href={l.url} rel="noreferrer" target="_blank">
+                                    <img src={`/images/serviceIcons/${l.service_name}.svg`} alt={`${l.service} music service provider logo`} />
+                                </a>
+                            );
+                        })}
+                    </div>
+                )}
+                {reviewer.about_text && (
+                    <div className="aboutContainer">
                         <p>
                             <span style={{ fontWeight: 900 }}>About</span>
                             <br />
                             {reviewer.about_text}
                         </p>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
         </StyledProfilePageHeader>
     );
