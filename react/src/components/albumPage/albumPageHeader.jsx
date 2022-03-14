@@ -121,7 +121,17 @@ const AlbumPageHeader = ({ album, isCompact }) => {
                 </h3>
                 <h1>{album.title}</h1>
                 <hr />
-                <h2>{moment(album.release_date) < moment() ? album.overall_score || <p>No ratings yet</p> : <p>Waiting for the release</p>}</h2>
+                <h2>
+                    {moment(album.release_date) < moment() ? (
+                        album.overall_score !== null ? (
+                            album.overall_score
+                        ) : (
+                            <p>No ratings yet</p>
+                        )
+                    ) : (
+                        <p>Waiting for the release</p>
+                    )}
+                </h2>
                 <h4>
                     {moment(album.release_date) < moment() && album.number_of_ratings > 0 && (
                         <React.Fragment>
