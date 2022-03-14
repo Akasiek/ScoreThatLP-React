@@ -31,7 +31,7 @@ rename_album_art_cover = RenameImageToSlug("album/art_covers/")
 class Reviewer(models.Model):
     profile_pic = ResizedImageField(size=[500, 500], null=True, blank=True,
                                     upload_to="users/profile_pics/", max_length=255)
-    profile_pic_url = models.URLField(max_length=255, null=True, blank=True)
+    profile_pic_url = models.URLField(max_length=2048, null=True, blank=True)
     about_text = models.TextField(null=True, blank=True)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True
@@ -57,7 +57,7 @@ class ReviewerLink(models.Model):
 
     service_name = models.CharField(
         max_length=15, choices=SERVICE_NAME_CHOICES)
-    url = models.CharField(max_length=255)
+    url = models.CharField(max_length=2048)
     reviewer_id = models.ForeignKey(
         Reviewer, on_delete=models.PROTECT, related_name="reviewer_links")
 
@@ -70,11 +70,11 @@ class Artist(models.Model):
     slug = models.SlugField(max_length=255)
     image = ResizedImageField(size=[500, 500], crop=['middle', 'center'],
                               null=True, blank=True, upload_to=rename_artist_image, max_length=255)
-    image_url = models.URLField(max_length=255, null=True, blank=True)
+    image_url = models.URLField(max_length=2048, null=True, blank=True)
     background_image = ResizedImageField(
         null=True, blank=True, upload_to=rename_artist_bg_image, max_length=255)
     background_image_url = models.URLField(
-        max_length=255, null=True, blank=True)
+        max_length=2048, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         Reviewer, on_delete=models.SET_NULL, null=True, blank=True)
@@ -99,7 +99,7 @@ class Album(models.Model):
     )
     art_cover = ResizedImageField(
         size=[750, 750], null=True, blank=True, upload_to=rename_album_art_cover, max_length=255)
-    art_cover_url = models.URLField(max_length=255, null=True, blank=True)
+    art_cover_url = models.URLField(max_length=2048, null=True, blank=True)
     release_type = models.CharField(max_length=10,
                                     choices=RELEASE_TYPE_ALBUM_CHOICES, default="LP")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -137,7 +137,7 @@ class AlbumLink(models.Model):
 
     service_name = models.CharField(
         max_length=15, choices=SERVICE_NAME_CHOICES)
-    url = models.CharField(max_length=255)
+    url = models.CharField(max_length=2048)
     album_id = models.ForeignKey(
         Album, on_delete=models.CASCADE, related_name="album_links")
 
