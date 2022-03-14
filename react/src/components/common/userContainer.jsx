@@ -24,6 +24,9 @@ const StyledUserContainer = styled.div`
         text-align: center;
         img {
             height: clamp(4rem, 7vw, 7rem);
+            object-fit: cover;
+            aspect-ratio: 1;
+            vertical-align: top;
             border-radius: 100%;
         }
     }

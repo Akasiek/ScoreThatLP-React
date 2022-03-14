@@ -47,8 +47,9 @@ const StyledRatingContainer = styled.div`
 
     a > img {
         width: clamp(3rem, 7vw, 5rem);
-        /* width: 35%; */
-        height: auto;
+        object-fit: cover;
+        aspect-ratio: 1;
+        vertical-align: top;
         border-radius: 100%;
         transition: all 0.2s ease-in-out;
     }

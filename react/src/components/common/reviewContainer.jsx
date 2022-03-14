@@ -65,7 +65,9 @@ const StyledReviewContainer = styled.div`
 
         a > img {
             height: clamp(2.5rem, 4vw, 4rem);
-            /* width: 15%; */
+            object-fit: cover;
+            aspect-ratio: 1;
+            vertical-align: top;
             border-radius: 100%;
             transition: all 0.2s ease-in-out;
         }
@@ -89,10 +91,9 @@ const StyledReviewContainer = styled.div`
                 width: auto;
 
                 aspect-ratio: 1;
-                vertical-align: top;
                 object-fit: cover;
-                /* height: auto;
-                width: 100%; */
+                aspect-ratio: 1;
+                vertical-align: top;
             }
         }
 

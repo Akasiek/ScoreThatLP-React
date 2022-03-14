@@ -42,6 +42,9 @@ const StyledProfilePageHeader = styled.div`
 
             & > img {
                 height: clamp(8rem, 15vw, 15rem);
+                object-fit: cover;
+                aspect-ratio: 1;
+                vertical-align: top;
                 border-radius: 100%;
             }
         }

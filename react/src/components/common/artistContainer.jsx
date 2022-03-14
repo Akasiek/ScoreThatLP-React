@@ -29,7 +29,10 @@ const StyledArtistContainer = styled.div`
         transition: all 0.1s ease-in-out, box-shadow 0.4s ease-in-out;
 
         img {
+            object-fit: cover;
             width: 100%;
+            aspect-ratio: 1;
+            vertical-align: top;
         }
     }
 

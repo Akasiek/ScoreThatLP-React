@@ -67,6 +67,9 @@ export const StyledSearchResults = styled.div`
                 .imageContainer {
                     img {
                         height: clamp(3rem, 5vw, 5rem);
+                        object-fit: cover;
+                        aspect-ratio: 1;
+                        vertical-align: top;
                     }
                 }
 

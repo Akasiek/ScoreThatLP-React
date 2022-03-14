@@ -11,6 +11,9 @@ const StyledProfileContainer = styled.div`
         gap: clamp(0.5rem, 1vw, 1rem);
         img {
             height: 2rem;
+            object-fit: cover;
+            aspect-ratio: 1;
+            vertical-align: top;
             border-radius: 100%;
         }
 

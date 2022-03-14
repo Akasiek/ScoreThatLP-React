@@ -28,7 +28,6 @@ export const selectStyles = {
     singleValue: (provided, state) => ({
         ...provided,
         color: "#edf7f6",
-        fontWeight: "normal",
     }),
 
     dropdownIndicator: (provided, state) => ({
