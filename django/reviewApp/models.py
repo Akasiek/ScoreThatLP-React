@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib import admin
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 from django.utils.deconstruct import deconstructible
 from django_resized import ResizedImageField
 from uuid import uuid4
@@ -174,6 +175,7 @@ class Review(models.Model):
     album_id = models.ForeignKey(
         Album, on_delete=models.CASCADE, related_name="reviews")
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField()
 
     def __str__(self) -> str:
         return f"{self.reviewer_id} - {self.album_id}"
@@ -181,6 +183,7 @@ class Review(models.Model):
     def save(self, *args, **kwargs):
         if not self.review_text:
             self.review_text = None
+        self.updated_at = timezone.now()
         super(Review, self).save(*args, **kwargs)
 
 

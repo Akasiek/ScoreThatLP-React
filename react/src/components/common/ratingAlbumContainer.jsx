@@ -41,7 +41,7 @@ const RatingAlbumContainer = ({ review, isReviewDateHidden }) => {
                     <h3>{review.album.title}</h3>
                 </Link>
                 {isReviewDateHidden || (
-                    <h4 title={moment(review.created_at).format("YYYY-MM-DD HH:MM:ss")}>Rated {moment(review.created_at).fromNow()}</h4>
+                    <h4 title={moment(review.updated_at).format("YYYY-MM-DD HH:MM:ss")}>Rated {moment(review.updated_at).fromNow()}</h4>
                 )}
             </div>
 

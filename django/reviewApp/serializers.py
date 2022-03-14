@@ -258,7 +258,8 @@ class ReviewSerializer(serializers.ModelSerializer):
             "review_text",
             "album_id",
             "album",
-            "created_at"
+            "created_at",
+            "updated_at"
         ]
 
     def create(self, validated_data):
