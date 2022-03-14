@@ -6,7 +6,7 @@ import moment from "moment";
 
 import ContentGroup from "./common/contentGroup";
 import { Main } from "../App";
-import { getAOTY, getFakeAOTY, getNewReleases, getNewSingles } from "./../services/albumService";
+import { getFakeAOTY, getNewReleases, getNewSingles } from "./../services/albumService";
 import { getArtists } from "./../services/artistService";
 import LoadingScreen from "./loadingScreen";
 import { StyledContentGroupPage } from "./albums";
