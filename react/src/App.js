@@ -51,7 +51,7 @@ const theme = {
 const StyledToastContainer = styled(ToastContainer)`
     /* Toastify style */
     --toastify-font-family: "Montserrat";
-    --toastify-color-dark: var(--darkBlueColor);
+    --toastify-color-dark: var(--lightBlueColor);
     --toastify-text-color-dark: var(--lightColor);
 `;
 
