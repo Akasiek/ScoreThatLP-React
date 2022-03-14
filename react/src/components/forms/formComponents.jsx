@@ -111,7 +111,6 @@ const StyledFileInput = styled.div`
 `;
 
 const StyledSelect = styled.div`
-    .css-1pcxlbb-ValueContainer {
         font-size: clamp(1rem, 1.5vw, 1.5rem);
         padding: 0.35rem 0.5rem;
         font-weight: normal;

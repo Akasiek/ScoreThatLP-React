@@ -21,7 +21,6 @@ export const selectStyles = {
 
     valueContainer: (provided, state) => ({
         ...provided,
-        backgroundColor: "#16213e",
         color: "#edf7f6",
         marginLeft: 10,
     }),
@@ -29,6 +28,7 @@ export const selectStyles = {
     singleValue: (provided, state) => ({
         ...provided,
         color: "#edf7f6",
+        fontWeight: "normal",
     }),
 
     dropdownIndicator: (provided, state) => ({
