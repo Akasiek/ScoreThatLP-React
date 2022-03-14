@@ -17,12 +17,11 @@ const StyledNavBar = styled.nav`
     right: 0;
     z-index: 500;
     position: sticky;
-    /* overflow: hidden; */
 `;
 
 const NavBarContainer = styled.div`
     z-index: 200;
-    position: sticky;
+    position: relative;
     background-color: var(--accentColor);
     font-size: 1.5rem;
 
@@ -312,7 +311,6 @@ const NavBar = ({ history }) => {
                     </NavLinks>
                     <BurgerIcon src="/images/burgerMenu.svg" alt="Burger Menu" aria-hidden={true} onClick={toggleMobileMenu} />
                 </NavBarContainer>
-
                 <SearchBar
                     visibleSearchBar={isSearchBarVisible}
                     value={searchQuery}
