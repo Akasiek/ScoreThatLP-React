@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Joi from "joi-browser";
 import { toast } from "react-toastify";
 
-const ReviewFormRating = ({ data, setData, saveUserReview, changeRatingContainerColor }) => {
-    const [savingPrompt, setSavingPrompt] = useState(null);
-    const [timer, setTimer] = useState(null);
-
+const ReviewFormRating = ({ data, setData, onSave, changeRatingContainerColor }) => {
     const schema = {
         rating: Joi.number().integer().min(0).max(100).required().label("Rating"),
     };
@@ -23,8 +20,6 @@ const ReviewFormRating = ({ data, setData, saveUserReview, changeRatingContainer
         newData.rating = input.value;
         setData(newData);
 
-        setSavingPrompt(null);
-
         // Change rating container background color
         changeRatingContainerColor(input.value);
 
@@ -33,7 +28,7 @@ const ReviewFormRating = ({ data, setData, saveUserReview, changeRatingContainer
         if (input.value !== "") errorMessage = validateProperty(input, schema);
         if (errorMessage) toast.error(errorMessage);
 
-        saveUserReview(newData, timer, setTimer, setSavingPrompt, 1000);
+        onSave(newData);
     };
     return (
         <div className="rating" id="ratingContainer">
@@ -42,7 +37,6 @@ const ReviewFormRating = ({ data, setData, saveUserReview, changeRatingContainer
                 <div className="ratingInputContainer">
                     <input type="number" name="rating" min="0" max="100" value={data.rating} onChange={handleRating} />
                 </div>
-                <p className="savingPrompt">{savingPrompt}</p>
             </form>
         </div>
     );

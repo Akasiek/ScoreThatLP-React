@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 import getScoreColor from "../../../utils/scoreColor";
 import ReviewFormRating from "./reviewFormRating";
@@ -156,6 +157,7 @@ const changeRatingContainerColor = (value) => {
 const AlbumPageReviewFormContainer = ({ album, user }) => {
     const [data, setData] = useState({ rating: "", review: "" });
     const [reload, setReload] = useContext(ReloadContext);
+    const [timer, setTimer] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -173,10 +175,14 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
         })();
     }, [album.id, user.id]);
 
-    const saveUserReview = (newData, timer, setTimer, setSavingPrompt, delay) => {
+    const handleSave = (newData) => {
         // Save review
         // Wait a certain time (delay parameter) for user not to press anything. Then start saving.
         clearTimeout(timer);
+
+        // Create toast notification
+        const toastPrompt = toast.loading("Saving...", { toastId: "savingPrompt" });
+
         const newTimer = setTimeout(async () => {
             // Check if user has already rated this album
             const respond = await getReviewerAlbumRating(user.id, album.id);
@@ -186,7 +192,6 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
                     // If there is a rating...
                     if (newData.rating !== "") {
                         // ...And new rating isn't null, update it
-                        setSavingPrompt("Saving...");
                         return saveReview(
                             {
                                 rating: newData.rating !== "" ? newData.rating : null,
@@ -197,15 +202,14 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
                         );
                     } else if (newData.rating === "" && newData.review === "") {
                         // ...And new rating and new review text is null, delete the rating in DB
-                        setSavingPrompt("Saving...");
                         return deleteReview(respond.data[0].id);
                     }
+                    return null;
                 } else if (respond.data.length === 0) {
                     // If there is no rating...
                     if (newData.rating !== "") {
                         // ...And new rating isn't null, create it.
                         // To prevent making reviews without score
-                        setSavingPrompt("Saving...");
                         return createReview({
                             rating: newData.rating !== "" ? newData.rating : null,
                             review_text: newData.review !== "" ? newData.review : null,
@@ -216,21 +220,53 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
                 }
             };
 
-            const newRespond = await getMethod();
-            if (newRespond) setSavingPrompt("Saved");
+            try {
+                // Fulfill the promise you get from getMethod()
+                const newRespond = await getMethod();
+
+                // Updated toast notification according to respond
+                if (newRespond)
+                    toast.update(toastPrompt, {
+                        render: "Review saved 👌",
+                        type: "success",
+                        isLoading: false,
+                        autoClose: 3000,
+                        toastId: "successPrompt",
+                    });
+                else {
+                    toast.update(toastPrompt, {
+                        render: "Error: rating cannot be null when review is set",
+                        type: "error",
+                        isLoading: false,
+                        autoClose: 3000,
+                        toastId: "errorPrompt",
+                    });
+                }
+            } catch (ex) {
+                if (ex.response) {
+                    console.log(ex.response);
+                    toast.update(toastPrompt, {
+                        render: `Error: ${ex.response.statusText}`,
+                        type: "error",
+                        isLoading: false,
+                        autoClose: 3000,
+                        toastId: "errorPrompt",
+                    });
+                }
+            }
 
             // Reload album and reviews info on album page
             setReload(!reload);
 
             setTimer(null);
-        }, delay);
+        }, 1000);
         setTimer(newTimer);
     };
 
     return (
         <StyledReviewForm>
-            <ReviewFormRating data={data} setData={setData} saveUserReview={saveUserReview} changeRatingContainerColor={changeRatingContainerColor} />
-            <ReviewFormReviewText data={data} setData={setData} saveUserReview={saveUserReview} />
+            <ReviewFormRating data={data} setData={setData} onSave={handleSave} changeRatingContainerColor={changeRatingContainerColor} />
+            <ReviewFormReviewText data={data} setData={setData} onSave={handleSave} />
         </StyledReviewForm>
     );
 };
