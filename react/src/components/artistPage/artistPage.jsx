@@ -10,15 +10,21 @@ import LoadingScreen from "./../loadingScreen";
 
 const StyledArtistPage = styled.div``;
 
-const ArtistPage = ({ match }) => {
+const ArtistPage = ({ match, history }) => {
     const [artist, setArtist] = useState(null);
 
     useEffect(() => {
         (async () => {
-            const { data: artist } = await getArtist(match.params.slug);
-            setArtist(artist);
+            try {
+                const { data: artist } = await getArtist(match.params.slug);
+                setArtist(artist);
+            } catch (ex) {
+                if (ex.response && ex.response.status === 404) {
+                    history.push("/not-found");
+                }
+            }
         })();
-    }, [match.params.slug]);
+    }, [match.params.slug, history]);
 
     return artist !== null ? (
         <StyledArtistPage>

@@ -10,15 +10,16 @@ import LoadingScreen from "../loadingScreen";
 
 const StyledProfilePage = styled.div``;
 
-const ProfilePage = ({ match }) => {
+const ProfilePage = ({ match, history }) => {
     const [reviewer, setReviewer] = useState(null);
 
     useEffect(() => {
         (async () => {
             const { data: reviewer } = await getReviewerByUsername(match.params.username);
-            setReviewer(reviewer[0]);
+            if (reviewer.length === 0) history.push("/not-found");
+            else setReviewer(reviewer[0]);
         })();
-    }, [match.params.username]);
+    }, [match.params.username, history]);
 
     return reviewer ? (
         <React.Fragment>
