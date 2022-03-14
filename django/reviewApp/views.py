@@ -128,7 +128,7 @@ class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     permission_classes = [IsAuthenticatedOrReadOnly]
-    ordering_fields = ['created_at']
+    ordering_fields = ['created_at', 'updated_at']
     filterset_fields = {
         "album_id": ["exact"],
         "album_id__artist_id__slug": ["exact"],
