@@ -163,7 +163,9 @@ const Footer = () => {
                     )}
                 </div>
                 <div className="infoContainer">
-                    <div className="copyRightContainer">ScoreThatLP &copy; {moment().format("YYYY")}</div>
+                    <div className="copyRightContainer">
+                        <a href="https://github.com/Akasiek/ScoreThatLP">ScoreThatLP</a> &copy; {moment().format("YYYY")}
+                    </div>
 
                     <div className="madeWithContainer">
                         Made with 💜 using <a href="https://reactjs.org/">React</a> | <a href="https://www.djangoproject.com/">django</a> |{" "}
