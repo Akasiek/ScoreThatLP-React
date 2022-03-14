@@ -111,18 +111,17 @@ const StyledFileInput = styled.div`
 `;
 
 const StyledSelect = styled.div`
-        font-size: clamp(1rem, 1.5vw, 1.5rem);
-        padding: 0.35rem 0.5rem;
-        font-weight: normal;
-        border-radius: 25px;
-        #react-select-3-input {
-            color: var(--lightColor) !important;
-        }
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    padding: 0.35rem 0.5rem;
+    font-weight: normal;
+    border-radius: 25px;
+    #react-select-3-input {
+        color: var(--lightColor) !important;
+    }
 
-        &:focus-visible {
-            outline: none;
-            box-shadow: 0 0 1.5rem -0.25rem var(--accentColor);
-        }
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 1.5rem -0.25rem var(--accentColor);
     }
 `;
 
