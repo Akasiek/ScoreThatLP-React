@@ -38,8 +38,8 @@ const ArtistForm = ({ history }) => {
 
         apiData.append("created_by", currentReviewer.id);
 
-        await saveArtist(apiData);
-        history.push("/artists/");
+        const { data: createArtist } = await saveArtist(apiData);
+        history.push(`/artists/${createArtist.slug}`);
     };
 
     return (

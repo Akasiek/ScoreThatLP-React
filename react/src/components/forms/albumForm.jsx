@@ -75,8 +75,8 @@ const AlbumForm = ({ history, match }) => {
         if (artCover.url) apiData.append("art_cover_url", artCover.url);
         apiData.append("created_by", currentReviewer.id);
 
-        await saveAlbum(apiData);
-        history.push("/albums/");
+        const { data: createAlbum } = await saveAlbum(apiData);
+        history.push(`/albums/${createAlbum.id}`);
     };
 
     return (
