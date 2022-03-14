@@ -81,7 +81,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.created_at);
+                        return moment(o.updated_at);
                     },
                     ["desc"]
                 );
@@ -91,7 +91,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.created_at);
+                        return moment(o.updated_at);
                     },
                     ["asc"]
                 );
