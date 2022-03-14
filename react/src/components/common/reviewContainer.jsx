@@ -22,10 +22,13 @@ const StyledReviewContainer = styled.div`
         flex-direction: row;
         align-items: center;
         padding: 1rem;
+
+        color: var(--darkBlueColor);
+        transition: background-color 0.3s ease-in-out;
+
         @media (max-width: ${({ theme }) => theme.mobile}) {
             padding: 0.5rem;
         }
-        color: var(--darkBlueColor);
 
         h2 {
             font-size: clamp(1rem, 2vw, 1.5rem);

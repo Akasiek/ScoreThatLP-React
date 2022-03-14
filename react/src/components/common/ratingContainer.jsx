@@ -13,6 +13,7 @@ const StyledRatingContainer = styled.div`
     padding: 1.5rem 0;
 
     color: var(--darkBlueColor);
+    transition: background-color 0.3s ease-in-out;
 
     h2 {
         font-size: clamp(1.25rem, 2.5vw, 1.7rem);
