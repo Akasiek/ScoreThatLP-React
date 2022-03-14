@@ -45,6 +45,7 @@ export const StyledTracksForm = styled.div`
             }
 
             .closeIcon {
+                cursor: pointer;
                 padding: 1rem;
                 height: clamp(1.25rem, 2vw, 2rem);
             }
