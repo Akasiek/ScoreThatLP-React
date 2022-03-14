@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
-import { scroller } from "react-scroll";
 import ShowMoreText from "react-show-more-text";
 
 // import Like from "./like";
@@ -174,18 +173,11 @@ const StyledReviewContainer = styled.div`
 const ReviewContainer = ({ review, isOutsideAlbum }) => {
     const showMoreTextRef = useRef(null);
 
-    const handleExpand = (isExpanded) => {
-        if (!isExpanded) {
-            scroller.scrollTo(showMoreTextRef.current.className, {
-                smooth: "easeInOut",
-                offset: -150,
-                duration: 750,
-            });
-        }
-    };
+    // Scroll to review after collapsing "Show more"
+    const handleExpand = (isExpanded) => !isExpanded && showMoreTextRef.current.scrollIntoView({ block: "center" });
 
     return (
-        <StyledReviewContainer ref={showMoreTextRef}>
+        <StyledReviewContainer>
             {review.album && isOutsideAlbum && (
                 <div className="reviewAlbumContainer">
                     <div className="albumCoverContainer">
@@ -214,7 +206,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
                 </Link>
                 <h2>{review.rating}</h2>
             </div>
-            <div className="reviewContainer">
+            <div className="reviewContainer" ref={showMoreTextRef}>
                 <p className="reviewHeaderText">Review</p>
                 <ShowMoreText
                     lines={4}
