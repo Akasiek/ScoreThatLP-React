@@ -244,7 +244,6 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
                 }
             } catch (ex) {
                 if (ex.response) {
-                    console.log(ex.response);
                     toast.update(toastPrompt, {
                         render: `Error: ${ex.response.statusText}`,
                         type: "error",
