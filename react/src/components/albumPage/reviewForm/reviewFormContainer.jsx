@@ -180,12 +180,12 @@ const AlbumPageReviewFormContainer = ({ album, user }) => {
         // Wait a certain time (delay parameter) for user not to press anything. Then start saving.
         clearTimeout(timer);
 
+        // Create toast notification
+        const toastPrompt = toast.loading("Saving...", { toastId: "savingPrompt" });
+
         const newTimer = setTimeout(async () => {
             // Check if user has already rated this album
             const respond = await getReviewerAlbumRating(user.id, album.id);
-
-            // Create toast notification
-            const toastPrompt = toast.loading("Saving...", { toastId: "savingPrompt" });
 
             const getMethod = () => {
                 if (respond.data.length > 0) {
