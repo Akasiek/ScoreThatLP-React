@@ -15,11 +15,12 @@ from .serializers import (
     ArtistSerializer,
     CreateAlbumSerializer,
     ReviewSerializer,
+    ReviewerLinkSerializer,
     ReviewerSerializer,
     SimpleAlbumSerializer,
     TrackSerializer,
 )
-from .models import Album, AlbumLink, Artist, Review, Reviewer, Track
+from .models import Album, AlbumLink, Artist, Review, Reviewer, ReviewerLink, Track
 from .permissions import IsAdminOrPostOnly, IsAdminOrReadOnly
 
 
@@ -54,6 +55,12 @@ class ReviewerViewSet(ModelViewSet):
         if (str(obj) != str(request.user)):
             return Response(data={'message': "User cannot delete another user"}, status=status.HTTP_401_UNAUTHORIZED)
         return super().destroy(request, *args, **kwargs)
+
+
+class ReviewerLinkViewSet(ModelViewSet):
+    queryset = ReviewerLink.objects.all()
+    serializer_class = ReviewerLinkSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class ArtistViewSet(ModelViewSet):

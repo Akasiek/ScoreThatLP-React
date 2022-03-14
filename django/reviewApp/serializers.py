@@ -191,7 +191,21 @@ class FavoriteReviewerArtistSerializer(serializers.ModelSerializer):
 class ReviewerLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReviewerLink
-        fields = ["service_name", "url"]
+        fields = ["id", "reviewer_id", "service_name", "url"]
+
+    def create(self, validated_data):
+        print(self.context["request"].user,
+              self.validated_data["reviewer_id"])
+        if str(self.context["request"].user) != str(self.validated_data["reviewer_id"]):
+            raise serializers.ValidationError(
+                'User cannot create diffrent user links')
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if str(self.context["request"].user) != str(self.validated_data["reviewer_id"]):
+            raise serializers.ValidationError(
+                'User cannot update another user links')
+        return super().update(instance, validated_data)
 
 
 class ReviewerSerializer(serializers.ModelSerializer):
