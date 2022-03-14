@@ -25,7 +25,7 @@ const SettingsForm = ({ history }) => {
         event.preventDefault();
 
         let apiData = new FormData();
-        if (data.about_text !== "") apiData.append("about_text", data.about_text);
+        apiData.append("about_text", data.about_text);
         if (profilePic.file) apiData.append("profile_pic", profilePic.file);
         if (profilePic.url) apiData.append("profile_pic_url", profilePic.url);
         apiData.append("user", currentReviewer.user);
