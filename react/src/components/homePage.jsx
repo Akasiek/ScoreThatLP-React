@@ -6,7 +6,7 @@ import moment from "moment";
 
 import ContentGroup from "./common/contentGroup";
 import { Main } from "../App";
-import { getAOTY, getNewReleases, getNewSingles } from "./../services/albumService";
+import { getAOTY, getFakeAOTY, getNewReleases, getNewSingles } from "./../services/albumService";
 import { getArtists } from "./../services/artistService";
 import LoadingScreen from "./loadingScreen";
 import { StyledContentGroupPage } from "./albums";
@@ -128,8 +128,12 @@ const HomePage = () => {
 
     useEffect(() => {
         (async () => {
-            const { data: aoty } = await getAOTY();
-            setAOTY(aoty);
+            const { data: aoty } = await getFakeAOTY();
+            const newAOTY = aoty.filter((a) => a.overall_score !== null);
+            newAOTY.forEach((a, index) => {
+                a.position = index + 1;
+            });
+            setAOTY(newAOTY);
 
             let { data: newReleases } = await getNewReleases();
             newReleases = newReleases.filter((a) => moment(a.release_date) < moment());

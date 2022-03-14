@@ -76,8 +76,13 @@ class AlbumViewSet(ModelViewSet):
 
     permission_classes = [IsAdminOrPostOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    ordering_fields = ["id", "title", "release_date"]
+    ordering_fields = ["id", "title", "release_date", "overall_score"]
     filterset_fields = ("release_type", "artist_id__slug")
+    filterset_fields = {
+        "release_type": ["exact"],
+        "artist_id__slug": ["exact"],
+        "release_date": ["gte", "lte"]
+    }
     search_fields = ["title", "artist_id__name"]
 
     def get_serializer_class(self):

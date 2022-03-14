@@ -41,3 +41,7 @@ export const getNewSingles = () => {
 export const searchAlbums = (query) => {
     return http.get(`${apiEndpoint}/?search=${query}`);
 };
+
+export const getFakeAOTY = () => {
+    return http.get(`${apiEndpoint}?ordering=-overall_score&release_date__gte=2022-01-01&release_date__lte=2022-12-31&release_type=LP`);
+};

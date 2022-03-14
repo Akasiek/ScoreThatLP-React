@@ -3,16 +3,20 @@ import { Helmet } from "react-helmet";
 import { Main } from "../App";
 import { StyledContentGroupPage } from "./albums";
 import ContentGroup from "./common/contentGroup";
-import { getAOTY } from "../services/albumService";
+import { getFakeAOTY } from "../services/albumService";
 import LoadingScreen from "./loadingScreen";
 
 const AOTY = () => {
-    const [aoty, setAoty] = useState(null);
+    const [aoty, setAOTY] = useState(null);
 
     useEffect(() => {
         (async () => {
-            const { data: aoty } = await getAOTY();
-            setAoty(aoty);
+            const { data: aoty } = await getFakeAOTY();
+            const newAOTY = aoty.filter((a) => a.overall_score !== null);
+            newAOTY.forEach((a, index) => {
+                a.position = index + 1;
+            });
+            setAOTY(newAOTY);
         })();
     }, []);
 
