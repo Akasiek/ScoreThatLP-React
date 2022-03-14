@@ -2,7 +2,6 @@ import React from "react";
 import _ from "lodash";
 
 const AlbumPageAsideTracks = ({ album }) => {
-    // TODO!
     const trimDuration = (duration) => {
         let splitDuration = duration.split(":");
         if (splitDuration[0] === "00") {
