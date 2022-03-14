@@ -93,17 +93,6 @@ WSGI_APPLICATION = "ScoreThatLP.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": "scorethatlp",
-#         "HOST": "localhost",
-#         "USER": "root",
-#         "PASSWORD": get_config("DB_PASSWORD"),
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -112,6 +101,9 @@ DATABASES = {
         'PASSWORD': env('DATABASE_PASSWORD'),
         'HOST': env('DATABASE_HOST'),
         'PORT': env('DATABASE_PORT'),
+        'OPTIONS': {
+            'client_encoding': 'UTF-8',
+        },
     }
 }
 
