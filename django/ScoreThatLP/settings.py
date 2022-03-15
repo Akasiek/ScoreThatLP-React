@@ -160,7 +160,8 @@ AUTH_USER_MODEL = "core.User"
 # CORS Headers Settings
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://scorethatlp.herokuapp.com"
+    "https://scorethatlp.herokuapp.com",
+    "http://scorethatlp.herokuapp.com"
 ]
 
 CORS_ALLOW_HEADERS = [
