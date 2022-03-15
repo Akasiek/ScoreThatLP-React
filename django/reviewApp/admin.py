@@ -11,19 +11,20 @@ class ReviewerAdmin(admin.ModelAdmin):
 
 @admin.register(models.Album)
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ["title"]
+    list_display = ["title", "artist_id", "created_at", "created_by"]
     ordering = ["title"]
     list_per_page = 30
     prepopulated_fields = {
         "slug": ["title"]
     }
+    list_select_related = ["artist_id", "created_by"]
     autocomplete_fields = ["artist_id"]
-    search_fields = ["title__istartswith"]
+    search_fields = ["title__istartswith", "created_by"]
 
 
 @admin.register(models.Artist)
 class ArtistAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+    list_display = ["name", "created_at", "created_by"]
     ordering = ["name"]
     list_per_page = 30
     prepopulated_fields = {
