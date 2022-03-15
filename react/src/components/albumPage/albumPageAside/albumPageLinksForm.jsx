@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { saveAlbumLink } from "../../../services/albumService";
+import { LinkInputComponent } from "../../forms/formComponents";
 import { StyledTracksForm } from "./albumPageTracksForm";
 
 const StyledLinksForm = styled(StyledTracksForm)`
@@ -9,39 +10,11 @@ const StyledLinksForm = styled(StyledTracksForm)`
         flex-direction: column;
         gap: clamp(1.5rem, 2vw, 2rem);
         margin: clamp(1.5rem, 2vw, 2rem);
-        .inputContainer {
-            display: flex;
-            gap: clamp(1.5rem, 2vw, 2rem);
-            align-items: center;
-            img {
-                height: clamp(1.5rem, 2.25vw, 2.25rem);
-            }
-            input {
-                font-size: clamp(0.9rem, 1.1vw, 1.1rem);
-                width: clamp(9rem, 25vw, 25rem);
-                padding: 0.5rem 0.75rem;
-            }
-        }
     }
 `;
 
-const LinkInputContainer = ({ name, label, value, onChange }) => {
-    return (
-        <div className="inputContainer">
-            <img src={`/images/serviceIcons/${name}.svg`} alt={`${label} logo`} />
-            <input type="text" name={name} className="linkInput" value={value} onChange={onChange} placeholder={`${label} link`} />
-        </div>
-    );
-};
-
 const AlbumPageLinksForm = ({ album, setVisibility }) => {
-    const [links, setLinks] = useState({ spotify: "", tidal: "", amazonMusic: "", appleMusic: "" });
-
-    const handleChange = ({ currentTarget: input }) => {
-        const newLinks = { ...links };
-        newLinks[input.name] = input.value;
-        setLinks(newLinks);
-    };
+    const [links, setLinks] = useState({ spotify: "", tidal: "", amazon_music: "", apple_music: "" });
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -69,10 +42,10 @@ const AlbumPageLinksForm = ({ album, setVisibility }) => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="inputsContainer">
-                        <LinkInputContainer name="spotify" label="Spotify" value={links.spotify} onChange={handleChange} />
-                        <LinkInputContainer name="tidal" label="Tidal" value={links.tidal} onChange={handleChange} />
-                        <LinkInputContainer name="amazonMusic" label="Amazon Music" value={links.amazonMusic} onChange={handleChange} />
-                        <LinkInputContainer name="appleMusic" label="Apple Music" value={links.appleMusic} onChange={handleChange} />
+                        <LinkInputComponent name="spotify" label="Spotify" links={links} setLinks={setLinks} />
+                        <LinkInputComponent name="tidal" label="Tidal" links={links} setLinks={setLinks} />
+                        <LinkInputComponent name="amazon_music" label="Amazon Music" links={links} setLinks={setLinks} />
+                        <LinkInputComponent name="apple_music" label="Apple Music" links={links} setLinks={setLinks} />
                     </div>
                     <div className="buttonsContainer">
                         <input type="submit" className="submitButton" value="Save Links" />

@@ -53,7 +53,7 @@ class ReviewerLink(models.Model):
     SERVICE_NAME_CHOICES = [
         ("spotify", "Spotify"),
         ("twitter", "Twitter"),
-        ("lastFm", "Last.FM"),
+        ("last_fm", "Last.FM"),
     ]
 
     service_name = models.CharField(
@@ -132,8 +132,8 @@ class AlbumLink(models.Model):
     SERVICE_NAME_CHOICES = [
         ("spotify", "Spotify"),
         ("tidal", "Tidal"),
-        ("amazonMusic", "Amazon Music"),
-        ("appleMusic", "Apple Music"),
+        ("amazon_music", "Amazon Music"),
+        ("apple_music", "Apple Music"),
     ]
 
     service_name = models.CharField(

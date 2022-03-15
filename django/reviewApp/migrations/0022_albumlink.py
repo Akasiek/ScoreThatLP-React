@@ -14,10 +14,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AlbumLink',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('service_name', models.CharField(choices=[('spotify', 'Spotify'), ('tidal', 'Tidal'), ('amazonMusic', 'Amazon Music'), ('appleMusic', 'Apple Music')], max_length=15)),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
+                ('service_name', models.CharField(choices=[('spotify', 'Spotify'), ('tidal', 'Tidal'), (
+                    'amazon_music', 'Amazon Music'), ('apple_music', 'Apple Music')], max_length=15)),
                 ('url', models.CharField(max_length=255)),
-                ('album_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='album_links', to='reviewApp.album')),
+                ('album_id', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT,
+                 related_name='album_links', to='reviewApp.album')),
             ],
         ),
     ]
