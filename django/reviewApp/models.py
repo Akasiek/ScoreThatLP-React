@@ -175,7 +175,7 @@ class Review(models.Model):
     album_id = models.ForeignKey(
         Album, on_delete=models.CASCADE, related_name="reviews")
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField()
+    updated_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.reviewer_id} - {self.album_id}"
