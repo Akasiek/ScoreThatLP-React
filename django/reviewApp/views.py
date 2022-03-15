@@ -14,13 +14,14 @@ from .serializers import (
     AlbumSerializer,
     ArtistSerializer,
     CreateAlbumSerializer,
+    FavoriteReviewerArtistSerializer,
     ReviewSerializer,
     ReviewerLinkSerializer,
     ReviewerSerializer,
     SimpleAlbumSerializer,
     TrackSerializer,
 )
-from .models import Album, AlbumLink, Artist, Review, Reviewer, ReviewerLink, Track
+from .models import Album, AlbumLink, Artist, FavoriteReviewerArtist, Review, Reviewer, ReviewerLink, Track
 from .permissions import IsAdminOrPostOnly, IsAdminOrReadOnly
 
 
@@ -61,6 +62,25 @@ class ReviewerLinkViewSet(ModelViewSet):
     queryset = ReviewerLink.objects.all()
     serializer_class = ReviewerLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def destroy(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if (str(obj.reviewer_id) != str(request.user)):
+            return Response(data={'message': "User cannot delete another user links"}, status=status.HTTP_401_UNAUTHORIZED)
+        return super().destroy(request, *args, **kwargs)
+
+
+class FavoriteReviewerArtistViewSet(ModelViewSet):
+    queryset = FavoriteReviewerArtist.objects.select_related(
+        "reviewer_id", "reviewer_id__user", "artist_id")
+    serializer_class = FavoriteReviewerArtistSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def destroy(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if (str(obj.reviewer_id) != str(request.user)):
+            return Response(data={'message': "User cannot delete another user favorite artist"}, status=status.HTTP_401_UNAUTHORIZED)
+        return super().destroy(request, *args, **kwargs)
 
 
 class ArtistViewSet(ModelViewSet):

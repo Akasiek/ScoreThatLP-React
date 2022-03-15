@@ -15,6 +15,8 @@ router.register("album_of_the_year", views.AlbumOfTheYearViewSet,
 router.register("reviewers", views.ReviewerViewSet, basename="reviewers")
 router.register("reviewer_links", views.ReviewerLinkViewSet,
                 basename="reviewer_links")
+router.register("favorite_reviewer_artist", views.FavoriteReviewerArtistViewSet,
+                basename="favorite_reviewer_artist")
 router.register("reviews", views.ReviewViewSet, basename="reviews")
 
 urlpatterns = router.urls

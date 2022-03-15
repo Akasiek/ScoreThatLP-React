@@ -182,10 +182,26 @@ class FavoriteArtistSerializer(serializers.ModelSerializer):
 
 class FavoriteReviewerArtistSerializer(serializers.ModelSerializer):
     artist = FavoriteArtistSerializer(source="artist_id", read_only=True)
+    reviewer = serializers.StringRelatedField(
+        source="reviewer_id", read_only=True)
 
     class Meta:
         model = FavoriteReviewerArtist
-        fields = ["artist_id", "artist"]
+        fields = ["id", "reviewer_id", "reviewer", "artist_id", "artist"]
+
+    def create(self, validated_data):
+        print(self.context["request"].user,
+              self.validated_data["reviewer_id"])
+        if str(self.context["request"].user) != str(self.validated_data["reviewer_id"]):
+            raise serializers.ValidationError(
+                'User cannot create diffrent user favorite artist')
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if str(self.context["request"].user) != str(self.validated_data["reviewer_id"]):
+            raise serializers.ValidationError(
+                'User cannot update another user favorite artist')
+        return super().update(instance, validated_data)
 
 
 class ReviewerLinkSerializer(serializers.ModelSerializer):
