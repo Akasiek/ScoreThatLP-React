@@ -164,7 +164,8 @@ const Footer = () => {
                 </div>
                 <div className="infoContainer">
                     <div className="copyRightContainer">
-                        <a href="https://github.com/Akasiek/ScoreThatLP">ScoreThatLP</a> &copy; {moment().format("YYYY")}
+                        <a href="https://github.com/Akasiek/ScoreThatLP">ScoreThatLP</a> &copy;{" "}
+                        <a href="https://youtu.be/dQw4w9WgXcQ">{moment().format("YYYY")}</a>
                     </div>
 
                     <div className="madeWithContainer">
