@@ -55,6 +55,8 @@ const AlbumForm = ({ history, match }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.params.slug]);
 
+    console.log(currentReviewer);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const errors = validate(data, schema);
@@ -73,6 +75,7 @@ const AlbumForm = ({ history, match }) => {
         }
         if (artCover.file) apiData.append("art_cover", artCover.file);
         if (artCover.url) apiData.append("art_cover_url", artCover.url);
+
         apiData.append("created_by", currentReviewer.id);
 
         const { data: createAlbum } = await saveAlbum(apiData);

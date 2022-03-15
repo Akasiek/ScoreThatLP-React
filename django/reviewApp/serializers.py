@@ -110,7 +110,8 @@ class CreateAlbumSerializer(serializers.ModelSerializer):
             "art_cover",
             "art_cover_url",
             "release_date",
-            "release_type"
+            "release_type",
+            "created_by"
         ]
 
     def create(self, validated_data):
