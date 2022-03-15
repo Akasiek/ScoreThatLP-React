@@ -48,7 +48,6 @@ const AlbumPageAsideTracks = ({ album }) => {
                     <div key={index} className="trackContainer">
                         <p className="trackPosition">{t.position}.</p>
                         <p className="trackTitle">{t.title}</p>
-                        {/* <p className="trackDuration">{moment(t.duration, [moment.ISO_8601, "HH:MM:ss"]).format("MM:ss")}</p> */}
                         <p className="trackDuration">{trimDuration(t.duration)}</p>
                     </div>
                 );

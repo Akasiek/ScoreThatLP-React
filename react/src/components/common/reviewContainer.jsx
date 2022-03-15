@@ -222,7 +222,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
                 >
                     {review.review_text}
                 </ShowMoreText>
-                <p title={moment(review.updated_at).format("YYYY-MM-DD HH:MM:ss")} className="creationTimeText">
+                <p title={moment(review.updated_at).format("YYYY-MM-DD HH:mm:ss")} className="creationTimeText">
                     {moment(review.updated_at).fromNow()}
                 </p>
                 {/* <Like content={review} />  */}
