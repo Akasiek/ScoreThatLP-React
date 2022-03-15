@@ -160,15 +160,7 @@ AUTH_USER_MODEL = "core.User"
 # CORS Headers Settings
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-]
-
-CORS_ALLOW_METHODS = [
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
+    "https://scorethatlp.herokuapp.com"
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -181,7 +173,7 @@ CORS_ALLOW_HEADERS = [
     "user-agent",
     "x-csrftoken",
     "x-requested-with",
-    "sentry-trace"
+    "sentry-trace",
 ]
 
 # Rest Framework Settings
