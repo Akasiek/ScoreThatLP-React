@@ -141,7 +141,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.created_at);
+                        return moment(o.updated_at);
                     },
                     ["desc"]
                 );
@@ -267,7 +267,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.created_at);
+                        return moment(o.updated_at);
                     },
                     ["desc"]
                 );
@@ -277,7 +277,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.created_at);
+                        return moment(o.updated_at);
                     },
                     ["asc"]
                 );
@@ -287,7 +287,7 @@ export default function sort(content, contentType, sorting) {
                 content = _.orderBy(
                     content,
                     (o) => {
-                        return moment(o.created_at);
+                        return moment(o.updated_at);
                     },
                     ["desc"]
                 );
@@ -325,8 +325,8 @@ export function getSortOptions(contentType) {
             { value: "oldest", label: "Oldest" },
             { value: "highest-score", label: "Highest score" },
             { value: "lowest-score", label: "Lowest score" },
-            { value: "most-liked", label: "Most liked" },
-            { value: "least-liked", label: "Least liked" },
+            // { value: "most-liked", label: "Most liked" },
+            // { value: "least-liked", label: "Least liked" },
         ];
     }
 
