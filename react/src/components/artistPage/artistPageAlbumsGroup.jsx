@@ -41,9 +41,9 @@ const ArtistPageAlbumsGroup = ({ artist }) => {
                         contentType="albums"
                         showPlaceholderWhenEmpty={true}
                         albumIsInArtistPage={true}
-                        colSize={[5, 2, 2]}
+                        colSize={[5, 3, 2]}
                         isPaginationEnabled={true}
-                        contentPageSize={10}
+                        contentPageSize={15}
                         isSortingEnabled={true}
                     />
                 );
