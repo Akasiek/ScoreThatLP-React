@@ -18,13 +18,15 @@ const ProfilePageReviewsContainer = ({ reviewer }) => {
         })();
     }, [reviewer.id]);
 
+    console.log(latestRatings);
+
     return latestRatings && latestReviews ? (
         <StyledContentGroupPage>
             <ContentGroup
                 title="Favorite albums"
                 className="contentGroup"
                 content={_.orderBy(
-                    latestRatings,
+                    latestRatings.filter((r) => r.album.release_type === "LP"),
                     (r) => {
                         return r.rating;
                     },

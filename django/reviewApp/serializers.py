@@ -171,6 +171,7 @@ class ReviewAlbumSerializer(serializers.ModelSerializer):
             "art_cover",
             "art_cover_url",
             "release_date",
+            "release_type",
             "artist"
         ]
 
