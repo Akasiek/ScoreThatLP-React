@@ -172,13 +172,38 @@ const StyledTextArea = styled.div`
         border-radius: 25px;
         color: var(--lightColor);
         padding: 1rem;
-        height: 7rem;
-        width: clamp(20rem, 40vw, 40rem);
-        transition: all 0.2s ease-in-out;
+        min-height: 7rem;
+        width: 90%;
+        max-width: 40rem;
+        transition: box-shadow 0.2s ease-in-out;
         &:focus {
             outline: none;
             box-shadow: 0 0 1.5rem -0.25rem var(--accentColor);
         }
+    }
+`;
+
+const StyledLinkInput = styled.div`
+    display: flex;
+    gap: clamp(1.5rem, 2vw, 2rem);
+    align-items: center;
+
+    img {
+        height: clamp(1.5rem, 2.25vw, 2.25rem);
+    }
+    input {
+        font-family: "Montserrat";
+        border: none;
+        outline: none;
+        font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+        width: clamp(9rem, 25vw, 25rem);
+        padding: 0.5rem 0.75rem;
+
+        background-color: var(--darkBlueColor);
+        color: var(--lightColor);
+
+        border: 1px solid var(--accentColor);
+        border-radius: 25px;
     }
 `;
 
@@ -267,6 +292,21 @@ export const TextAreaComponent = ({ name, label, data, setData, placeholder }) =
             <p className="label">{label}</p>
             <textarea value={data[name]} onChange={handleChange} placeholder={placeholder} />
         </StyledTextArea>
+    );
+};
+
+export const LinkInputComponent = ({ name, label, links, setLinks }) => {
+    const handleChange = ({ currentTarget: input }) => {
+        const newLinks = { ...links };
+        newLinks[input.name] = input.value;
+        setLinks(newLinks);
+    };
+
+    return (
+        <StyledLinkInput>
+            <img src={`/images/serviceIcons/${name}.svg`} alt={`${label} logo`} />
+            <input type="text" name={name} className="linkInput" value={links[name]} onChange={handleChange} placeholder={`${label} link`} />
+        </StyledLinkInput>
     );
 };
 
