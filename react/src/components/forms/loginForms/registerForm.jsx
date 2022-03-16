@@ -12,11 +12,12 @@ import { Link } from "react-router-dom";
 const RegisterForm = ({ history }) => {
     const [data, setData] = useState({ username: "", email: "", password: "" });
     const [errors, setErrors] = useState({});
-    const setReviewer = useContext(ReviewerContext)[1];
+    const [currentReviewer, setReviewer] = useContext(ReviewerContext);
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
+        if (currentReviewer) history.push("/");
+    }, [currentReviewer, history]);
 
     const schema = {
         username: Joi.string().required().label("Username"),

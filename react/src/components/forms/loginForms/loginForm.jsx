@@ -70,10 +70,12 @@ const LoginForm = ({ history }) => {
     const [data, setData] = useState({ username: "", password: "" });
     const [errors, setErrors] = useState({});
     const setReviewer = useContext(ReviewerContext)[1];
+    const currentReviewer = useContext(ReviewerContext)[0];
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
+        if (currentReviewer) history.push("/");
+    }, [currentReviewer, history]);
 
     const schema = {
         username: Joi.string().required().label("Username"),
