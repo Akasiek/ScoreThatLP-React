@@ -140,10 +140,10 @@ const Footer = () => {
                             </li>
                         </ul>
                     </div>
-                    {currentReviewer && (
-                        <React.Fragment>
-                            <hr />
-                            <div className="linksContainer">
+                    <hr />
+                    <div className="linksContainer">
+                        {currentReviewer ? (
+                            <React.Fragment>
                                 <h2>Profile</h2>
                                 <ul>
                                     <li>
@@ -158,9 +158,21 @@ const Footer = () => {
                                         </a>
                                     </li>
                                 </ul>
-                            </div>
-                        </React.Fragment>
-                    )}
+                            </React.Fragment>
+                        ) : (
+                            <React.Fragment>
+                                <h2>Profile</h2>
+                                <ul>
+                                    <li>
+                                        <Link to={`/login`}>login</Link>
+                                    </li>
+                                    <li>
+                                        <Link to={`/register`}>register</Link>
+                                    </li>
+                                </ul>
+                            </React.Fragment>
+                        )}
+                    </div>
                 </div>
                 <div className="infoContainer">
                     <div className="copyRightContainer">
