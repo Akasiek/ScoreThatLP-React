@@ -5,292 +5,124 @@ export default function sort(content, contentType, sorting) {
     if (contentType === "albums") {
         switch (sorting?.value) {
             case "newest":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return moment(o.release_date);
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => moment(o.release_date), ["desc"]);
                 break;
 
             case "oldest":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return moment(o.release_date);
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => moment(o.release_date), ["asc"]);
                 break;
 
             case "name-asc":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.title.toLowerCase();
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => o.title.toLowerCase(), ["asc"]);
                 break;
 
             case "name-desc":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.title.toLowerCase();
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => o.title.toLowerCase(), ["desc"]);
                 break;
 
             case "highest-score":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.overall_score || 0;
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => o.overall_score || 0, ["desc"]);
                 break;
 
             case "lowest-score":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.overall_score;
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => o.overall_score, ["asc"]);
                 break;
 
             default:
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.release_date;
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => o.release_date, ["desc"]);
                 break;
         }
     }
     if (contentType === "reviews") {
         switch (sorting?.value) {
             case "newest":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return moment(o.updated_at);
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => moment(o.updated_at), ["desc"]);
                 break;
 
             case "oldest":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return moment(o.updated_at);
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => moment(o.updated_at), ["asc"]);
                 break;
 
             case "highest-score":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.rating;
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => o.rating, ["desc"]);
                 break;
 
             case "lowest-score":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.rating;
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => o.rating, ["asc"]);
                 break;
 
             case "most-liked":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.likes;
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => o.likes, ["desc"]);
                 break;
 
             case "least-liked":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.likes;
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => o.likes, ["asc"]);
                 break;
 
             default:
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return moment(o.updated_at);
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => moment(o.updated_at), ["desc"]);
                 break;
         }
     }
     if (contentType === "artists") {
         switch (sorting?.value) {
             case "name-asc":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.name.toLowerCase();
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => o.name.toLowerCase(), ["asc"]);
                 break;
 
             case "name-desc":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.name.toLowerCase();
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => o.name.toLowerCase(), ["desc"]);
                 break;
 
             case "highest-avg-score":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.average_score || 0;
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => o.average_score || 0, ["desc"]);
                 break;
 
             case "lowest-avg-score":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.average_score;
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => o.average_score, ["asc"]);
                 break;
 
             default:
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.name;
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => o.name, ["asc"]);
                 break;
         }
     }
     if (contentType === "ratingAlbums") {
         switch (sorting?.value) {
             case "newest":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return moment(o.album.release_date);
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => moment(o.album.release_date), ["desc"]);
                 break;
 
             case "oldest":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return moment(o.album.release_date);
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => moment(o.album.release_date), ["asc"]);
                 break;
 
             case "name-asc":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.album.title.toLowerCase();
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => o.album.title.toLowerCase(), ["asc"]);
                 break;
 
             case "name-desc":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.album.title.toLowerCase();
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => o.album.title.toLowerCase(), ["desc"]);
                 break;
 
             case "highest-user-score":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.rating;
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => o.rating, ["desc"]);
                 break;
 
             case "lowest-user-score":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return o.rating;
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => o.rating, ["asc"]);
                 break;
 
             case "latest-rating":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return moment(o.updated_at);
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => moment(o.updated_at), ["desc"]);
                 break;
 
             case "oldest-rating":
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return moment(o.updated_at);
-                    },
-                    ["asc"]
-                );
+                content = _.orderBy(content, (o) => moment(o.updated_at), ["asc"]);
                 break;
 
             default:
-                content = _.orderBy(
-                    content,
-                    (o) => {
-                        return moment(o.updated_at);
-                    },
-                    ["desc"]
-                );
+                content = _.orderBy(content, (o) => moment(o.updated_at), ["desc"]);
                 break;
         }
     }
