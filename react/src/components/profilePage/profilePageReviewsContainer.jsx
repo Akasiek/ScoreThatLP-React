@@ -18,8 +18,6 @@ const ProfilePageReviewsContainer = ({ reviewer }) => {
         })();
     }, [reviewer.id]);
 
-    console.log(latestRatings);
-
     return latestRatings && latestReviews ? (
         <StyledContentGroupPage>
             <ContentGroup

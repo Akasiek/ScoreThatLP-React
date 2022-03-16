@@ -55,8 +55,6 @@ const AlbumForm = ({ history, match }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.params.slug]);
 
-    console.log(currentReviewer);
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         const errors = validate(data, schema);
