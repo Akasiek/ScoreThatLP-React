@@ -115,8 +115,8 @@ const StyledSelect = styled.div`
     padding: 0.35rem 0.5rem;
     font-weight: normal;
     border-radius: 25px;
-    #react-select-3-input {
-        color: var(--lightColor) !important;
+    p {
+        font-weight: 900;
     }
 
     &:focus-visible {
@@ -267,7 +267,7 @@ export const SelectComponent = ({ name, label, options, isSearchable, isMulti, d
                 isSearchable={isSearchable}
                 isMulti={isMulti}
             />
-            {errors[name] && <p className="errorContainer">{errors[name]}</p>}
+            {errors && errors[name] && <p className="errorContainer">{errors[name]}</p>}
         </StyledSelect>
     );
 };

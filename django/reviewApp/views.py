@@ -61,9 +61,9 @@ class ReviewerViewSet(ModelViewSet):
 class ReviewerLinkViewSet(ModelViewSet):
     queryset = ReviewerLink.objects.all()
     serializer_class = ReviewerLinkSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["service_name", "reviewer_id"]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()
@@ -76,6 +76,8 @@ class FavoriteReviewerArtistViewSet(ModelViewSet):
     queryset = FavoriteReviewerArtist.objects.select_related(
         "reviewer_id", "reviewer_id__user", "artist_id")
     serializer_class = FavoriteReviewerArtistSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["reviewer_id"]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def destroy(self, request, *args, **kwargs):

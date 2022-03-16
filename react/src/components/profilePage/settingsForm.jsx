@@ -4,11 +4,13 @@ import ReviewerContext from "./../../context/reviewerContext";
 import { Main } from "./../../App";
 import { updateReviewer } from "./../../services/reviewerService";
 import { Helmet } from "react-helmet";
-import { FileInputComponent, StyledForm, SubmitBtnComponent, TextAreaComponent } from "../forms/formComponents";
+import { FileInputComponent, SelectComponent, StyledForm, SubmitBtnComponent, TextAreaComponent } from "../forms/formComponents";
 import { LinkInputComponent } from "./../forms/formComponents";
 import styled from "styled-components";
 import { createLink, deleteLink, getUserLinks, updateLink } from "./../../services/reviewerLinkService";
 import { toast } from "react-toastify";
+import { getArtists } from "../../services/artistService";
+import { getFavoriteReviewerArtist } from "../../services/favoriteArtistService";
 
 const StyledSettingsForm = styled(StyledForm)`
     .linksContainer {
@@ -28,25 +30,48 @@ const StyledSettingsForm = styled(StyledForm)`
 const SettingsForm = ({ history }) => {
     const [currentReviewer, setCurrentUser] = useContext(ReviewerContext);
 
-    const [data, setData] = useState({ about_text: "" });
+    const [data, setData] = useState({ about_text: "", artist_id: "" });
+    const [profilePic, setProfilePic] = useState({ file: null, url: null });
+
     const [links, setLinks] = useState({ spotify: "", twitter: "", last_fm: "" });
     const [linksFromDB, setLinksFromDB] = useState({});
-    const [profilePic, setProfilePic] = useState({ file: null, url: null });
+
+    const [artistsOptions, setArtistsOptions] = useState([]);
+    const [favArtistFromDB, setFavArtistFromDB] = useState({});
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     useEffect(() => {
+        // Populate options
+        (async () => {
+            // Artist options
+            const { data: artists } = await getArtists();
+
+            const artistsOptions = [];
+            artists.forEach((a) => {
+                artistsOptions.push({ value: a.id, label: a.name });
+            });
+            setArtistsOptions(artistsOptions);
+        })();
+
         // Populate inputs
 
         // About text
         const newData = { ...data };
         newData.about_text = currentReviewer?.about_text ? currentReviewer?.about_text : "";
+
+        (async () => {
+            // Artists
+            const { data: favoriteArtist } = await getFavoriteReviewerArtist(currentReviewer?.id);
+            setFavArtistFromDB(favoriteArtist[0]);
+            newData.artist_id = favoriteArtist[0].artist_id;
+        })();
         setData(newData);
 
-        // Links
         (async () => {
+            // Links
             const newLinks = { ...links };
             if (currentReviewer?.id) {
                 const { data: userLinks } = await getUserLinks(currentReviewer?.id);
@@ -59,10 +84,9 @@ const SettingsForm = ({ history }) => {
             }
             setLinks(newLinks);
         })();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentReviewer]);
-
-    console.log(linksFromDB);
 
     const saveLinkToDB = (url, service_name) => {
         (async () => {
@@ -108,6 +132,11 @@ const SettingsForm = ({ history }) => {
         })();
     };
 
+    // TODO!
+    // const saveFavArtistToDB = ()=>{
+
+    // }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -141,6 +170,15 @@ const SettingsForm = ({ history }) => {
                     <LinkInputComponent name="spotify" label="Spotify" links={links} setLinks={setLinks} />
                     <LinkInputComponent name="last_fm" label="Last.FM" links={links} setLinks={setLinks} />
                 </div>
+
+                <SelectComponent
+                    name="artist_id"
+                    isSearchable={true}
+                    label="Favorite artist"
+                    options={artistsOptions}
+                    data={data}
+                    setData={setData}
+                />
 
                 <SubmitBtnComponent value="Update profile" />
             </StyledSettingsForm>
