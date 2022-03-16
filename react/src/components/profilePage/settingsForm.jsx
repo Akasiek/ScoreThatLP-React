@@ -7,7 +7,8 @@ import { Helmet } from "react-helmet";
 import { FileInputComponent, StyledForm, SubmitBtnComponent, TextAreaComponent } from "../forms/formComponents";
 import { LinkInputComponent } from "./../forms/formComponents";
 import styled from "styled-components";
-import { getUserLinks } from "./../../services/reviewerLinkService";
+import { createLink, deleteLink, getUserLinks, getUserLinkWithService, updateLink } from "./../../services/reviewerLinkService";
+import { toast } from "react-toastify";
 
 const StyledSettingsForm = styled(StyledForm)`
     .linksContainer {
@@ -27,12 +28,9 @@ const StyledSettingsForm = styled(StyledForm)`
 const SettingsForm = ({ history }) => {
     const [currentReviewer, setCurrentUser] = useContext(ReviewerContext);
 
-    const [data, setData] = useState({
-        about_text: "",
-        spotify: "",
-        twitter: "",
-        last_fm: "",
-    });
+    const [data, setData] = useState({ about_text: "" });
+    const [links, setLinks] = useState({ spotify: "", twitter: "", last_fm: "" });
+    const [linksFromDB, setLinksFromDB] = useState({});
     const [profilePic, setProfilePic] = useState({ file: null, url: null });
 
     useEffect(() => {
@@ -40,28 +38,75 @@ const SettingsForm = ({ history }) => {
     }, []);
 
     useEffect(() => {
+        // Populate inputs
+
+        // About text
+        const newData = { ...data };
+        newData.about_text = currentReviewer?.about_text ? currentReviewer?.about_text : "";
+        setData(newData);
+
+        // Links
         (async () => {
-            // Populate inputs
-            const newData = { ...data };
-
-            // About text
-            newData.about_text = currentReviewer?.about_text ? currentReviewer?.about_text : "";
-
-            // Links
+            const newLinks = { ...links };
             if (currentReviewer?.id) {
                 const { data: userLinks } = await getUserLinks(currentReviewer?.id);
                 if (userLinks.length > 0) {
                     userLinks.forEach((l) => {
-                        console.log(l);
-                        newData[l.service_name] = l.url;
+                        newLinks[l.service_name] = l.url;
                     });
                 }
+                setLinksFromDB(userLinks);
             }
-
-            setData(newData);
+            setLinks(newLinks);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentReviewer]);
+
+    console.log(linksFromDB);
+
+    const saveLinkToDB = (url, service_name) => {
+        (async () => {
+            // Check if link's already in DB
+            // const { data: linkFromDB } = await getUserLinkWithService(currentReviewer.id, service_name);
+            let DBLink = null;
+            linksFromDB.forEach((l) => {
+                if (l.service_name === service_name) DBLink = l;
+            });
+            if (DBLink !== null && url !== "") {
+                // If there is a record in DB and new url isn't empty, update
+                if (DBLink.url !== url) {
+                    // If links are diffrent, update the record in DB
+                    try {
+                        await updateLink(DBLink.id, {
+                            url: url,
+                            service_name: service_name,
+                            reviewer_id: currentReviewer.id,
+                        });
+                    } catch (ex) {
+                        ex.response && toast.error(`Error: ${ex.response.statusText}`);
+                    }
+                } else return; // If links are the same, return
+            } else if (DBLink !== null && url === "") {
+                // If new url is empty but there is a record in DB, delete the record
+                try {
+                    await deleteLink(DBLink.id);
+                } catch (ex) {
+                    ex.response && toast.error(`Error: ${ex.response.statusText}`);
+                }
+            } else if (url !== "") {
+                // If there is no link in DB and url isn't null, create it
+                try {
+                    await createLink({
+                        url: url,
+                        service_name: service_name,
+                        reviewer_id: currentReviewer.id,
+                    });
+                } catch (ex) {
+                    ex.response && toast.error(`Error: ${ex.response.statusText}`);
+                }
+            } else return;
+        })();
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -71,6 +116,10 @@ const SettingsForm = ({ history }) => {
         if (profilePic.file) apiData.append("profile_pic", profilePic.file);
         if (profilePic.url) apiData.append("profile_pic_url", profilePic.url);
         apiData.append("user", currentReviewer.user);
+
+        for (let link in links) {
+            saveLinkToDB(links[link], link);
+        }
 
         const { data: newReviewer } = await updateReviewer(currentReviewer.id, apiData);
         setCurrentUser(newReviewer);
@@ -88,9 +137,9 @@ const SettingsForm = ({ history }) => {
 
                 <div className="linksContainer">
                     <p className="label">Profile links</p>
-                    <LinkInputComponent name="spotify" label="Spotify" links={data} setLinks={setData} />
-                    <LinkInputComponent name="twitter" label="Twitter" links={data} setLinks={setData} />
-                    <LinkInputComponent name="last_fm" label="Last.FM" links={data} setLinks={setData} />
+                    <LinkInputComponent name="twitter" label="Twitter" links={links} setLinks={setLinks} />
+                    <LinkInputComponent name="spotify" label="Spotify" links={links} setLinks={setLinks} />
+                    <LinkInputComponent name="last_fm" label="Last.FM" links={links} setLinks={setLinks} />
                 </div>
 
                 <SubmitBtnComponent value="Update profile" />

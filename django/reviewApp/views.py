@@ -63,7 +63,7 @@ class ReviewerLinkViewSet(ModelViewSet):
     serializer_class = ReviewerLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["reviewer_id"]
+    filterset_fields = ["service_name", "reviewer_id"]
 
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()

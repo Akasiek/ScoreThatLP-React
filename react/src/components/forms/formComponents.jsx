@@ -305,7 +305,7 @@ export const LinkInputComponent = ({ name, label, links, setLinks }) => {
     return (
         <StyledLinkInput>
             <img src={`/images/serviceIcons/${name}.svg`} alt={`${label} logo`} />
-            <input type="text" name={name} className="linkInput" value={links[name]} onChange={handleChange} placeholder={`${label} link`} />
+            <input type="url" name={name} className="linkInput" value={links[name]} onChange={handleChange} placeholder={`${label} link`} />
         </StyledLinkInput>
     );
 };
