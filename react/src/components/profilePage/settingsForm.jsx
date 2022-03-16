@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet";
 import { FileInputComponent, StyledForm, SubmitBtnComponent, TextAreaComponent } from "../forms/formComponents";
 import { LinkInputComponent } from "./../forms/formComponents";
 import styled from "styled-components";
-import { createLink, deleteLink, getUserLinks, getUserLinkWithService, updateLink } from "./../../services/reviewerLinkService";
+import { createLink, deleteLink, getUserLinks, updateLink } from "./../../services/reviewerLinkService";
 import { toast } from "react-toastify";
 
 const StyledSettingsForm = styled(StyledForm)`
