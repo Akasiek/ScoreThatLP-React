@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
 
@@ -170,7 +171,7 @@ const ProfilePageHeader = ({ reviewer }) => {
                 </div>
                 {reviewer.links.length > 0 && (
                     <div className="linksContainer">
-                        {reviewer.links?.map((l, index) => {
+                        {_.orderBy(reviewer.links, (l) => l.service_name, ["desc"]).map((l, index) => {
                             return (
                                 <a key={index} href={l.url} rel="noreferrer" target="_blank">
                                     <img src={`/images/serviceIcons/${l.service_name}.svg`} alt={`${l.service} music service provider logo`} />
