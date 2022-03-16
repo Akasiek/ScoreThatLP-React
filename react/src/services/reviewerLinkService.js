@@ -2,9 +2,11 @@ import http from "./httpService";
 
 const apiEndpoint = "/reviewer_links/";
 
-export const getUserLinks = (user_id) => http.get(`${apiEndpoint}?reviewer_id=${user_id}`);
+export const getUserLinks = (reviewer_id) => http.get(`${apiEndpoint}?reviewer_id=${reviewer_id}`);
 
-export const getUserLinkWithService = (user_id, service_name) => http.get(`${apiEndpoint}?reviewer_id=${user_id}&service_name=${service_name}`);
+export const getUserLinkWithService = (reviewer_id, service_name) => {
+    return http.get(`${apiEndpoint}?reviewer_id=${reviewer_id}&service_name=${service_name}`);
+};
 
 export const createLink = (link) => http.post(apiEndpoint, link);
 
