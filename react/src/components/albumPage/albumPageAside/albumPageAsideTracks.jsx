@@ -25,15 +25,17 @@ const AlbumPageAsideTracks = ({ album }) => {
         });
 
         // Pass hour or minute if there is more than 60 minutes or seconds
-        hours = parseInt(hours + minutes / 60);
-        minutes = minutes % 60;
         minutes = parseInt(minutes + seconds / 60);
         seconds = seconds % 60;
+        hours = parseInt(hours + minutes / 60);
+        minutes = minutes % 60;
 
         // Add leading zero if needed
-        if (hours / 10 <= 0) hours = "0" + String(hours);
-        if (minutes / 10 <= 0) minutes = "0" + String(minutes);
-        if (seconds / 10 <= 0) seconds = "0" + String(seconds);
+        if (parseInt(hours / 10) <= 0) hours = "0" + String(hours);
+        if (parseInt(minutes / 10) <= 0) minutes = "0" + String(minutes);
+        if (parseInt(seconds / 10) <= 0) seconds = "0" + String(seconds);
+
+        console.log(hours, minutes, seconds);
 
         // Return as duration string
         return `${hours}:${minutes}:${seconds}`;
