@@ -1,6 +1,8 @@
 import _ from "lodash";
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import FormLink from "../forms/formLink";
+import ReviewerContext from "./../../context/reviewerContext";
 
 const StyledProfilePageHeader = styled.div`
     .topPanelContainer {
@@ -117,6 +119,13 @@ const StyledProfilePageHeader = styled.div`
             font-size: clamp(0.8rem, 1.25vw, 1.25vw);
         }
 
+        .formLinkContainer {
+            div {
+                justify-content: left;
+                margin: 2rem 0 0 0;
+            }
+        }
+
         @media (max-width: ${({ theme }) => theme.mobile}) {
             .usernameCounterContainer {
                 flex-direction: column;
@@ -131,11 +140,18 @@ const StyledProfilePageHeader = styled.div`
                 text-align: center;
                 max-width: 100%;
             }
+
+            .formLinkContainer {
+                div {
+                    display: none;
+                }
+            }
         }
     }
 `;
 
 const ProfilePageHeader = ({ reviewer }) => {
+    const currentReviewer = useContext(ReviewerContext)[0];
     return (
         <StyledProfilePageHeader>
             <div className="topPanelContainer">
@@ -187,6 +203,11 @@ const ProfilePageHeader = ({ reviewer }) => {
                             <br />
                             {reviewer.about_text}
                         </p>
+                    </div>
+                )}
+                {currentReviewer.id === reviewer.id && (
+                    <div className="formLinkContainer">
+                        <FormLink label="User Settings" url="/settings" />
                     </div>
                 )}
             </div>
