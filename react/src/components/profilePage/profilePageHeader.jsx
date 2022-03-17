@@ -28,7 +28,7 @@ const StyledProfilePageHeader = styled.div`
             max-height: inherit;
 
             display: flex;
-            align-items: flex-start;
+            align-items: center;
 
             & > img {
                 width: 100%;
@@ -43,7 +43,7 @@ const StyledProfilePageHeader = styled.div`
             z-index: 2;
 
             & > img {
-                height: clamp(8rem, 15vw, 15rem);
+                height: clamp(6rem, 12vw, 12rem);
                 object-fit: cover;
                 aspect-ratio: 1;
                 vertical-align: top;
@@ -65,9 +65,9 @@ const StyledProfilePageHeader = styled.div`
         }
     }
     .bottomPanelContainer {
-        padding-top: clamp(5rem, 9vw, 9rem);
+        padding-top: clamp(4rem, 7.5vw, 7.5rem);
         padding-inline: clamp(1.5rem, 3vw, 3rem);
-        padding-bottom: 3rem;
+        padding-bottom: clamp(2rem, 3vw, 3rem);
         background-color: var(--blueColor);
 
         .usernameCounterContainer {
@@ -78,14 +78,14 @@ const StyledProfilePageHeader = styled.div`
             gap: 1rem 3rem;
             text-align: center;
             h1 {
-                font-size: clamp(2rem, 3.5vw, 3.5rem);
+                font-size: clamp(1.75rem, 2.75vw, 2.75rem);
             }
 
             .countersContainer {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 0.75rem 1rem;
+                gap: 0.75rem 1.5rem;
                 h3 {
                     font-size: clamp(1rem, 1.5vw, 1.5rem);
                     font-weight: normal;
@@ -94,7 +94,7 @@ const StyledProfilePageHeader = styled.div`
         }
 
         .linksContainer {
-            padding-top: clamp(1.5rem, 2vw, 2rem);
+            padding-top: clamp(1rem, 1.5vw, 1.5rem);
             display: flex;
             align-items: center;
             gap: clamp(1rem, 2vw, 2rem);
@@ -102,8 +102,6 @@ const StyledProfilePageHeader = styled.div`
                 height: clamp(1.25rem, 2vw, 2rem);
                 transition: transform 0.1s ease-in-out;
                 &:hover {
-                    /* Change svg color to accent color */
-                    filter: brightness(0) saturate(100%) invert(41%) sepia(60%) saturate(1239%) hue-rotate(314deg) brightness(90%) contrast(105%);
                     transform: scale(1.25);
                     transform-origin: center;
                 }
@@ -111,23 +109,39 @@ const StyledProfilePageHeader = styled.div`
         }
 
         .aboutContainer {
-            padding-top: clamp(1.5rem, 2vw, 2rem);
-            max-width: 50vw;
+            padding-top: clamp(0.75rem, 1vw, 1rem);
+            max-width: 40vw;
             font-weight: normal;
             white-space: pre-wrap;
-            font-size: clamp(0.8rem, 1.25vw, 1.25vw);
+            font-size: clamp(0.9rem, 1.1vw, 1.2rem);
         }
 
         .favArtistContainer {
-            padding-top: clamp(1.5rem, 2vw, 2rem);
+            padding-top: clamp(0.75rem, 1vw, 1rem);
             font-weight: normal;
-            font-size: clamp(0.8rem, 1.25vw, 1.25vw);
+            font-size: clamp(0.8rem, 1vw, 1.1rem);
             a {
                 color: var(--lightColor);
                 text-decoration: none;
-                &:hover {
-                    text-decoration: underline;
-                }
+                position: relative;
+            }
+
+            a::after {
+                content: "";
+                height: 2px;
+                background-color: var(--lightColor);
+                width: 100%;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                transform: scaleX(0);
+                transform-origin: bottom right;
+                transition: transform 0.1s ease-in-out;
+            }
+
+            a:hover::after {
+                transform: scaleX(1);
+                transform-origin: bottom left;
             }
         }
 
@@ -159,8 +173,11 @@ const StyledProfilePageHeader = styled.div`
                 }
             }
 
-            .favArtistContainer > a {
-                text-decoration: underline;
+            .favArtistContainer {
+                text-align: center;
+                a {
+                    text-decoration: underline;
+                }
             }
         }
     }
