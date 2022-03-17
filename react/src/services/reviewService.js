@@ -3,7 +3,7 @@ import http from "./httpService";
 const apiEndpoint = "/reviews/";
 
 export const getAlbumReviews = (album_id) => {
-    return http.get(`${apiEndpoint}?album_id=${album_id}`);
+    return http.get(`${apiEndpoint}?album_id=${album_id}&ordering=-updated_at`);
 };
 
 export const getLatestArtistReviews = (artist_slug) => {
@@ -16,6 +16,10 @@ export const getReviewerReviews = (reviewer_id) => {
 
 export const getLatestReviewerReviews = (reviewer_id) => {
     return http.get(`${apiEndpoint}?reviewer_id=${reviewer_id}&ordering=-updated_at`);
+};
+
+export const getLatestReviews = () => {
+    return http.get(`${apiEndpoint}`);
 };
 
 export const getLatestReviewsOnly = () => {
