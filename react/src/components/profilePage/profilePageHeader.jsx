@@ -28,7 +28,7 @@ const StyledProfilePageHeader = styled.div`
             max-height: inherit;
 
             display: flex;
-            align-items: center;
+            align-items: flex-start;
 
             & > img {
                 width: 100%;
@@ -118,6 +118,19 @@ const StyledProfilePageHeader = styled.div`
             font-size: clamp(0.8rem, 1.25vw, 1.25vw);
         }
 
+        .favArtistContainer {
+            padding-top: clamp(1.5rem, 2vw, 2rem);
+            font-weight: normal;
+            font-size: clamp(0.8rem, 1.25vw, 1.25vw);
+            a {
+                color: var(--lightColor);
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        } 
+
         .formLinkContainer {
             div {
                 justify-content: left;
@@ -145,6 +158,10 @@ const StyledProfilePageHeader = styled.div`
                     display: none;
                 }
             }
+
+            .favArtistContainer > a {
+                text-decoration: underline;
+            } 
         }
     }
 `;
@@ -201,6 +218,16 @@ const ProfilePageHeader = ({ reviewer }) => {
                             <span style={{ fontWeight: 900 }}>About</span>
                             <br />
                             {reviewer.about_text}
+                        </p>
+                    </div>
+                )}
+                {reviewer.favorite_artist && (
+                    <div className="favArtistContainer">
+                        <p>
+                            Favorite artist:{" "}
+                            <a href={`/artists/${reviewer.favorite_artist.artist.slug}`} style={{ fontWeight: 900 }}>
+                                {reviewer.favorite_artist.artist.name}
+                            </a>
                         </p>
                     </div>
                 )}
