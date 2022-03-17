@@ -179,7 +179,7 @@ class ReviewAlbumSerializer(serializers.ModelSerializer):
 class FavoriteArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
-        fields = ["name", "background_image"]
+        fields = ["name", "background_image", "background_image_url"]
 
 
 class FavoriteReviewerArtistSerializer(serializers.ModelSerializer):
