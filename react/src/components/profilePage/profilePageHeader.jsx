@@ -129,7 +129,7 @@ const StyledProfilePageHeader = styled.div`
                     text-decoration: underline;
                 }
             }
-        } 
+        }
 
         .formLinkContainer {
             div {
@@ -161,7 +161,7 @@ const StyledProfilePageHeader = styled.div`
 
             .favArtistContainer > a {
                 text-decoration: underline;
-            } 
+            }
         }
     }
 `;
@@ -231,7 +231,7 @@ const ProfilePageHeader = ({ reviewer }) => {
                         </p>
                     </div>
                 )}
-                {currentReviewer.id === reviewer.id && (
+                {currentReviewer?.id === reviewer.id && (
                     <div className="formLinkContainer">
                         <FormLink label="User Settings" url="/settings" />
                     </div>
