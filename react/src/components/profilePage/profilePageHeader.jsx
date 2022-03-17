@@ -28,7 +28,7 @@ const StyledProfilePageHeader = styled.div`
             max-height: inherit;
 
             display: flex;
-            align-items: center;
+            align-items: flex-start;
 
             & > img {
                 width: 100%;
