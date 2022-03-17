@@ -19,7 +19,7 @@ class AlbumAdmin(admin.ModelAdmin):
     }
     list_select_related = ["artist_id", "created_by"]
     autocomplete_fields = ["artist_id"]
-    search_fields = ["title__istartswith", "created_by"]
+    search_fields = ["title"]
 
 
 @admin.register(models.Artist)
