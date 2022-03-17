@@ -77,8 +77,10 @@ const SettingsForm = ({ history }) => {
 
                 // Artists
                 const { data: favoriteArtist } = await getFavoriteReviewerArtist(currentReviewer?.id);
-                setFavArtistFromDB(favoriteArtist[0]);
-                newData.artist_id = favoriteArtist[0].artist_id;
+                if (favoriteArtist.length > 0) {
+                    setFavArtistFromDB(favoriteArtist[0]);
+                    newData.artist_id = favoriteArtist[0].artist_id;
+                }
             }
             setLinks(newLinks);
         })();
