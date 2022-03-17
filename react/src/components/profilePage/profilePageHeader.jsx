@@ -7,8 +7,7 @@ import ReviewerContext from "./../../context/reviewerContext";
 const StyledProfilePageHeader = styled.div`
     .topPanelContainer {
         width: 100%;
-        /* height: 300px; */
-        max-height: 300px;
+        max-height: 400px;
         min-height: 225px;
         background-color: var(--darkBlueColor);
         position: relative;
