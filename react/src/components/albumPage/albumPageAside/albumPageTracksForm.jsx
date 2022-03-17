@@ -63,7 +63,16 @@ export const StyledTracksForm = styled.div`
         }
         .positionInput {
             text-align: center;
-            width: clamp(1.8rem, 2vw, 2rem);
+            width: clamp(1.75rem, 2vw, 2rem);
+
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            &[type="number"] {
+                -moz-appearance: textfield;
+            }
         }
 
         .titleInput {

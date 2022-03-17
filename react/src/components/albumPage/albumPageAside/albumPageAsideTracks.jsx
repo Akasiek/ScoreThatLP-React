@@ -35,8 +35,6 @@ const AlbumPageAsideTracks = ({ album }) => {
         if (parseInt(minutes / 10) <= 0) minutes = "0" + String(minutes);
         if (parseInt(seconds / 10) <= 0) seconds = "0" + String(seconds);
 
-        console.log(hours, minutes, seconds);
-
         // Return as duration string
         return `${hours}:${minutes}:${seconds}`;
     };
