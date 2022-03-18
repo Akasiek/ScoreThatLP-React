@@ -30,7 +30,7 @@ const NewReleases = () => {
                     content={newReleases}
                     contentType="albums"
                     isPaginationEnabled={true}
-                    contentPageSize={30}
+                    contentPageSize={50}
                     isSortingEnabled={true}
                     className="contentGroup"
                     colSize={[5, 3, 2]}

@@ -62,7 +62,7 @@ const Albums = () => {
                     content={albums}
                     contentType="albums"
                     isPaginationEnabled={true}
-                    contentPageSize={30}
+                    contentPageSize={50}
                     isSortingEnabled={true}
                     sortingMethod={{ value: "name-asc", label: "Name asceding" }}
                     className="contentGroup"

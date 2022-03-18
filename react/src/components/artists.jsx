@@ -31,7 +31,7 @@ const Artists = () => {
                     content={artists}
                     contentType="artists"
                     isPaginationEnabled={true}
-                    contentPageSize={30}
+                    contentPageSize={50}
                     isSortingEnabled={true}
                     sortingMethod={{ value: "name-asc", label: "Name ascending" }}
                     artistShowAvgScore={true}
