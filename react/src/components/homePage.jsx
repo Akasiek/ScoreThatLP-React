@@ -163,7 +163,7 @@ const HomePage = () => {
                         <h4>share your music opinions</h4>
                     </div>
                     <div className="imageContainer">
-                        <img src="/images/headerImg.jpg" alt="Girl holding vinyl in music shop" />
+                        <img src="/images/headerImg.webp" alt="Girl holding vinyl in music shop" />
                     </div>
                     <div className="arrowContainer">
                         <ScrollLink to="aoty" smooth={true} offset={-75}>
