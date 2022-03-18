@@ -1,10 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import getScoreColor from "./../../utils/scoreColor";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
-const accentColor = ({ theme }) => theme.colors.accentColor;
-const lightColor = ({ theme }) => theme.colors.lightColor;
+import getScoreColor from "./../../utils/scoreColor";
 
 const StyledArtistContainer = styled.div`
     display: block;
@@ -13,7 +12,7 @@ const StyledArtistContainer = styled.div`
 
     a {
         text-decoration: none;
-        color: ${lightColor};
+        color: var(--lightColor);
     }
 
     .artist-image-container {
@@ -25,7 +24,7 @@ const StyledArtistContainer = styled.div`
         overflow: hidden;
 
         border-radius: 100%;
-        outline: 0 solid ${accentColor};
+        outline: 0 solid var(--accentColor);
         transition: all 0.1s ease-in-out, box-shadow 0.4s ease-in-out;
 
         img {
@@ -62,14 +61,14 @@ const StyledArtistContainer = styled.div`
     }
 
     &:hover h1 {
-        color: ${accentColor};
+        color: var(--accentColor);
         transition: all 0.1s ease-in-out;
     }
 
     &:hover .artist-image-container {
         outline-offset: -0.35rem;
         outline-width: 0.35rem;
-        box-shadow: 0 0 25px ${accentColor};
+        box-shadow: 0 0 25px var(--accentColor);
         transition: all 0.1s ease-in-out;
     }
 `;
@@ -79,7 +78,11 @@ const ArtistContainer = ({ artist, onClick, showAvgScore }) => {
         <StyledArtistContainer>
             <Link to={`/artists/${artist.slug}`} onClick={onClick}>
                 <div className="artist-image-container">
-                    <img src={artist.image || artist.image_url || `/images/square-404.jpg`} alt={artist.name} />
+                    <LazyLoadImage
+                        src={artist.image || artist.image_url || `/images/square-404.jpg`}
+                        alt={artist.name}
+                        placeholderSrc={`/images/avatar_placeholder.jpg`}
+                    />
                 </div>
                 <div className="artist-name-container">
                     <h1>{artist.name}</h1>

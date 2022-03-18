@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import getScoreColor from "./../../utils/scoreColor";
 
@@ -137,7 +138,12 @@ const AlbumContainer = ({ album, customScore, isAoty, isInArtistPage }) => {
         <StyledAlbumContainer>
             <div className="albumImageContainer">
                 <Link to={`/albums/${album.id}`}>
-                    <img src={album.art_cover || album.art_cover_url || `/images/square-404.jpg`} alt={`${album.title} art cover`} />
+                    <LazyLoadImage
+                        src={album.art_cover || album.art_cover_url || `/images/square-404.jpg`}
+                        alt={album.title}
+                        effect="blur"
+                        threshold="240"
+                    />
                     {album.position && isAoty && <div className="albumAOTYPositionContainer">{album.position}</div>}
                 </Link>
             </div>

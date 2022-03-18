@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
 import getScoreColor from "../../utils/scoreColor";
 
 const StyledRatingContainer = styled.div`
@@ -46,7 +48,7 @@ const StyledRatingContainer = styled.div`
         }
     }
 
-    a > img {
+    a > span > img {
         width: clamp(3rem, 7vw, 5rem);
         object-fit: cover;
         aspect-ratio: 1;
@@ -70,9 +72,10 @@ const RatingContainer = ({ rating }) => {
     return (
         <StyledRatingContainer className={`${getScoreColor(rating.rating)}BG`}>
             <Link to={`/users/${rating.reviewer.username}`}>
-                <img
+                <LazyLoadImage
                     src={rating.reviewer.profile_pic || rating.reviewer.profile_pic_url || `/images/avatar_placeholder.jpg`}
                     alt={`${rating.reviewer.username} profile avatar`}
+                    effect="blur"
                 />
                 <h4>{rating.reviewer.username}</h4>
             </Link>

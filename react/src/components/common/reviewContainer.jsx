@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import ShowMoreText from "react-show-more-text";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
-// import Like from "./like";
 import getScoreColor from "../../utils/scoreColor";
 
 const StyledReviewContainer = styled.div`
@@ -65,7 +65,7 @@ const StyledReviewContainer = styled.div`
             }
         }
 
-        a > img {
+        a > span > img {
             height: clamp(2.5rem, 4vw, 4rem);
             object-fit: cover;
             aspect-ratio: 1;
@@ -185,9 +185,10 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
                 <div className="reviewAlbumContainer">
                     <div className="albumCoverContainer">
                         <Link to={`/albums/${review.album.id}`}>
-                            <img
+                            <LazyLoadImage
                                 src={review.album.art_cover || review.album.art_cover_url || `/images/square-404.jpg`}
                                 alt={`${review.album.title} Cover Art`}
+                                effect="blur"
                             />
                         </Link>
                     </div>
@@ -204,7 +205,11 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
             )}
             <div className={`userContainer ${getScoreColor(review.rating)}BG`}>
                 <Link to={`/users/${review.reviewer.username}`}>
-                    <img src={review.reviewer.profile_pic || review.reviewer.profile_pic_url || `/images/avatar_placeholder.jpg`} alt="" />
+                    <LazyLoadImage
+                        src={review.reviewer.profile_pic || review.reviewer.profile_pic_url || `/images/avatar_placeholder.jpg`}
+                        alt={`${review.reviewer.username} profile avatar`}
+                        effect="blur"
+                    />
                     <h4>{review.reviewer.username}</h4>
                 </Link>
                 <h2>{review.rating}</h2>

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const StyledUserContainer = styled.div`
     width: 100%;
@@ -69,7 +70,11 @@ const UserContainer = ({ user }) => {
         <StyledUserContainer>
             <Link to={`/users/${user.username}`}>
                 <div className="imageContainer">
-                    <img src={user.profile_pic || user.profile_pic_url || `/images/avatar_placeholder.jpg`} alt={`${user.username} profile avatar`} />
+                    <LazyLoadImage
+                        src={user.profile_pic || user.profile_pic_url || `/images/avatar_placeholder.jpg`}
+                        alt={`${user.username} profile avatar`}
+                        effect="blur"
+                    />
                 </div>
                 <div className="usernameContainer">
                     <h1>{user.username}</h1>

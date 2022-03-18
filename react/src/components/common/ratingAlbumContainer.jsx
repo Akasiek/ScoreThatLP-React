@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import { StyledAlbumContainer } from "./albumContainer";
 import getScoreColor from "./../../utils/scoreColor";
@@ -26,9 +27,11 @@ const RatingAlbumContainer = ({ review, isReviewDateHidden }) => {
         <StyledRatingAlbumContainer>
             <div className="albumImageContainer">
                 <Link to={`/albums/${review.album.id}`}>
-                    <img
+                    <LazyLoadImage
                         src={review.album.art_cover || review.album.art_cover_url || `/images/square-404.jpg`}
                         alt={`${review.album.title} art cover`}
+                        effect="blur"
+                        threshold="240"
                     />
                 </Link>
             </div>
