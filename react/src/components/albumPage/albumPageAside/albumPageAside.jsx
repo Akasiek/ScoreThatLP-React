@@ -151,20 +151,17 @@ const AlbumPageAside = ({ album, user }) => {
         <React.Fragment>
             <StyledAlbumPageAside>
                 <AlbumPageAsideDetails album={album} />
+                {album.links.length !== 0 ? (
+                    <AlbumPageAsideLinks album={album} />
+                ) : (
+                    user && <AddButton label="Add Links" onClick={handleLinksFormVisiblity} />
+                )}
 
-                {user &&
-                    (album.links.length !== 0 ? (
-                        <AlbumPageAsideLinks album={album} />
-                    ) : (
-                        <AddButton label="Add Links" onClick={handleLinksFormVisiblity} />
-                    ))}
-
-                {user &&
-                    (album.tracks.length !== 0 ? (
-                        <AlbumPageAsideTracks album={album} />
-                    ) : (
-                        <AddButton label="Add Tracklist" onClick={handleTracksFormVisiblity} />
-                    ))}
+                {album.tracks.length !== 0 ? (
+                    <AlbumPageAsideTracks album={album} />
+                ) : (
+                    user && <AddButton label="Add Tracklist" onClick={handleTracksFormVisiblity} />
+                )}
             </StyledAlbumPageAside>
             {isTracksFormVisible ? <AlbumPageTracksForm album={album} setVisibility={handleTracksFormVisiblity} /> : null}
             {isLinksFormVisible ? <AlbumPageLinksForm album={album} setVisibility={handleLinksFormVisiblity} /> : null}
