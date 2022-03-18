@@ -10,7 +10,7 @@ const StyledArtistPageHeader = styled.div`
     }
     background-image: url(${(props) => props.bg_image || "/images/artist-bg-404.jpg"});
     background-origin: content-box;
-    background-position: center;
+    background-position: top;
     background-size: cover;
     position: relative;
 
