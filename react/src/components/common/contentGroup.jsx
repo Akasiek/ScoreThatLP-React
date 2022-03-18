@@ -47,7 +47,7 @@ export const ContentContainer = styled.div`
 
 function handlePageChange(page, setContentCurrentPage) {
     setContentCurrentPage(page);
-    scroller.scrollTo("contentTitleBar", { duration: 500, delay: 0, smooth: "easeInOutQuart", offset: -100 });
+    scroller.scrollTo("contentTitleBar", { offset: -100 });
 }
 
 const ContentGroup = ({
