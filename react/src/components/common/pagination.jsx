@@ -10,10 +10,8 @@ const StyledPagination = styled.div`
     font-size: clamp(1rem, 1.75vw, 1.75rem);
 
     nav {
-        /* display: flex; */
-        display: grid;
-        grid-auto-rows: 1fr;
-        grid-auto-flow: column;
+        display: flex;
+        flex-wrap: wrap;
         gap: 1rem;
         p {
             transition: background-color 0.25s ease-in-out;
