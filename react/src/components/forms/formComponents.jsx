@@ -236,10 +236,10 @@ export const FileInputComponent = ({ name, label, file, setFile, optionalURL }) 
             <label htmlFor={name} className="label">
                 {label}
             </label>
-            <input type="file" id={name} onChange={handleChange} />
+            {/* <input type="file" id={name} onChange={handleChange} /> */}
             {optionalURL && (
                 <React.Fragment>
-                    <h3>Or type in URL</h3>
+                    {/* <h3>Or type in URL</h3> */}
                     <StyledInput>
                         <input placeholder="URL" onChange={handleChange} />
                     </StyledInput>
