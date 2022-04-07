@@ -106,7 +106,8 @@ class AlbumViewSet(ModelViewSet):
 
     permission_classes = [IsAdminOrPostOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    ordering_fields = ["id", "title", "release_date", "overall_score"]
+    ordering_fields = ["id", "title", "release_date",
+                       "overall_score", "created_at"]
     filterset_fields = ("release_type", "artist_id__slug")
     filterset_fields = {
         "release_type": ["exact"],

@@ -6,7 +6,7 @@ import moment from "moment";
 
 import ContentGroup from "./common/contentGroup";
 import { Main } from "../App";
-import { getFakeAOTY, getNewReleases, getNewSingles } from "./../services/albumService";
+import { getFakeAOTY, getNewReleases, getNewSingles, getRecentlyAdded } from "./../services/albumService";
 import { getArtists } from "./../services/artistService";
 import LoadingScreen from "./loadingScreen";
 import { StyledContentGroupPage } from "./albums";
@@ -124,6 +124,7 @@ const HomePage = () => {
     const [newReleases, setNewReleases] = useState(null);
     const [artists, setArtists] = useState(null);
     const [latestReviews, setLatestReviews] = useState(null);
+    const [recentlyAdded, setRecentlyAdded] = useState(null);
     const [newSingles, setNewSingles] = useState(null);
 
     useEffect(() => {
@@ -144,6 +145,9 @@ const HomePage = () => {
 
             const { data: latestReviews } = await getLatestReviewsOnly();
             setLatestReviews(latestReviews);
+
+            const { data: recentlyAdded } = await getRecentlyAdded();
+            setRecentlyAdded(recentlyAdded);
 
             const { data: singles } = await getNewSingles();
             setNewSingles(singles);
@@ -212,6 +216,16 @@ const HomePage = () => {
                         itemsCount={4}
                         colSize={[2, 1, 1]}
                         reviewIsOutsideAlbum={true}
+                    />
+
+                    <ContentGroup
+                        className="contentGroup"
+                        title="Recently added albums"
+                        viewAllUrl="/recently-added"
+                        content={recentlyAdded}
+                        contentType="albums"
+                        itemsCount={6}
+                        colSize={[6, 3, 2]}
                     />
 
                     <ContentGroup

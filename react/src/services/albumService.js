@@ -26,6 +26,10 @@ export const getNewReleases = () => {
     return http.get(`${apiEndpoint}/?ordering=-release_date&release_type=LP`);
 };
 
+export const getRecentlyAdded = () => {
+    return http.get(`${apiEndpoint}/?ordering=-created_at`);
+};
+
 export const getArtistAlbums = (slug) => {
     return http.get(`${apiEndpoint}/?artist_id__slug=${slug}`);
 };
