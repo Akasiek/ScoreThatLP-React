@@ -221,7 +221,6 @@ const HomePage = () => {
                     <ContentGroup
                         className="contentGroup"
                         title="Recently added albums"
-                        viewAllUrl="/recently-added"
                         content={recentlyAdded}
                         contentType="albums"
                         itemsCount={6}
