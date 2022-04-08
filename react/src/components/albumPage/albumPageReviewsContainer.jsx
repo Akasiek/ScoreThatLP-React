@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import ContentGroup from "../common/contentGroup";
-import { getAlbumReviews } from "../../services/reviewService";
 import { ReloadContext } from "./albumPage";
+import { getAlbumReviews } from "../../services/reviewService";
+import { getArtistAlbums } from "../../services/albumService";
 
 const StyledReviewsContainer = styled.div`
     /* & > div {
@@ -53,11 +54,25 @@ const StyledReviewsContainer = styled.div`
             margin: 0 0 2rem 0;
         }
     }
+
+    .albumsGroup {
+        margin-top: clamp(2.5rem, 5vw, 5rem);
+        .contentTitleBar {
+            margin: 0;
+        }
+
+        .contentContainer {
+            gap: 3rem 4%;
+            margin-block: clamp(1rem, 1.5vw, 1.5rem);
+            margin-inline: clamp(0.5rem, 1vw, 1rem);
+        }
+    }
 `;
 
 const AlbumPageReviewsContainer = ({ album }) => {
     const [reviews, setReviews] = useState();
     const [ratings, setRatings] = useState();
+    const [artistOtherAlbums, setArtistOtherAlbums] = useState();
     const reload = useContext(ReloadContext)[0];
 
     useEffect(() => {
@@ -65,17 +80,20 @@ const AlbumPageReviewsContainer = ({ album }) => {
             const { data: allReviews } = await getAlbumReviews(album.id);
             setReviews(allReviews.filter((r) => r.review_text !== null));
             setRatings(allReviews.filter((r) => r.review_text === null));
-        })();
-    }, [album.id, reload]);
 
-    return reviews && ratings ? (
+            const { data: artistAlbums } = await getArtistAlbums(album.artist.slug);
+            const artistOtherAlbums = artistAlbums.filter((a) => a.id !== album.id && a);
+            setArtistOtherAlbums(artistOtherAlbums);
+        })();
+    }, [album.id, album.artist.slug, reload]);
+
+    return reviews && ratings && artistOtherAlbums ? (
         <StyledReviewsContainer>
             {reviews.length !== 0 && (
                 <ContentGroup
                     className="reviewGroup"
                     title="Latest Reviews"
                     viewAllUrl={`/albums/${album.id}/reviews/`}
-                    // noTitleMargin={true}
                     content={reviews}
                     contentType="reviews"
                     itemsCount={4}
@@ -87,11 +105,22 @@ const AlbumPageReviewsContainer = ({ album }) => {
                     className="ratingGroup"
                     title="Latest Ratings"
                     viewAllUrl={`/albums/${album.id}/reviews/`}
-                    // noTitleMargin={true}
                     content={ratings}
                     contentType="ratings"
                     itemsCount={8}
                     colSize={[4, 4, 2]}
+                />
+            )}
+
+            {artistOtherAlbums.length !== 0 && (
+                <ContentGroup
+                    className="albumsGroup"
+                    title="Other albums by this artist"
+                    viewAllUrl={`/artists/${album.artist.slug}`}
+                    content={artistOtherAlbums}
+                    contentType="albums"
+                    itemsCount={4}
+                    colSize={[4, 2, 2]}
                 />
             )}
         </StyledReviewsContainer>
