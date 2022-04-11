@@ -52,6 +52,7 @@ const AlbumPage = ({ match, history }) => {
     const currentReviewer = useContext(ReviewerContext)[0];
 
     useEffect(() => {
+        if (match.params.id !== album?.id) window.scrollTo(0, 0);
         (async () => {
             try {
                 const { data: album } = await getAlbum(match.params.id);
