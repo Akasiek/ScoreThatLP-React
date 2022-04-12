@@ -52,7 +52,7 @@ const AlbumPage = ({ match, history }) => {
     const currentReviewer = useContext(ReviewerContext)[0];
 
     useEffect(() => {
-        if (match.params.id !== album?.id) {
+        if (parseInt(match.params.id) !== album?.id) {
             setAlbum(null);
             window.scrollTo(0, 0);
         }
@@ -67,7 +67,7 @@ const AlbumPage = ({ match, history }) => {
                 }
             }
         })();
-    }, [match.params.id, reload, history]);
+    }, [match.params.id, reload, history, album?.id]);
 
     return album ? (
         <ReloadContext.Provider value={[reload, setReload]}>
@@ -82,7 +82,7 @@ const AlbumPage = ({ match, history }) => {
                     <AlbumPageHeader album={album} />
 
                     <AlbumPageMain>
-                        <AlbumPageReviewSection album={album} user={currentReviewer} />
+                        <AlbumPageReviewSection album={album} setAlbum={setAlbum} user={currentReviewer} />
 
                         <AlbumPageAside album={album} user={currentReviewer} />
                     </AlbumPageMain>
