@@ -12,7 +12,7 @@ const AOTY = () => {
     useEffect(() => {
         (async () => {
             const { data: aoty } = await getFakeAOTY();
-            const newAOTY = aoty.filter((a) => a.overall_score !== null);
+            const newAOTY = aoty.filter((a) => a.overall_score !== null && a.overall_score >= 70);
             newAOTY.forEach((a, index) => {
                 a.position = index + 1;
             });
