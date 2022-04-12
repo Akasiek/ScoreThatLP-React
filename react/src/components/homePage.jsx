@@ -6,8 +6,8 @@ import moment from "moment";
 
 import ContentGroup from "./common/contentGroup";
 import { Main } from "../App";
-import { getFakeAOTY, getNewReleases, getNewSingles, getRecentlyAdded } from "./../services/albumService";
-import { getArtists } from "./../services/artistService";
+import { getFakeAOTY, getNewReleases, getNewSingles, getRecentlyAdded } from "../services/albumService";
+import { getArtists } from "../services/artistService";
 import LoadingScreen from "./loadingScreen";
 import { StyledContentGroupPage } from "./albums";
 import { getLatestReviewsOnly } from "../services/reviewService";
