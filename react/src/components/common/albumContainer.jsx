@@ -174,7 +174,7 @@ const AlbumContainer = ({ album, customScore, isAoty, isInArtistPage }) => {
                 {moment(album.release_date) < moment() ? (
                     <p>{album[customScore] || album.overall_score !== null ? album.overall_score : "No ratings"}</p>
                 ) : (
-                    <p className="alignCenter">Waiting for the release</p>
+                    <p className="alignCenter">To be released</p>
                 )}
             </div>
         </StyledAlbumContainer>
