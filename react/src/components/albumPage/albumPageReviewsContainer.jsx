@@ -5,17 +5,9 @@ import ContentGroup from "../common/contentGroup";
 import { ReloadContext } from "./albumPage";
 import { getAlbumReviews } from "../../services/reviewService";
 import { getArtistAlbums } from "../../services/albumService";
+import { shuffle } from "lodash";
 
 const StyledReviewsContainer = styled.div`
-    /* & > div {
-        margin: 2rem 1rem;
-
-        & > div:not(first-child) > div,
-        & > div:first-child {
-            margin-top: 3rem;
-        }
-    } */
-
     .reviewGroup {
         margin: 3rem 0;
 
@@ -81,8 +73,9 @@ const AlbumPageReviewsContainer = ({ album }) => {
             setReviews(allReviews.filter((r) => r.review_text !== null));
             setRatings(allReviews.filter((r) => r.review_text === null));
 
-            const { data: artistAlbums } = await getArtistAlbums(album.artist.slug);
-            const artistOtherAlbums = artistAlbums.filter((a) => a.id !== album.id && a);
+            let { data: artistOtherAlbums } = await getArtistAlbums(album.artist.slug);
+            artistOtherAlbums = artistOtherAlbums.filter((a) => a.id !== album.id && a);
+            artistOtherAlbums = shuffle(artistOtherAlbums);
             setArtistOtherAlbums(artistOtherAlbums);
         })();
     }, [album.id, album.artist.slug, reload]);
