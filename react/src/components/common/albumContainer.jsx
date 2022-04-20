@@ -116,10 +116,6 @@ export const StyledAlbumContainer = styled.div`
             background-color: var(--redScoreColor) !important;
         }
 
-        .alignCenter {
-            text-align: center;
-        }
-
         @media (max-width: ${({ theme }) => theme.mobile}) {
         }
     }
@@ -174,7 +170,7 @@ const AlbumContainer = ({ album, customScore, isAoty, isInArtistPage }) => {
                 {moment(album.release_date) < moment() ? (
                     <p>{album[customScore] || album.overall_score !== null ? album.overall_score : "No ratings"}</p>
                 ) : (
-                    <p className="alignCenter">To be released</p>
+                    <p>To be released</p>
                 )}
             </div>
         </StyledAlbumContainer>
