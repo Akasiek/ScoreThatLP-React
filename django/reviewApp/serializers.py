@@ -1,7 +1,7 @@
 from django.utils.text import slugify
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
-from .models import Album, AlbumLink, Artist, FavoriteReviewerArtist, Review, Reviewer, ReviewerLink, Track
+from .models import Album, AlbumLink, Artist, FavoriteReviewerArtist, Like, Review, Reviewer, ReviewerLink, Track
 
 
 class ArtistSerializer(serializers.ModelSerializer):
@@ -279,6 +279,7 @@ class SimpleReviewerSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
     reviewer = SimpleReviewerSerializer(source="reviewer_id", read_only=True)
     album = ReviewAlbumSerializer(source="album_id", read_only=True)
+    likes = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Review
@@ -291,13 +292,44 @@ class ReviewSerializer(serializers.ModelSerializer):
             "album_id",
             "album",
             "created_at",
-            "updated_at"
+            "updated_at",
+            "likes"
         ]
 
     def create(self, validated_data):
         if Review.objects.filter(album_id=self.validated_data["album_id"], reviewer_id=self.validated_data["reviewer_id"]).exists():
             raise serializers.ValidationError(
                 'This user created review for this album already')
+        if str(self.context["request"].user) != str(self.validated_data["reviewer_id"]):
+            raise serializers.ValidationError(
+                'User cannot create reviews as someone else')
+        return Review.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        if str(self.context["request"].user) != str(self.validated_data["reviewer_id"]):
+            raise serializers.ValidationError(
+                'User cannot update reviews as someone else')
+        return super().update(instance, validated_data)
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    album_id = serializers.PrimaryKeyRelatedField(
+        source="review_id.album_id", read_only=True)
+
+    class Meta:
+        model = Like
+        fields = [
+            "id",
+            "reviewer_id",
+            "review_id",
+            "album_id",
+            "created_at"
+        ]
+
+    def create(self, validated_data):
+        if Review.objects.filter(review_id=self.validated_data["review_id"], reviewer_id=self.validated_data["reviewer_id"]).exists():
+            raise serializers.ValidationError(
+                'This user liked this review already')
         if str(self.context["request"].user) != str(self.validated_data["reviewer_id"]):
             raise serializers.ValidationError(
                 'User cannot create reviews as someone else')

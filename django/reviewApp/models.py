@@ -192,3 +192,9 @@ class FavoriteReviewerArtist(models.Model):
         Reviewer, on_delete=models.CASCADE, related_name="favorite_artist")
     artist_id = models.ForeignKey(
         Artist, on_delete=models.CASCADE, related_name="favorite_artist")
+
+
+class Like(models.Model):
+    reviewer_id = models.ForeignKey(Reviewer, on_delete=models.CASCADE)
+    review_id = models.ForeignKey(Review, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)

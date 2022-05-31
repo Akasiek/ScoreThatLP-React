@@ -1,13 +1,12 @@
-from django.db.models import F, Avg, Count, Sum
-from django.db.models.fields import IntegerField, DurationField
-from rest_framework import pagination, status
+from django.db.models import F, Avg, Count
+from django.db.models.fields import IntegerField
+from rest_framework import status
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
-from reviewApp import pagination
 from .serializers import (
     AlbumLinkSerializer,
     AlbumOfTheYearSerializer,
@@ -15,13 +14,14 @@ from .serializers import (
     ArtistSerializer,
     CreateAlbumSerializer,
     FavoriteReviewerArtistSerializer,
+    LikeSerializer,
     ReviewSerializer,
     ReviewerLinkSerializer,
     ReviewerSerializer,
     SimpleAlbumSerializer,
     TrackSerializer,
 )
-from .models import Album, AlbumLink, Artist, FavoriteReviewerArtist, Review, Reviewer, ReviewerLink, Track
+from .models import Album, AlbumLink, Artist, FavoriteReviewerArtist, Like, Review, Reviewer, ReviewerLink, Track
 from .permissions import IsAdminOrPostOnly, IsAdminOrReadOnly
 
 
@@ -149,7 +149,9 @@ class AlbumOfTheYearViewSet(ModelViewSet):
 
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.select_related(
-        "album_id", "reviewer_id", "album_id__artist_id", "reviewer_id__user")
+        "album_id", "reviewer_id", "album_id__artist_id", "reviewer_id__user")\
+        .annotate(likes=Count(F("like"), output_field=IntegerField()))
+
     serializer_class = ReviewSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -165,5 +167,24 @@ class ReviewViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()
         if (str(obj.reviewer_id) != str(request.user)):
-            return Response(data={'message': "User cannot delete another user review"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(data={'message': "User cannot delete another user's review"}, status=status.HTTP_401_UNAUTHORIZED)
+        return super().destroy(request, *args, **kwargs)
+
+
+class LikeViewSet(ModelViewSet):
+    queryset = Like.objects.select_related(
+        "review_id", "reviewer_id", "review_id__album_id")
+    serializer_class = LikeSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+    filterset_fields = {
+        "review_id__album_id": ["exact"],
+        "review_id": ["exact"],
+        "reviewer_id": ["exact"],
+    }
+
+    def destroy(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if (str(obj.reviewer_id) != str(request.user)):
+            return Response(data={'message': "User cannot delete another user's like"}, status=status.HTTP_401_UNAUTHORIZED)
         return super().destroy(request, *args, **kwargs)
