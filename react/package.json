@@ -16,7 +16,6 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.2",
     "moment-duration-format": "^2.3.2",
-    "optimized-images-loader": "^0.4.0",
     "prop-types": "^15.8.1",
     "qs": "^6.10.3",
     "react": "^17.0.2",
