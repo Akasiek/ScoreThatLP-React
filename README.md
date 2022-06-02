@@ -1,5 +1,9 @@
 
-![Logo](https://i.imgur.com/6ZRHsZa.png)
+<div align="center">
+  
+![Logo](https://i.imgur.com/S5IbCPj.png)
+  
+</div>
 
 
 
