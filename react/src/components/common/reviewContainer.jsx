@@ -6,6 +6,7 @@ import ShowMoreText from "react-show-more-text";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import getScoreColor from "../../utils/scoreColor";
+import Like from "./like";
 
 const StyledReviewContainer = styled.div`
     width: 100%;
@@ -230,7 +231,7 @@ const ReviewContainer = ({ review, isOutsideAlbum }) => {
                 <p title={moment(review.updated_at).format("YYYY-MM-DD HH:mm:ss")} className="creationTimeText">
                     {moment(review.updated_at).fromNow()}
                 </p>
-                {/* <Like content={review} />  */}
+                <Like content={review} />
             </div>
         </StyledReviewContainer>
     );
